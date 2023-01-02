@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ///////////////////  HEAD //////////////////////////////////// -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+     <!--Title and Style-->
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="portfolio.css">
+
+    <!--The next three lines allow the Vega embed-->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.17.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.17.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
+</head>
+
+<!-- ///////////////////  BODY //////////////////////////////////// -->
+
+<body>
+
+<h1> <strong>Portfolio </strong></h1>
+
+    <br>
+
+<!-- ///////////////////  Week 1 //////////////////////////////////// -->
+<div class="weektitle">
+    <h2>Week 1</h2> 
+    </div>   
+<br> 
+
+<div class="weektask">
+    
+        <p>Embed and display two interactive charts from the Rapid Charts repository</p>
+        <br>
+        <div class="chart" id="Chart1"></div>
+        <br>
+        <p>My first chart shows the aging population of several G20 countries.</p>
+        <br>
+        <div class="chart" id="Chart2"> </div>
+        <br>
+        <p>My second chart looks at the cumlative population changes of several G20 nations</p>
+        
+    </div> 
+
+    <!-- ///////////////////  Week 2 //////////////////////////////////// -->
+<div class="weektitle">
+    <h2>Week 2</h2> 
+    </div>   
+
+<div class="weektask">
+    
+        <p>Embed and display two interactive charts from the Rapid Charts repository</p>
+        <br>
+        <div class="chart" id="Chart1"></div>
+        <br>
+        <p>My first chart shows the aging population of several G20 countries.</p>
+        <br>
+        <div class="chart" id="Chart2"> </div>
+        <br>
+        <p>My second chart looks at the cumlative population changes of several G20 nations</p>
+        
+</div> 
+
+
+</body>
+
+
+<script>
+    //Define charts:
+    var myChart1 = "week1chart1.json";
+    var myChart2 = "week1chart2.json";
+
+    // Embed charts:
+    vegaEmbed('#Chart1', myChart1);
+    vegaEmbed('#Chart2', myChart2);
+</script>
+
+
+
+</html>
+

@@ -1,0 +1,101 @@
+
+/* Set the background color for my page: */
+
+/* Book on colour = Joseph Albers - Interaction of Colour */
+
+body{
+    background-color: rgb(255, 255, 255);
+    max-width: 1400px;
+    margin: auto;
+    text-align: center;
+ }
+
+ /* <!-- ///////////////////  Title //////////////////////////////////// --> */
+
+h1{   color: rgb(0, 0, 0);
+    font-family: 'Poppins', sans-serif ;
+    font-size: 75px;
+    font-weight: 500;
+  
+    margin: auto;
+      margin-top: 30px;
+      align-content: center;
+      max-width: 400px;
+      background-color: #ffffff;
+      border-width: 5px;
+      border-style: solid;
+      border-radius: 15px;
+      border-color: rgba(145, 17, 188, 0.701);
+}
+
+
+
+
+h5, h3, p{
+    color:rgb(0, 0, 0);
+    font-family: 'Poppins', sans-serif ;
+    text-align: center;
+}
+
+ /* <!-- ///////////////////  Week Titles //////////////////////////////////// --> */
+   
+ .weektitle{ color: rgb(0, 0, 0);
+    font-family: 'Poppins', sans-serif ;
+    font-size: 15px;
+    font-weight: 500;
+  
+    margin: auto;
+      margin-top: 30px;
+      align-content: center;
+      max-width: 200px;
+      background-color: #ffffff;
+      border-width: 5px;
+      border-style: solid;
+      border-radius: 15px;
+      border-color: rgba(145, 17, 188, 0.701);
+}
+
+/* <!-- /////////////////// Standard Text //////////////////////////////////// --> */
+.text{
+    margin: auto;
+    align-content: center;
+    max-width: 900px;
+    background-color: #EAEAEA;
+    padding: 30px;
+}
+
+/* <!-- /////////////////// Chart Text //////////////////////////////////// --> */
+.charttext{
+    margin: auto;
+    align-content: center;
+    max-width: 900px;
+    background-color: #EAEAEA;
+    padding-top: 160px;
+    padding-bottom: 160px; 
+}
+
+/* <!-- /////////////////// standard chart //////////////////////////////////// --> */
+.chart{
+    background-color: white;
+    width: 380px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: grey;
+    
+}
+
+/* <!-- /////////////////// Week Task //////////////////////////////////// --> */
+.weektask{
+    margin: auto;
+    margin-top: 30px;
+    align-content: center;
+    max-width: 500px;
+    background-color: #EAEAEA;
+    padding: 20px;
+
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: rgb(24, 54, 66);
+}
