@@ -1,0 +1,245 @@
+body {
+  background: rgb(255, 255, 255);
+  max-width: 1400px;
+  margin: auto;
+  text-align: center;
+}
+
+h1{
+
+  color: rgb(0, 0, 0);
+  font-family: 'Poppins', sans-serif ;
+  font-size: 50px;
+  font-weight: 500;
+
+  margin: auto;
+    margin-top: 30px;
+    align-content: center;
+    max-width: 570px;
+    background-color: #ffffff;
+    border-width: 5px;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: rgba(145, 17, 188, 0.701);
+
+
+
+}
+
+h2{
+  color: rgb(0, 0, 0);
+  
+
+    margin: auto;
+    margin-top: 30px;
+    align-content: center;
+    max-width: 200px;
+    background-color: #ffffff;
+    border-width: 3.5px;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: rgba(0, 47, 167, 0.8);
+ 
+}
+
+.button1{
+  background-color: #a2a4a7;
+  border-color: #32c832;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 20px;
+  width: 150px;
+  margin: 10px 0px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background-color 1s ease;
+  font-size: 15px; 
+}
+
+.button1:hover{
+  background-color: #32c832;
+
+}
+
+.button2{
+  background-color: #a2a4a7;
+  border-color: #E1EF19;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 20px;
+  width: 150px;
+  margin: 10px 0px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background-color 1s ease;
+  font-size: 15px; 
+}
+
+.button2:hover{
+  background-color: #E1EF19;
+
+} 
+
+.button3{
+  background-color: #a2a4a7;
+  border-color: #EA6702;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  font-size: 15px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 20px;
+  width: 150px;
+  margin: 10px 0px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background-color 1s ease;
+}
+
+.button3:hover{
+  background-color: #EA6702;
+
+} 
+
+
+.button4{
+  background-color: #a2a4a7;
+  border-color: #F51601;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  font-size: 15px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 20px;
+  width: 150px;
+  margin: 10px 0px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background-color 1s ease;
+}
+
+.button4:hover{
+  background-color: #F51601;
+  border-color: transparent;
+} 
+
+.button5{
+  background-color: #a2a4a7;
+  border-color: #EF25AF;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  font-size: 15px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 20px;
+  width: 150px;
+  margin: 10px 0px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background-color 1s ease;
+}
+
+.button5:hover{
+  background-color: #EF25AF;
+ 
+} 
+
+.container {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  column-gap: 0px;
+  margin-top: 15px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  align-content: center;
+  --borderWidth: 3px;
+  background: #5a5c5e;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+
+.container:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+
+@keyframes animatedgradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+#text {
+  position: static;
+  top: 80px;
+  right: 50px;
+  bottom: 50px;
+  left: 50px;
+  padding: 20px;
+  overflow-y: hidden;
+  box-sizing: border-box;
+}
+
+#text2 {
+  position: static;
+  top: 80px;
+  right: 50px;
+  bottom: 50px;
+  left: 50px;
+  padding: 20px;
+  overflow-y: hidden;
+  box-sizing: border-box;
+}
+
+#text3 {
+  position: static;
+  top: 80px;
+  right: 50px;
+  bottom: 50px;
+  left: 50px;
+  padding: 20px;
+  overflow-y: hidden;
+  box-sizing: border-box;
+}
