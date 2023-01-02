@@ -1,0 +1,39 @@
+{"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+      "text": "IMF Credit Outstanding as a % of Global GDP",
+      "subtitle":"For all members from 1984 - 2021, SDRs (billions), Source: IMF and World Bank",
+      "subtitleFontStyle":"italic",
+      "subtitleFontSize":10,
+      "anchor": "start",
+      "color": "black"},
+
+  
+  "data":{"url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/data_IMF_creditOutstanding%25GDP.csv"},
+
+
+  
+  "height": 300,
+  "width": 300,
+
+  "mark": {
+    "type": "bar",
+    "color": "#483D8B"},
+
+"encoding": {
+     "x": {
+       "field": "Year",
+       "type": "temporal",
+       "axis": {
+         "title": null,
+         "grid": false,
+         "ticks": false,
+         "labelAngle": 45}},
+
+      "y": {
+        "field": "Credit as a % of Global GDP",
+        "type": "quantitative",
+        "title": "",
+        "axis": {"grid": false}}
+}
+}
