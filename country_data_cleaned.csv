@@ -1,0 +1,463 @@
+,country,year,bo_%_GDP_3
+0,United Kingdom,2015,381
+1,United Kingdom,2016,343
+2,United Kingdom,2017,343
+3,United Kingdom,2018,348
+4,United Kingdom,2019,330
+5,United Kingdom,2020,81
+6,United Kingdom,2021,154
+7,United States of America,2015,407
+8,United States of America,2016,451
+9,United States of America,2017,422
+10,United States of America,2018,452
+11,United States of America,2019,392
+12,United States of America,2020,83
+13,United States of America,2021,171
+14,Japan,2015,120
+15,Japan,2016,166
+16,Japan,2017,158
+17,Japan,2018,151
+18,Japan,2019,178
+19,Japan,2020,99
+20,Japan,2021,101
+21,France,2015,326
+22,France,2016,338
+23,France,2017,362
+24,France,2018,368
+25,France,2019,392
+26,France,2020,108
+27,France,2021,181
+28,China,2015,37
+29,China,2016,232
+30,China,2017,279
+31,China,2018,314
+32,China,2019,283
+33,China,2020,82
+34,China,2021,223
+35,Australia,2015,414
+36,Australia,2016,400
+37,Australia,2017,368
+38,Australia,2018,397
+39,Australia,2019,370
+40,Australia,2020,120
+41,Australia,2021,178
+42,Germany,2015,207
+43,Germany,2016,154
+44,Germany,2017,171
+45,Germany,2018,148
+46,Germany,2019,168
+47,Germany,2020,47
+48,Germany,2021,60
+49,Mexico,2015,380
+50,Mexico,2016,415
+51,Mexico,2017,438
+52,Mexico,2018,437
+53,Mexico,2019,484
+54,Mexico,2020,88
+55,Mexico,2021,202
+56,Italy,2015,252
+57,Italy,2016,228
+58,Italy,2017,209
+59,Italy,2018,213
+60,Italy,2019,221
+61,Italy,2020,54
+62,Italy,2021,64
+63,Malaysia,2015,383
+64,Malaysia,2016,209
+65,Malaysia,2017,242
+66,Malaysia,2018,254
+67,Malaysia,2019,268
+68,Malaysia,2020,23
+69,Malaysia,2021,21
+70,Pakistan,2015,1
+71,Pakistan,2016,1
+72,Pakistan,2017,9
+73,Pakistan,2018,5
+74,Pakistan,2019,6
+75,Pakistan,2020,2
+76,Pakistan,2021,1
+77,Venezuela,2015,415
+78,Venezuela,2016,86
+79,Venezuela,2017,72
+80,Venezuela,2018,101
+81,Venezuela,2019,11
+82,Venezuela,2020,1
+83,Venezuela,2021,1
+91,Argentina,2015,377
+92,Argentina,2016,379
+93,Argentina,2017,426
+94,Argentina,2018,307
+95,Argentina,2019,267
+96,Argentina,2020,35
+97,Argentina,2021,44
+105,Austria,2015,206
+106,Austria,2016,124
+107,Austria,2017,113
+108,Austria,2018,102
+109,Austria,2019,117
+110,Austria,2020,21
+111,Austria,2021,22
+126,Belgium,2015,228
+127,Belgium,2016,138
+128,Belgium,2017,134
+129,Belgium,2018,121
+130,Belgium,2019,154
+131,Belgium,2020,36
+132,Belgium,2021,28
+133,Bolivia,2015,461
+134,Bolivia,2016,302
+135,Bolivia,2017,491
+136,Bolivia,2018,524
+137,Bolivia,2019,489
+138,Bolivia,2020,37
+139,Bolivia,2021,45
+147,Brazil,2015,267
+148,Brazil,2016,304
+149,Brazil,2017,353
+150,Brazil,2018,280
+151,Brazil,2019,296
+152,Brazil,2020,58
+153,Brazil,2021,54
+154,Bulgaria,2015,171
+155,Bulgaria,2016,188
+156,Bulgaria,2017,205
+157,Bulgaria,2018,172
+158,Bulgaria,2019,170
+159,Bulgaria,2020,45
+160,Bulgaria,2021,100
+175,Chile,2015,276
+176,Chile,2016,151
+177,Chile,2017,217
+178,Chile,2018,218
+179,Chile,2019,245
+180,Chile,2020,22
+181,Chile,2021,19
+182,Colombia,2015,317
+183,Colombia,2016,252
+184,Colombia,2017,423
+185,Colombia,2018,410
+186,Colombia,2019,382
+187,Colombia,2020,49
+188,Colombia,2021,153
+196,Croatia,2015,158
+197,Croatia,2016,93
+198,Croatia,2017,82
+199,Croatia,2018,226
+200,Croatia,2019,258
+201,Croatia,2020,77
+202,Croatia,2021,143
+217,Czech Republic,2015,160
+218,Czech Republic,2016,196
+219,Czech Republic,2017,208
+220,Czech Republic,2018,228
+221,Czech Republic,2019,238
+222,Czech Republic,2020,90
+223,Czech Republic,2021,107
+231,Denmark,2015,189
+232,Denmark,2016,128
+233,Denmark,2017,155
+234,Denmark,2018,137
+235,Denmark,2019,156
+236,Denmark,2020,36
+237,Denmark,2021,22
+252,Ecuador,2015,458
+253,Ecuador,2016,165
+254,Ecuador,2017,167
+255,Ecuador,2018,148
+256,Ecuador,2019,122
+257,Ecuador,2020,27
+258,Ecuador,2021,45
+259,Egypt,2015,22
+260,Egypt,2016,9
+261,Egypt,2017,12
+262,Egypt,2018,14
+263,Egypt,2019,13
+264,Egypt,2020,7
+265,Egypt,2021,6
+273,Estonia,2015,233
+274,Estonia,2016,81
+275,Estonia,2017,106
+276,Estonia,2018,98
+277,Estonia,2019,101
+278,Estonia,2020,41
+279,Estonia,2021,11
+287,Finland,2015,170
+288,Finland,2016,209
+289,Finland,2017,219
+290,Finland,2018,105
+291,Finland,2019,118
+292,Finland,2020,28
+293,Finland,2021,23
+301,Greece,2015,205
+302,Greece,2016,138
+303,Greece,2017,203
+304,Greece,2018,196
+305,Greece,2019,176
+306,Greece,2020,19
+307,Greece,2021,4
+322,Hong Kong,2015,519
+323,Hong Kong,2016,289
+324,Hong Kong,2017,292
+325,Hong Kong,2018,56
+326,Hong Kong,2019,87
+327,Hong Kong,2020,107
+328,Hong Kong,2021,355
+329,Hungary,2015,191
+330,Hungary,2016,225
+331,Hungary,2017,310
+332,Hungary,2018,316
+333,Hungary,2019,298
+334,Hungary,2020,84
+335,Hungary,2021,120
+336,Iceland,2015,272
+337,Iceland,2016,328
+338,Iceland,2017,353
+339,Iceland,2018,378
+340,Iceland,2019,297
+341,Iceland,2020,113
+342,Iceland,2021,198
+343,India,2015,74
+344,India,2016,38
+345,India,2017,66
+346,India,2018,74
+347,India,2019,86
+348,India,2020,14
+349,India,2021,24
+350,Indonesia,2015,28
+351,Indonesia,2016,28
+352,Indonesia,2017,112
+353,Indonesia,2018,119
+354,Indonesia,2019,135
+355,Indonesia,2020,16
+356,Indonesia,2021,14
+364,Israel,2015,112
+365,Israel,2016,66
+366,Israel,2017,85
+367,Israel,2018,61
+368,Israel,2019,51
+369,Israel,2020,12
+370,Israel,2021,12
+385,Jordan,2015,143
+386,Jordan,2016,2
+387,Jordan,2017,12
+388,Jordan,2018,33
+389,Jordan,2019,22
+390,Jordan,2020,13
+391,Jordan,2021,5
+392,Kenya,2015,22
+393,Kenya,2016,2
+394,Kenya,2017,1
+395,Kenya,2018,4
+396,Kenya,2019,4
+397,Kenya,2020,3
+398,Kenya,2021,3
+413,Latvia,2015,154
+414,Latvia,2016,48
+415,Latvia,2017,74
+416,Latvia,2018,65
+417,Latvia,2019,71
+418,Latvia,2020,17
+419,Latvia,2021,3
+420,Lebanon,2015,301
+421,Lebanon,2016,304
+422,Lebanon,2017,301
+423,Lebanon,2018,261
+424,Lebanon,2019,143
+425,Lebanon,2020,49
+426,Lebanon,2021,3
+427,Lithuania,2015,146
+428,Lithuania,2016,181
+429,Lithuania,2017,201
+430,Lithuania,2018,232
+431,Lithuania,2019,231
+432,Lithuania,2020,91
+433,Lithuania,2021,85
+448,Netherlands,2015,198
+449,Netherlands,2016,189
+450,Netherlands,2017,209
+451,Netherlands,2018,225
+452,Netherlands,2019,251
+453,Netherlands,2020,93
+454,Netherlands,2021,101
+455,New Zealand,2015,381
+456,New Zealand,2016,396
+457,New Zealand,2017,358
+458,New Zealand,2018,328
+459,New Zealand,2019,357
+460,New Zealand,2020,130
+461,New Zealand,2021,193
+469,Nigeria,2015,5
+470,Nigeria,2016,1
+471,Nigeria,2017,1
+472,Nigeria,2018,1
+473,Nigeria,2019,4
+474,Nigeria,2020,1
+475,Nigeria,2021,1
+483,Norway,2015,80
+484,Norway,2016,201
+485,Norway,2017,183
+486,Norway,2018,201
+487,Norway,2019,176
+488,Norway,2020,71
+489,Norway,2021,36
+490,Oman,2015,74
+491,Oman,2016,24
+492,Oman,2017,6
+493,Oman,2018,21
+494,Oman,2019,20
+495,Oman,2020,10
+496,Oman,2021,1
+497,Pakistan,2015,0
+498,Pakistan,2016,1
+499,Pakistan,2017,9
+500,Pakistan,2018,6
+501,Pakistan,2019,6
+502,Pakistan,2020,2
+503,Pakistan,2021,0
+525,Peru,2015,203
+526,Peru,2016,201
+527,Peru,2017,240
+528,Peru,2018,166
+529,Peru,2019,121
+530,Peru,2020,38
+531,Peru,2021,21
+532,Philippines,2015,341
+533,Philippines,2016,163
+534,Philippines,2017,234
+535,Philippines,2018,254
+536,Philippines,2019,321
+537,Philippines,2020,18
+538,Philippines,2021,3
+539,Poland,2015,123
+540,Poland,2016,165
+541,Poland,2017,236
+542,Poland,2018,251
+543,Poland,2019,229
+544,Poland,2020,73
+545,Poland,2021,52
+546,Portugal,2015,230
+547,Portugal,2016,230
+548,Portugal,2017,260
+549,Portugal,2018,240
+550,Portugal,2019,250
+551,Portugal,2020,61
+552,Portugal,2021,92
+560,Qatar,2015,39
+561,Qatar,2016,10
+562,Qatar,2017,8
+563,Qatar,2018,30
+564,Qatar,2019,24
+565,Qatar,2020,10
+566,Qatar,2021,1
+567,Romania,2015,82
+568,Romania,2016,142
+569,Romania,2017,156
+570,Romania,2018,159
+571,Romania,2019,139
+572,Romania,2020,40
+573,Romania,2021,59
+574,Russia,2015,1
+575,Russia,2016,1
+576,Russia,2017,1
+577,Russia,2018,1
+578,Russia,2019,1
+579,Russia,2020,1
+580,Russia,2021,1
+581,Saudi Arabia,2015,6
+582,Saudi Arabia,2016,6
+583,Saudi Arabia,2017,8
+584,Saudi Arabia,2018,7
+585,Saudi Arabia,2019,8
+586,Saudi Arabia,2020,9
+587,Saudi Arabia,2021,24
+588,Singapore,2015,123
+589,Singapore,2016,134
+590,Singapore,2017,172
+591,Singapore,2018,165
+592,Singapore,2019,170
+593,Singapore,2020,19
+594,Singapore,2021,45
+595,Slovakia,2015,159
+596,Slovakia,2016,196
+597,Slovakia,2017,233
+598,Slovakia,2018,219
+599,Slovakia,2019,231
+600,Slovakia,2020,90
+601,Slovakia,2021,85
+602,Slovenia,2015,84
+603,Slovenia,2016,122
+604,Slovenia,2017,120
+605,Slovenia,2018,159
+606,Slovenia,2019,156
+607,Slovenia,2020,36
+608,Slovenia,2021,50
+609,South Korea,2015,425
+610,South Korea,2016,520
+611,South Korea,2017,538
+612,South Korea,2018,573
+613,South Korea,2019,571
+614,South Korea,2020,111
+615,South Korea,2021,171
+616,Spain,2015,288
+617,Spain,2016,298
+618,Spain,2017,293
+619,Spain,2018,303
+620,Spain,2019,301
+621,Spain,2020,60
+622,Spain,2021,90
+630,Sweden,2015,161
+631,Sweden,2016,131
+632,Sweden,2017,132
+633,Sweden,2018,122
+634,Sweden,2019,120
+635,Sweden,2020,28
+636,Sweden,2021,28
+637,Switzerland,2015,1
+638,Switzerland,2016,48
+639,Switzerland,2017,101
+640,Switzerland,2018,84
+641,Switzerland,2019,95
+642,Switzerland,2020,21
+643,Switzerland,2021,19
+651,Thailand,2015,180
+652,Thailand,2016,182
+653,Thailand,2017,182
+654,Thailand,2018,128
+655,Thailand,2019,158
+656,Thailand,2020,20
+657,Thailand,2021,19
+665,Turkey,2015,173
+666,Turkey,2016,172
+667,Turkey,2017,170
+668,Turkey,2018,140
+669,Turkey,2019,127
+670,Turkey,2020,34
+671,Turkey,2021,17
+672,United Arab Emirates,2015,239
+673,United Arab Emirates,2016,367
+674,United Arab Emirates,2017,433
+675,United Arab Emirates,2018,366
+676,United Arab Emirates,2019,393
+677,United Arab Emirates,2020,90
+678,United Arab Emirates,2021,164
+679,Uruguay,2015,224
+680,Uruguay,2016,141
+681,Uruguay,2017,238
+682,Uruguay,2018,236
+683,Uruguay,2019,207
+684,Uruguay,2020,22
+685,Uruguay,2021,2
+686,Vietnam,2015,105
+687,Vietnam,2016,49
+688,Vietnam,2017,57
+689,Vietnam,2018,47
+690,Vietnam,2019,218
+691,Vietnam,2020,100
+692,Vietnam,2021,74
+693,Canada,2015,478
+694,Canada,2016,529
+695,Canada,2017,495
+696,Canada,2018,531
+697,Canada,2019,460
+698,Canada,2020,87
+699,Canada,2021,201
