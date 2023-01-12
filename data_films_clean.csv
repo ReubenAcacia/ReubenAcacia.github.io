@@ -1,4 +1,4 @@
-Film,Profit,International,Domestic,Worldwide,Costs,Year,Metascore
+film,profit,international,domestic,worldwide,cost,year,metascore
 Transformers: Age Of Extinction,250,858,245,1104,100,2014,32
 American Sniper,242,197,350,547,25,2014,72
 The Lego Movie,229,210,257,468,69,2014,83
@@ -21,7 +21,7 @@ Godzilla,52,324,200,524,93,2014,62
 Interstellar,47,585,188,773,47,2014,74
 Star Wars: The Force Awakens,923,1132,936,2069,247,2015,80
 Minions,502,823,336,1159,115,2015,56
-Jurassic World,474,625,376,1001,145,2022,38
+Jurassic World,474,625,376,1001,145,2015,38
 Avengers: Age Of Ultron,382,943,459,1402,191,2015,66
 Furious 7,354,1162,353,1515,147,2015,67
 Inside Out,279,501,356,858,90,2015,94
