@@ -1,0 +1,102 @@
+[
+    {
+        "country": "GB",
+        "year": 2015,
+        "combined_box_office": 1194683489
+    },
+    {
+        "country": "GB",
+        "year": 2016,
+        "combined_box_office": 1076331726
+    },
+    {
+        "country": "GB",
+        "year": 2017,
+        "combined_box_office": 1075606547
+    },
+    {
+        "country": "GB",
+        "year": 2018,
+        "combined_box_office": 1092275379
+    },
+    {
+        "country": "USA",
+        "year": 2015,
+        "combined_box_office": 9497126562
+    },
+    {
+        "country": "USA",
+        "year": 2016,
+        "combined_box_office": 10524515119
+    },
+    {
+        "country": "USA",
+        "year": 2017,
+        "combined_box_office": 9845736301
+    },
+    {
+        "country": "USA",
+        "year": 2018,
+        "combined_box_office": 10548339691
+    },
+    {
+        "country": "JP",
+        "year": 2015,
+        "combined_box_office": 594417147
+    },
+    {
+        "country": "JP",
+        "year": 2016,
+        "combined_box_office": 824382117
+    },
+    {
+        "country": "JP",
+        "year": 2017,
+        "combined_box_office": 783950323
+    },
+    {
+        "country": "JP",
+        "year": 2018,
+        "combined_box_office": 747172330
+    },
+    {
+        "country": "FR",
+        "year": 2015,
+        "combined_box_office": 964428255
+    },
+    {
+        "country": "FR",
+        "year": 2016,
+        "combined_box_office": 1001984909
+    },
+    {
+        "country": "FR",
+        "year": 2017,
+        "combined_box_office": 1071658027
+    },
+    {
+        "country": "FR",
+        "year": 2018,
+        "combined_box_office": 1089324690
+    },
+    {
+        "country": "CN",
+        "year": 2015,
+        "combined_box_office": 669406818
+    },
+    {
+        "country": "CN",
+        "year": 2016,
+        "combined_box_office": 4114600453
+    },
+    {
+        "country": "CN",
+        "year": 2017,
+        "combined_box_office": 4951603821
+    },
+    {
+        "country": "CN",
+        "year": 2018,
+        "combined_box_office": 5582077533
+    }
+]
