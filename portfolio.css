@@ -1,14 +1,27 @@
 
 /* Set the background color for my page: */
 
-/* Book on colour = Joseph Albers - Interaction of Colour */
+/* Book on colour = Joseph Albers - Interaction of Colour, best blue rgba(0, 47, 167, 0.8) */
 
 body{
-    background-color: rgb(255, 255, 255);
-    max-width: 1400px;
+  
+    max-width: 1000px;
     margin: auto;
     text-align: center;
- }
+    font-family: 'Poppins', sans-serif ;
+    align-content: center;
+
+    background: linear-gradient(
+      to right,
+      #D9D9D9 0%,
+      #D9D9D9 50%,
+      #CCE5FF 50%,
+      #CCE5FF 100%
+      );
+
+
+}
+
 
  /* <!-- ///////////////////  Title //////////////////////////////////// --> */
 
@@ -25,7 +38,7 @@ h1{   color: rgb(0, 0, 0);
       border-width: 5px;
       border-style: solid;
       border-radius: 15px;
-      border-color: rgba(145, 17, 188, 0.701);
+      border-color: black;
 }
 
 
@@ -52,12 +65,13 @@ h5, h3, p{
       border-width: 5px;
       border-style: solid;
       border-radius: 15px;
-      border-color: rgba(145, 17, 188, 0.701);
+      border-color: #FC4A1A;
 }
 
 /* <!-- /////////////////// Standard Text //////////////////////////////////// --> */
 .text{
     margin: auto;
+    font-family: 'Poppins', sans-serif ;
     align-content: center;
     max-width: 900px;
     background-color: #EAEAEA;
@@ -69,6 +83,7 @@ h5, h3, p{
     margin: auto;
     align-content: center;
     max-width: 900px;
+    font-family: 'Poppins', sans-serif ;
     background-color: #EAEAEA;
     padding-top: 160px;
     padding-bottom: 160px; 
@@ -77,12 +92,65 @@ h5, h3, p{
 /* <!-- /////////////////// standard chart //////////////////////////////////// --> */
 .chart{
     background-color: white;
-    width: 380px;
-    border-width: 2px;
+    width: 400px;
+    border-width: 3px;
     border-style: solid;
-    border-radius: 10px;
-    border-color: grey;
-    
+    border-radius: 8px;
+    border-color: rgb(0,67,167);
+}
+
+
+/* <!-- /////////////////// Week 3 chart 2 //////////////////////////////////// --> */
+.chartweek3{
+  
+    background-color: white;
+    width: 400px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: rgb(0,67,167);
+    margin-left: 30px;
+    margin-bottom: 30px
+}
+
+/* <!-- /////////////////// Week 9 //////////////////////////////////// --> */
+.chartweek9{
+  
+  background-color: white;
+  width: 440px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: rgb(0,67,167);
+  margin-left: 30px;
+  margin-bottom: 30px
+}
+
+
+/* <!-- /////////////////// Week 5 chart //////////////////////////////////// --> */
+.chartweek5{
+    align-items: center;
+    background-color: white;
+    width: 240px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: rgb(0,67,167);
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+/* <!-- /////////////////// Week 7 chart //////////////////////////////////// --> */
+.chartweek7{
+  align-items: center;
+  background-color: white;
+  width: 700px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: rgb(0,67,167);
+  margin-left: 30px;
+  margin-bottom: 30px;
 }
 
 /* <!-- /////////////////// Week Task //////////////////////////////////// --> */
@@ -91,11 +159,250 @@ h5, h3, p{
     margin-top: 30px;
     align-content: center;
     max-width: 500px;
-    background-color: #EAEAEA;
+    background-color: #ffffff;
     padding: 20px;
+    font-family: 'Poppins', sans-serif ;
 
-    border-width: 3px;
+    border-width: 6px;
     border-style: solid;
     border-radius: 15px;
-    border-color: rgb(24, 54, 66);
+    border-color: #4ABDAC;
 }
+
+/* <!-- /////////////////// Week 5 Task //////////////////////////////////// --> */
+.week5task{
+
+        margin: auto;
+        margin-top: 30px;
+        align-content: center;
+        max-width: 850px;
+        background-color: #ffffff;
+        padding: 20px;
+    
+        border-width: 6px;
+        border-style: solid;
+        border-radius: 15px;
+        border-color: #4ABDAC;
+
+}
+
+/* <!-- /////////////////// Week 7 Task //////////////////////////////////// --> */
+.week7task{
+
+  margin: auto;
+  margin-top: 30px;
+  align-content: center;
+  max-width: 850px;
+  background-color: #ffffff;
+  padding: 20px;
+
+  border-width: 6px;
+  border-style: solid;
+  border-radius: 15px;
+  border-color: #4ABDAC;
+  
+}
+
+  /* <!-- /////////////////// Button //////////////////////////////////// --> */
+
+  .button1{
+    background-color: #75777a;
+    border-color: rgba(0, 47, 167)  ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    font-size: 15px; 
+  }
+  
+  .button1:hover{
+    background-color: rgba(0, 47, 167)  ;
+  
+  }
+  
+  .button2{
+    background-color: #75777a;
+    border-color: #FC4A1A;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    font-size: 15px; 
+  }
+  
+  .button2:hover{
+    background-color: #FC4A1A;
+  
+  } 
+  
+  .button3{
+    background-color: #75777a;
+    border-color: #F7B733 ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    font-size: 15px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+  }
+  
+  .button3:hover{
+    background-color: #F7B733 ;
+  
+  } 
+  
+  
+  .button4{
+    background-color: #75777a;
+    border-color: #4ABDAC  ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    font-size: 15px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+  }
+  
+  .button4:hover{
+    background-color: #4ABDAC  ;
+    border-color: transparent;
+  } 
+  
+  
+  .button5{
+    background-color: #75777a;
+    border-color: #EF25AF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    font-size: 15px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+  }
+  
+  .button5:hover{
+    background-color: #EF25AF;
+   } 
+  
+  .container {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    column-gap: 0px;
+    margin-top: 15px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    align-content: center;
+    --borderWidth: 3px;
+    background: #5a5c5e;
+    position: relative;
+    border-radius: var(--borderWidth);
+  }
+  
+  .container:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedgradient 3s ease alternate infinite;
+    background-size: 300% 300%;
+  }
+  
+  
+  @keyframes animatedgradient {
+      0% {
+          background-position: 0% 50%;
+      }
+      50% {
+          background-position: 100% 50%;
+      }
+      100% {
+          background-position: 0% 50%;
+      }
+  }
+  
+  
+  #text {
+    position: static;
+    top: 80px;
+    right: 50px;
+    bottom: 50px;
+    left: 50px;
+    padding: 20px;
+    overflow-y: hidden;
+    box-sizing: border-box;
+  }
+  
+  #text2 {
+    position: static;
+    top: 80px;
+    right: 50px;
+    bottom: 50px;
+    left: 50px;
+    padding: 20px;
+    overflow-y: hidden;
+    box-sizing: border-box;
+  }
+  
+  #text3 {
+    position: static;
+    top: 80px;
+    right: 50px;
+    bottom: 50px;
+    left: 50px;
+    padding: 20px;
+    overflow-y: hidden;
+    box-sizing: border-box;
+  }
