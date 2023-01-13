@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Chart 5: Regression of Production Costs against Worldwide Gross",
-   "subtitle": ["2014-2018, Source: Deadline ", "Size of circle is proportion to worldwide box office gross", ""],
+    "text": "Chart 5: Regression of Production Costs against Metacritic Scores",
+    "subtitle": ["2014-2018, Source: Deadline, Metacritic ", "Size of circle is proportion to worldwide box office gross", ""],
     "subtitleFontStyle": "italic",
     "subtitleFontSize": 10,
     "anchor": "start",
@@ -10,7 +10,7 @@
     "subtitleColor": "#3a3a3a"
   },
   "data": {
-    "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/data_14_18_clean.csv"
+    "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/data_films_clean.csv"
   },
   "height": 300,
   "width": 295,
@@ -33,14 +33,14 @@
       "encoding": {
 
              "color": {
-      "field": "Year", 
+      "field": "year", 
       "type": "nominal", 
       "title":null, 
       "scale": {"scheme": "turbo"}
     },
 
      "size": {
-          "field": "Worldwide",
+          "field": "metascore",
           "type": "quantitative",
           "legend": null,
 
@@ -48,7 +48,7 @@
           
 
         "x": {
-          "field": "Costs",
+          "field": "cost",
           "type": "quantitative",
           "title": "Production Costs (Millions US$)",
           "axis": {
@@ -67,9 +67,9 @@
           }
         },
         "y": {
-          "field": "Worldwide",
+          "field": "metascore",
           "type": "quantitative",
-          "title": "Worldwide Boxoffice (Millions US$)",
+          "title": "Metacritic Score",
           "axis": {
             "grid": false,
             "domainColor": "#000000",
@@ -80,26 +80,26 @@
           },
           "scale": {
             "domain": [
-              100,
-              160
+              0,
+              40
             ]
           }
         },
         "tooltip": [
           {
-            "field": "Film",
+            "field": "film",
             "type": "nominal",
             "title": "Film"
           },
           {
-            "field": "Costs",
+            "field": "cost",
             "type": "quantitative",
             "title": "Production Costs"
           },
           {
-            "field": "Worldwide",
+            "field": "metascore",
             "type": "quantitative",
-            "title": "Worldwide Gross"
+            "title": "Metacritic Score"
           }
         ]
       }
@@ -112,13 +112,13 @@
       },
       "transform": [
         {
-          "regression": "Worldwide",
-          "on": "Costs"
+          "regression": "metascore",
+          "on": "cost"
         }
       ],
       "encoding": {
         "x": {
-          "field": "Costs",
+          "field": "cost",
           "type": "quantitative",
           "scale": {
             "domain": [
@@ -128,12 +128,12 @@
           }
         },
         "y": {
-          "field": "Worldwide",
+          "field": "metascore",
           "type": "quantitative",
           "scale": {
             "domain": [
-              10,
-              2500
+              0,
+              100
             ]
 
 
@@ -144,8 +144,8 @@
     {
       "transform": [
         {
-          "regression": "Worldwide",
-          "on": "Costs",
+          "regression": "metascore",
+          "on": "cost",
           "params": true
         },
         {
