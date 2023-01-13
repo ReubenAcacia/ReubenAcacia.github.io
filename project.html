@@ -164,19 +164,43 @@
 <div class="section">
     <h3>Data</h3>
 
-    <p>I used a supervised machine learning linear regression to predict the correlation between increased 
-        budgets and net profits. The algorithm was trained on my 2014-2018 data. I found an goodness of fit 
-        of 0.49, suggesting larger budgets will increase net profits of blockbuster films, but that around half 
-        the variation in profits is due to other factors. Further research could identify those other factors 
-        which may involve: casting, critic reception, audience reception, marketing techniques and more. </p>
+</p>I obtained data from four sources, the World Bank (Chart 3,4,5,6,7,8), Deadline.com (Chart 4,5,6,7,8), 
+IMDB (Chart 5) and Box Office Mojo (Chart 1, 2, 3). The data from Deadline.com was accessed via scrapping 
+with beautiful soup, I chose this method because Deadline.com doesn't have an API and the data was for a 
+fixed time period. Looping scrappers were used to access data on the top 20 films from different years.
+ I used the 2014-2018 period because more recent data has been skewed by the Covid-19 pandemic. Including 
+ that data would've reduced the ability of my regressions to tell me the correlation for a 'normal' period. 
+</p></thead>
+    <br>
+    <br> </p>
+The data from the World Bank was accessed through a beautiful soup scrapper, the data from the World
+Bank was used for adjusting for inflation the values of the data from deadline. A major issue with a 
+lot of box office analysis is it rarely adjusts for inflation. The metacritic scores were accessed from
+ IMDB through a python package IMDbPY. The Box Office Mojo data for charts 1 and 2 was scraped from their 
+ website using pandas read_html. For the map I scraped data from their website  using beautiful soup.
+
+         </p>
 </div>  
 
 <div class="section">
     <h3>Data Cleanning</h3>
 
-    <p>This project aims to investigate the macro and microeconomic impacts of the Olympic games on host nations and
-      firms, ultimately deciding whether hosting or sponsoring the Olympics is an economically viable strategy on
-      improving various economic indicators. </p>
+   
+Chart 1 and 2 required cleaning the data scraped from Box Office Mojo into a TIDY long form format, I did this
+ in python. Then I merged the different data sets in excel, correcting all the figures to three significant
+  figures. For Chart 3 my scraper gave me a json file, which I checked the names against with those of my 
+  basemap using the technique Dennis showed us. Several of the names didn't match the base map, I manually 
+  changed these names as well as the columns as well as the columns to produce my clean data set. World Bank 
+  data on GDP was used to used to calculate the national box office used for the map as proportions of national 
+  GDP. I did the calculations in excel, as well as cleaning the results to 3 significant figures.
+</thead>
+    <br>
+    <br>
+For Chart 4,5,6,7,8 the data from Deadline.com required a little cleaning. My scraper already adjusted 
+all the figures for inflation, but the scraper produced the wrong year for several films. For example 
+Black Panther was listed as coming out in 2022, the year the sequel was released, I manually changed fixed
+ these in excel. 
+
 </div>  
 
 <div class="section">
@@ -223,4 +247,5 @@
 
 
 </html>
+
 
