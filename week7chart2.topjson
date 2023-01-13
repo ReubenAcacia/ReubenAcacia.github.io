@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "data": {
+    "url":"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/electoral/eng/topo_eer.json",
+    "format": {
+        "type": "topojson",
+        "feature":"eer"}
+    },
+
+"title": {
+    "text": "Choropeth Map of GVA per Capita in English Regions",
+   "subtitle":["Source: UK-GeoJSON.github.io, ONS",""],
+  "subtitleFontStyle":"italic",
+  "subtitleFontSize":10,
+  "anchor": "start",
+  "color": "black"},
+
+
+    "height": 600,
+    "width": 600,
+
+    "projection": {
+        "type":"mercator"
+    },
+
+    "mark":{
+        "type":"geoshape",
+        "stroke":"red"
+    },
+
+  "encoding":{
+    "color":{
+        "field": "GVA",
+        "type": "quantitative"
+    },
+  "tooltip":[
+    {"field":"properties.EER13NM", 
+    "type":"nominal",
+     "title":"Region"},
+
+
+    {"field":"GVA", 
+    "type":"nominal", 
+    "title":"GVA per capita (£)"}]
+  },
+
+"transform": [
+    {"lookup": "properties.EER13NM",
+    "from":{
+        "data":{
+            "url":"https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/Week7.data.csv"
+        },
+        "key": "Region",
+        "fields": ["GVA"]
+    
+    }
+    }
+
+]
+}

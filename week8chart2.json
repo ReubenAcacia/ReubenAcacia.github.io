@@ -1,1 +1,47 @@
-[{"Code": "Java", "Value": 28, "Year": 2011}, {"Code": "Java", "Value": 28, "Year": 2012}, {"Code": "Java", "Value": 27, "Year": 2013}, {"Code": "Java", "Value": 26, "Year": 2014}, {"Code": "Java", "Value": 25, "Year": 2015}, {"Code": "Java", "Value": 25, "Year": 2016}, {"Code": "Java", "Value": 23, "Year": 2017}, {"Code": "Java", "Value": 22, "Year": 2018}, {"Code": "Java", "Value": 20, "Year": 2019}, {"Code": "Java", "Value": 18, "Year": 2020}, {"Code": "Java", "Value": 16, "Year": 2021}, {"Code": "Java", "Value": 18, "Year": 2022}, {"Code": "Python", "Value": 7, "Year": 2011}, {"Code": "Python", "Value": 8, "Year": 2012}, {"Code": "Python", "Value": 9, "Year": 2013}, {"Code": "Python", "Value": 10, "Year": 2014}, {"Code": "Python", "Value": 11, "Year": 2015}, {"Code": "Python", "Value": 12, "Year": 2016}, {"Code": "Python", "Value": 16, "Year": 2017}, {"Code": "Python", "Value": 20, "Year": 2018}, {"Code": "Python", "Value": 27, "Year": 2019}, {"Code": "Python", "Value": 29, "Year": 2020}, {"Code": "Python", "Value": 30, "Year": 2021}, {"Code": "Python", "Value": 28, "Year": 2022}]
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple bar chart with embedded data.",
+"title": {
+    "text": "Most Used Coding Language",
+  "subtitle":["2011-2022, Source: pypl.github.io",""],
+  "subtitleFontStyle":"italic",
+  "subtitleFontSize":10,
+  "anchor": "start",
+  "color": "black"},
+
+    "height": 300,
+
+  "width": "container",
+  
+  "data": {
+    "values":  [{"Code": "Java", "Value": 28, "Year": 2011}, {"Code": "Java", "Value": 28, "Year": 2012}, {"Code": "Java", "Value": 27, "Year": 2013}, {"Code": "Java", "Value": 26, "Year": 2014}, {"Code": "Java", "Value": 25, "Year": 2015}, {"Code": "Java", "Value": 25, "Year": 2016}, {"Code": "Java", "Value": 23, "Year": 2017}, {"Code": "Java", "Value": 22, "Year": 2018}, {"Code": "Java", "Value": 20, "Year": 2019}, {"Code": "Java", "Value": 18, "Year": 2020}, {"Code": "Java", "Value": 16, "Year": 2021}, {"Code": "Java", "Value": 18, "Year": 2022}, {"Code": "Python", "Value": 7, "Year": 2011}, {"Code": "Python", "Value": 8, "Year": 2012}, {"Code": "Python", "Value": 9, "Year": 2013}, {"Code": "Python", "Value": 10, "Year": 2014}, {"Code": "Python", "Value": 11, "Year": 2015}, {"Code": "Python", "Value": 12, "Year": 2016}, {"Code": "Python", "Value": 16, "Year": 2017}, {"Code": "Python", "Value": 20, "Year": 2018}, {"Code": "Python", "Value": 27, "Year": 2019}, {"Code": "Python", "Value": 29, "Year": 2020}, {"Code": "Python", "Value": 30, "Year": 2021}, {"Code": "Python", "Value": 28, "Year": 2022}]
+  },
+  "mark": "line",
+  
+
+
+  "encoding": 
+  
+  {
+    "x": {"field": "Year", "type": "nominal", "axis": {"labelAngle": 45}},
+   
+    "y": {"field": "Value", "type": "quantitative", "title": "Worldwide users (%)"},
+     
+    
+    
+   "tooltip": [
+      {"field": "Year", "type": "nominal","title":    "Year"},
+     
+      {"field": "Value", "type": "quantitative", "title": "Java"},
+     
+      {"field":"Code","type":"nominal", "title":"Pyhton"}
+      ],
+
+  
+"color": {
+      "field": "Code",
+      "scale": {"range": ["#fd7f6f","#ffee65"]}
+    }
+
+    }
+  }

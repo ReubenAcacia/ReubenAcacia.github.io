@@ -1,0 +1,38 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple bar chart with embedded data.",
+"title": {
+    "text": "Most Popular Coding Language 2022",
+  "subtitle":["Source: pypl.github.io",""],
+  "subtitleFontStyle":"italic",
+  "subtitleFontSize":10,
+  "anchor": "start",
+  "color": "black"},
+
+    "height": 300,
+
+  "width": "container",
+  
+   "data": {
+      "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/Week8.data.csv"
+    },
+
+
+    "mark": {
+      "type": "bar",
+      "color": "#F7B733"},
+  
+  
+  
+
+
+
+  "encoding": 
+  
+  {
+    "x": {"field": "Language", "type": "nominal", "axis": {"labelAngle": 45}},
+   
+    "y": {"field": "Value", "type": "quantitative", "title": " Worldwide users (%)"}
+
+
+}}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+  "url": "https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/electoral/eng/topo_eer.json",
+  "format": {
+  "type": "topojson",
+  "feature": "eer"
+  }
+  },
+
+"title": {
+    "text": "Basemap of English Regions",
+   "subtitle":["Source: UK-GeoJSON.github.io",""],
+  "subtitleFontStyle":"italic",
+  "subtitleFontSize":10,
+  "anchor": "start",
+  "color": "black"},
+
+  "height": 600,
+  "width": 600,
+  "projection": {
+  "type": "mercator"
+  },
+  "mark": {
+  "type": "geoshape",
+  "color": "grey",
+  "stroke": "black"
+  },
+  "encoding": {
+  "tooltip": [
+  {
+  "field": "properties.EER13NM",
+  "type": "nominal",
+  "title": "Region"
+  }
+  ]
+  }
+  }
