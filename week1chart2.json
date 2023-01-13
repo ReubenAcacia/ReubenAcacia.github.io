@@ -4,7 +4,7 @@
   
        "title": {
         "text": "Declining populations",
-        "subtitle":"Cumulative % change in population. Source: UN.",
+        "subtitle":"Source: UN",
         "subtitleFontStyle":"italic",
         "subtitleFontSize":10,
         "anchor": "start",
@@ -24,6 +24,9 @@
     "spec": {
       "height": 300,
       "width": 250,
+
+
+
     
       "mark": {
         "type":"line",
@@ -32,12 +35,20 @@
       "encoding": {
         "x": {
           "field": "Year",
-          "type": "temporal"},
+          "type": "temporal",
+          "axis": {"grid": false}
+        
+        },
     
         "y": {
           "field": {"repeat": "layer"},
           "type": "quantitative",
-          "title": null},
+          "title": "Cumulative % change in population (%)",
+          "axis": {"grid": false}
+        
+        },
+
+    
     
         "color": {
           "datum": {"repeat": "layer"},
