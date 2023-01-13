@@ -1,0 +1,49 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": [
+      "Chart 3: National Box Office as a percentage of GDP 2021"
+    ],
+    "subtitle": "Source: Boxofficemojo, Worldbank",
+    "subtitleFontStyle": "italic",
+    "subtitleFontSize": 10,
+   "anchor": "middle",
+   "subtitleColor": "#3a3a3a",
+    "color": "black"
+  },
+  "width": 400,
+  "height": 300,
+   "background": "#FeFeF8",
+  "config": {"style": {"cell": {"stroke": "transparent"}}},
+  "data": {
+    "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/country_data_cleaned.csv"
+  },
+  "transform": [
+    {
+      "lookup": "country",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/world_basemap.json",
+          "format": {"type": "topojson", "feature": "countries1"}
+        },
+        "key": "properties.name",
+        "fields": ["properties", "type", "geometry"]
+      }
+    }
+  
+  ],
+  
+  "projection": {"type": "equalEarth"},
+  "mark": "geoshape",
+  "encoding": {
+    "color": {"field": "bo_%_GDP_3", 
+    "title": "Box Office per GDP (%)",
+    "type": "quantitative", "scale": {"scheme": "turbo"}},
+
+    "tooltip": [
+      {"field": "properties.name", "type": "nominal", "title": "Country"},
+      {"field": "bo_%_GDP_3","title": "Box Office per GDP (%)", "type": "quantitative"}
+    ]
+  }
+}

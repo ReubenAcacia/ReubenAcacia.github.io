@@ -1,0 +1,81 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+ 
+
+  "title": {
+    "text": "Chart 4: Film Profits Compared to Costs",
+    "subtitle": ["2014-2018, Source: Deadline ", "Size of circle in proportion to worldwide box office gross", ""],
+    "subtitleFontStyle":"italic",
+    "subtitleFontSize":10,
+    "subtitleColor": "#3a3a3a",
+    "anchor": "start",
+    "color": "black"},
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/data_14_18_clean.csv"
+  },
+
+  "selection": {
+    "paintbrush": {"type": "multi", "on": "mouseover", "nearest": true},
+    "grid": {"type": "interval", "bind": "scales"},
+    "divisionSelect": {"type": "multi", "fields": ["Year"], "bind": "legend"}
+  },
+
+  "height":300,
+  "width":300,
+  "background":  "#FeFeF8",
+
+  "mark": "circle",
+
+  "encoding": {
+    "x": {
+      "field": "Costs",
+      "type": "quantitative",
+      "title":"Production Costs (Millions US$)"
+    },
+
+    "y": {
+      "field": "Profit",
+      "type": "quantitative",
+      "title":"Net Profit (Millions US$)"
+    },
+
+    "color": {
+      "field": "Year", 
+      "type": "nominal", 
+      "title":null, 
+      "scale": {"scheme": "turbo"}
+    },
+
+    "opacity": {
+      "condition": {"selection": "divisionSelect", "value": 0.7}, "value": 0
+      },
+
+    "size": {
+      "condition": {"selection": "paintbrush", "value": 600},
+    "scale": {"range": [10, 400]},
+
+      "field": "Worldwide", "type": "quantitative", "legend":null},
+
+    "tooltip": [
+      {"field": "Film", "type": "nominal", "title": "Film"},
+      {"field": "Year", "type": "quantitative", "title": "Film"},
+
+      {"field": "Profit", "type": "quantitative",  "title": "Profit"},
+
+  
+      {"field": "Worldwide", "type": "quantitative", "title": "Worldwide"},
+
+
+      {"field": "Domestic", "type": "quantitative", "title": "Domestic"}, 
+
+          {"field": "Costs", "type": "quantitative", "title": "Production Costs"},
+
+ {"field": "International", "type": "quantitative", "title": "International"}  
+
+ 
+
+    ]
+  }
+}

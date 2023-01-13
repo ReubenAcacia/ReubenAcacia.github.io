@@ -1,0 +1,171 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Chart 6: Regression of Production Costs against Domestic Gross",
+    "subtitle": "Top 20 Blockbusters, 2014-18, Source: Deadline",
+    "subtitleFontStyle": "italic",
+    "subtitleFontSize": 10,
+    "anchor": "start",
+    "color": "#000000",
+    "subtitleColor": "#3a3a3a"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/data_14_18_clean.csv"
+  },
+  "height": 300,
+  "width": 295,
+  "config": {
+    "background": "#FeFeF8",
+    "view": {
+      "stroke": "transparent"
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "point": false,
+        "clip": true,
+        "color": "#FFD300"
+      },
+
+
+      "encoding": {
+
+             "color": {
+      "field": "Year", 
+      "type": "nominal", 
+      "title":null, 
+      "scale": {"scheme": "turbo"}
+    },
+
+     "size": {
+          "field": "Domestic",
+          "type": "quantitative",
+          "legend": null,
+
+          "scale": {"range": [10, 400]}},
+          
+
+        "x": {
+          "field": "Costs",
+          "type": "quantitative",
+          "title": "Production Costs (Millions US$)",
+          "axis": {
+            "grid": false,
+            "domainColor": "#000000",
+            "labelColor": "#000000",
+            "tickColor": "#000000",
+            "gridColor": "black",
+            "titleColor": "#3a3a3a"
+          },
+          "scale": {
+            "domain": [
+              46,
+              58
+            ]
+          }
+        },
+        "y": {
+          "field": "Domestic",
+          "type": "quantitative",
+          "title": "Domestic Boxoffice (Millions US$)",
+          "axis": {
+            "grid": false,
+            "domainColor": "#000000",
+            "labelColor": "#000000",
+            "tickColor": "#000000",
+            "gridColor": "black",
+            "titleColor": "#3a3a3a"
+          },
+          "scale": {
+            "domain": [
+              100,
+              160
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Film",
+            "type": "nominal",
+            "title": "Film"
+          },
+          {
+            "field": "Costs",
+            "type": "quantitative",
+            "title": "Production Costs"
+          },
+          {
+            "field": "Domestic",
+            "type": "quantitative",
+            "title": "Domestic Gross"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "line",
+        "color": "#4d4d4ddf",
+        "strokeWidth": 2
+      },
+      "transform": [
+        {
+          "regression": "Domestic",
+          "on": "Costs"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "Costs",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              300
+            ]
+          }
+        },
+        "y": {
+          "field": "Domestic",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              10,
+              2500
+            ]
+
+
+          }
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "regression": "Domestic",
+          "on": "Costs",
+          "params": true
+        },
+        {
+          "calculate": "'R²: '+format(datum.rSquared, '.2f')",
+          "as": "R2"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "color": "#000000",
+        "x": "width",
+        "align": "right",
+        "y": 0
+      },
+      "encoding": {
+        "text": {
+          "type": "nominal",
+          "field": "R2"
+        }
+      }
+    }
+  ]
+}

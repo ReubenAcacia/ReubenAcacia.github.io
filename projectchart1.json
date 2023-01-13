@@ -1,0 +1,70 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Chart 1: Gross Box Office",
+    "subtitle": "2001-2021, Source: Boxofficemojo",
+    "subtitleFontStyle": "italic",
+    "subtitleFontSize": 10,
+    "anchor": "middle",
+    "subtitleColor": "#3a3a3a",
+    "color": "#000000"
+  },
+  "config": {"background": "#FeFeF8", "view": {"stroke": "transparent"}},
+  "data": {
+    "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/data_chart1.csv"
+  },
+  "width": "container",
+  "height": 300,
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "nominal",
+      "title": "Year",
+      "axis": {
+        "titleColor": "#3a3a3a"}
+    },
+    "y": {
+      "field": "Value",
+      "type": "quantitative",
+      "title": "Gross Profit (US$)",
+      "axis": {
+        "titleColor": "#3a3a3a",
+        "grid": false}
+    },
+    "color": {
+      "condition": {
+        "param": "hover",
+        "field": "Box Office",
+        "type": "nominal",
+        "legend": "n"
+      },
+      "value": "grey"
+    },
+    "opacity": {"condition": {"param": "hover", "value": 1}, "value": 0.2},
+   
+   
+    "tooltip": [
+      {"field": "Box Office", "title": "Box Office", "type": "nominal"},
+      {
+        "field": "Value",
+        "title": "Gross Profit (US$)",
+        "type": "quantitative"
+      },
+      {"field": "Year", "type": "nominal"}
+    ]
+  },
+ "layer": [
+    {
+      "description": "transparent layer to make it easier to trigger selection",
+      "params": [
+        {
+          "name": "hover",
+          "value": [{"Box Office": "Domestic"}],
+          "select": {"type": "point", "fields": ["Box Office"], "on": "mouseover"}
+        }
+      ],
+      "mark": {"type": "line", "strokeWidth": 8, "stroke": "transparent"}
+    },
+    {"mark": "line"}
+  ]
+}

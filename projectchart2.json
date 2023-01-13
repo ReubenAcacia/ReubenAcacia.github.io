@@ -1,0 +1,54 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+"title": {
+    "text": "Chart 2: Growing Dominance of Blockbusters in the Domestic Market",
+  "subtitle":["Domestic refers to the USA and Canada, 2001-2021, Source: Boxofficemojo",""],
+  "subtitleFontStyle":"italic",
+  "subtitleFontSize":10,
+  "anchor": "middle",
+  "subtitleColor": "#3a3a3a",
+  "color": "black"},
+
+    "height": 300,
+
+  "width": "container",
+   "background":  "#FeFeF8",
+
+  
+  "data": {
+   "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/data_chart2.csv"
+  },
+  "mark": "area",
+  
+
+  "encoding": 
+  
+  {
+    "x": {"field": "Year", 
+    "type": "nominal", 
+    "axis": {"labelAngle": 45},
+    "titleColor": "#3a3a3a"
+  },
+   
+    "y": {"field": "Value", 
+    "type": "quantitative", 
+    "title": "Gross Profit (1000,000 US$)",
+    "axis": {"grid": false},
+    "titleColor": "#3a3a3a"
+  },
+
+
+    "tooltip": [
+      {"field": "Year", "type": "nominal","title":    "Year"},
+
+       {"field":"Percentage","type":"nominal", "title":"Top 20 Films as % of Domestic"}
+  
+      ],
+
+"color": {
+      "field": "Box Office",
+      "scale": {"range": ["#ffee65","#fd7f6f"]}
+    }
+  }
+}
