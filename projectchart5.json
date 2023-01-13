@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "Chart 5: Regression of Production Costs against Metacritic Scores",
-    "subtitle": ["2014-2018, Source: Deadline, Metacritic ", "Size of circle is proportion to worldwide box office gross", ""],
+    "subtitle": ["2014-2018, Source: Deadline, IMDB ", "Size of circle is proportion to worldwide box office gross", ""],
     "subtitleFontStyle": "italic",
     "subtitleFontSize": 10,
     "anchor": "start",
