@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- ///////////////////  godHEAD //////////////////////////////////// -->
+<!-- ///////////////////  goodHEAD //////////////////////////////////// -->
 
 <head>
     <meta charset="UTF-8">
@@ -173,11 +173,11 @@ fixed time period. Looping scrappers were used to access data on the top 20 film
 </thead>
     <br>
     <br> 
-The data from the World Bank was accessed through a beautiful soup scrapper, the data from the World
+The data from the World Bank was accessed through an inflation calculator API, the data from the World
 Bank was used for adjusting for inflation the values of the data from deadline. A major issue with a 
 lot of box office analysis is it rarely adjusts for inflation. The metacritic scores were accessed from
- IMDB through a python package IMDbPY. The Box Office Mojo data for charts 1 and 2 was scraped from their 
- website using pandas read_html. For the map I scraped data from their website  using beautiful soup.
+ IMDB through the python package IMDbPY. The Box Office Mojo data for charts 1 and 2 was scraped from their 
+ website using pandas read_html. For the map I scraped data from their website using beautiful soup.
 
        
 </div>  
@@ -188,9 +188,9 @@ lot of box office analysis is it rarely adjusts for inflation. The metacritic sc
    
 Chart 1 and 2 required cleaning the data scraped from Box Office Mojo into a TIDY long form format, I did this
  in python. Then I merged the different data sets in excel, correcting all the figures to three significant
-  figures. For Chart 3 my scraper gave me a json file, which I checked the names against with those of my 
+  figures. For Chart 3 I checked the names in the Json file I scraped  against those of my 
   basemap using the technique Dennis showed us. Several of the names didn't match the base map, I manually 
-  changed these names as well as the columns as well as the columns to produce my clean data set. World Bank 
+  changed these names in python as well as the columns as well as the columns to produce my clean data set. World Bank 
   data on GDP was used to used to calculate the national box office used for the map as proportions of national 
   GDP. I did the calculations in excel, as well as cleaning the results to 3 significant figures.
 </thead>
@@ -206,9 +206,31 @@ Black Panther was listed as coming out in 2022, the year the sequel was released
 <div class="section">
     <h3>Sources:</h3>
 
-    <p>This project aims to investigate the macro and microeconomic impacts of the Olympic games on host nations and
-      firms, ultimately deciding whether hosting or sponsoring the Olympics is an economically viable strategy on
-      improving various economic indicators. </p>
+    Chart 1 and 2: <br>
+    <a
+        href="https://www.boxofficemojo.com/year/">Box Office Mojo Domestic Box Office</a> 
+        <br>  <a   href="https://www.boxofficemojo.com/year/?area=XWW">Box Office Mojo Worldwide Box Office</a> 
+        <br>  <a   href="https://www.boxofficemojo.com/year/?area=CN">Box Office Mojo China Box Office</a> 
+        <br>
+        <br>
+        Chart 3: <br>
+         <a   href="https://www.boxofficemojo.com/year/?area=GB">Box Office Mojo Country Box Office</a> 
+            <br>  <a   href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD">World Bank GDP</a> 
+            <br>
+            <br>
+Chart 4,5,6,7,8:
+<br>
+<a
+href="https://deadline.com/2015/03/most-profitable-movies-of-2014-box-office-1201390489/">Deadline Most Profitable Movies 2014</a> 
+<br>  <a   href="https://deadline.com/2016/03/universal-pictures-disney-most-profitable-movies-2015-star-wars-minions-jurassic-world-data-1201727739/">Deadline Most Profitable Movies 2015</a> 
+<br>  <a   href="https://deadline.com/2017/04/most-profitable-movies-2016-secret-life-of-pets-deadpool-disney-1202060846/">Deadline Most Profitable Movies 2016</a> 
+<br>  <a   href="https://deadline.com/2018/03/most-profitable-movies-2017-star-wars-the-last-jedi-rian-johnson-disney-fox-merger-1202356161/">Deadline Most Profitable Movies 2017</a> 
+<br>  <a   href="https://deadline.com/2019/04/box-office-best-profits-2018-list-avengers-infinity-war-black-panther-1202592231/">Deadline Most Profitable Movies 2018</a> 
+<br>  <a   href="https://www.geeksforgeeks.org/python-imdbpy-searching-a-movie/">IMDbPY</a> 
+<br>  <a   href="http://api.worldbank.org/v2/country/{country_code}/indicator/FP.CPI.TOTL.ZG?date={year}:{current_year}&format=json">World Bank inflation API</a> 
+
+            
+   
 </div>  
 
 
@@ -247,5 +269,6 @@ Black Panther was listed as coming out in 2022, the year the sequel was released
 
 
 </html>
+
 
 
