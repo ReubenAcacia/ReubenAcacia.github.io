@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "data": {
+      "values":  [{"Year": 2010, "City": "Birmingham", "Value": 62.3}, {"Year": 2011, "City": "Birmingham", "Value": 61.6}, {"Year": 2012, "City": "Birmingham", "Value": 62.2}, {"Year": 2013, "City": "Birmingham", "Value": 63.2}, {"Year": 2014, "City": "Birmingham", "Value": 64.0}, {"Year": 2015, "City": "Birmingham", "Value": 64.3}, {"Year": 2016, "City": "Birmingham", "Value": 64.23}, {"Year": 2017, "City": "Birmingham", "Value": 66.69}, {"Year": 2018, "City": "Birmingham", "Value": 68.3}, {"Year": 2019, "City": "Birmingham", "Value": 69.59}, {"Year": 2010, "City": "Bristol", "Value": 74.4}, {"Year": 2011, "City": "Bristol", "Value": 75.7}, {"Year": 2012, "City": "Bristol", "Value": 72.9}, {"Year": 2013, "City": "Bristol", "Value": 73.3}, {"Year": 2014, "City": "Bristol", "Value": 72.2}, {"Year": 2015, "City": "Bristol", "Value": 77.5}, {"Year": 2016, "City": "Bristol", "Value": 77.33}, {"Year": 2017, "City": "Bristol", "Value": 78.0}, {"Year": 2018, "City": "Bristol", "Value": 79.0}, {"Year": 2019, "City": "Bristol", "Value": 78.12}, {"Year": 2010, "City": "Glasgow", "Value": 65.1}, {"Year": 2011, "City": "Glasgow", "Value": 64.3}, {"Year": 2012, "City": "Glasgow", "Value": 65.8}, {"Year": 2013, "City": "Glasgow", "Value": 63.9}, {"Year": 2014, "City": "Glasgow", "Value": 67.5}, {"Year": 2015, "City": "Glasgow", "Value": 68.2}, {"Year": 2016, "City": "Glasgow", "Value": 69.19}, {"Year": 2017, "City": "Glasgow", "Value": 70.25}, {"Year": 2018, "City": "Glasgow", "Value": 70.1}, {"Year": 2019, "City": "Glasgow", "Value": 69.9}, {"Year": 2010, "City": "Leeds", "Value": 70.5}, {"Year": 2011, "City": "Leeds", "Value": 68.8}, {"Year": 2012, "City": "Leeds", "Value": 66.5}, {"Year": 2013, "City": "Leeds", "Value": 68.7}, {"Year": 2014, "City": "Leeds", "Value": 68.2}, {"Year": 2015, "City": "Leeds", "Value": 73.1}, {"Year": 2016, "City": "Leeds", "Value": 73.23}, {"Year": 2017, "City": "Leeds", "Value": 75.71}, {"Year": 2018, "City": "Leeds", "Value": 74.3}, {"Year": 2019, "City": "Leeds", "Value": 78.09}, {"Year": 2010, "City": "Liverpool", "Value": 60.7}, {"Year": 2011, "City": "Liverpool", "Value": 60.2}, {"Year": 2012, "City": "Liverpool", "Value": 60.7}, {"Year": 2013, "City": "Liverpool", "Value": 60.7}, {"Year": 2014, "City": "Liverpool", "Value": 61.0}, {"Year": 2015, "City": "Liverpool", "Value": 61.2}, {"Year": 2016, "City": "Liverpool", "Value": 63.91}, {"Year": 2017, "City": "Liverpool", "Value": 66.84}, {"Year": 2018, "City": "Liverpool", "Value": 68.6}, {"Year": 2019, "City": "Liverpool", "Value": 70.73}, {"Year": 2010, "City": "London", "Value": 68.3}, {"Year": 2011, "City": "London", "Value": 68.0}, {"Year": 2012, "City": "London", "Value": 68.2}, {"Year": 2013, "City": "London", "Value": 69.8}, {"Year": 2014, "City": "London", "Value": 71.5}, {"Year": 2015, "City": "London", "Value": 72.7}, {"Year": 2016, "City": "London", "Value": 73.68}, {"Year": 2017, "City": "London", "Value": 74.34}, {"Year": 2018, "City": "London", "Value": 75.1}, {"Year": 2019, "City": "London", "Value": 75.82}, {"Year": 2010, "City": "Manchester", "Value": 66.3}, {"Year": 2011, "City": "Manchester", "Value": 66.0}, {"Year": 2012, "City": "Manchester", "Value": 65.8}, {"Year": 2013, "City": "Manchester", "Value": 67.2}, {"Year": 2014, "City": "Manchester", "Value": 67.6}, {"Year": 2015, "City": "Manchester", "Value": 68.6}, {"Year": 2016, "City": "Manchester", "Value": 69.71}, {"Year": 2017, "City": "Manchester", "Value": 70.39}, {"Year": 2018, "City": "Manchester", "Value": 71.8}, {"Year": 2019, "City": "Manchester", "Value": 72.23}, {"Year": 2010, "City": "Newcastle", "Value": 66.1}, {"Year": 2011, "City": "Newcastle", "Value": 66.8}, {"Year": 2012, "City": "Newcastle", "Value": 65.1}, {"Year": 2013, "City": "Newcastle", "Value": 64.8}, {"Year": 2014, "City": "Newcastle", "Value": 66.9}, {"Year": 2015, "City": "Newcastle", "Value": 70.2}, {"Year": 2016, "City": "Newcastle", "Value": 70.15}, {"Year": 2017, "City": "Newcastle", "Value": 70.36}, {"Year": 2018, "City": "Newcastle", "Value": 75.5}, {"Year": 2019, "City": "Newcastle", "Value": 71.89}, {"Year": 2010, "City": "Nottingham", "Value": 65.4}, {"Year": 2011, "City": "Nottingham", "Value": 64.4}, {"Year": 2012, "City": "Nottingham", "Value": 66.6}, {"Year": 2013, "City": "Nottingham", "Value": 65.9}, {"Year": 2014, "City": "Nottingham", "Value": 67.1}, {"Year": 2015, "City": "Nottingham", "Value": 69.1}, {"Year": 2016, "City": "Nottingham", "Value": 71.93}, {"Year": 2017, "City": "Nottingham", "Value": 68.67}, {"Year": 2018, "City": "Nottingham", "Value": 78.3}, {"Year": 2019, "City": "Nottingham", "Value": 73.62}, {"Year": 2010, "City": "Sheffield", "Value": 66.3}, {"Year": 2011, "City": "Sheffield", "Value": 65.7}, {"Year": 2012, "City": "Sheffield", "Value": 64.8}, {"Year": 2013, "City": "Sheffield", "Value": 67.3}, {"Year": 2014, "City": "Sheffield", "Value": 69.2}, {"Year": 2015, "City": "Sheffield", "Value": 70.1}, {"Year": 2016, "City": "Sheffield", "Value": 68.58}, {"Year": 2017, "City": "Sheffield", "Value": 69.44}, {"Year": 2018, "City": "Sheffield", "Value": 79.7}, {"Year": 2019, "City": "Sheffield", "Value": 72.73}]
+    },
+
+
+"title": {
+      "text": "Employment rate of British Cities",
+    "subtitle":["2010-2019, Source: Centre for Cities",""],
+    "subtitleFontStyle":"italic",
+    "subtitleFontSize":10,
+    "anchor": "start",
+    "color": "black"
+},
+
+  "transform": [
+    {"filter":{"field":"City", "oneOf": ["London", "Liverpool", "Manchester",
+     "Birmingham", "Sheffield", "Bristol","Nottingham","Newcastle","Glasgow","Leeds"], "color": "#DA70D6"}}
+  ],
+
+  "mark": {
+    "type":"bar",
+    "color": "#DA70D6"},
+
+  "height":100,
+  "width":150,
+  "padding":{
+    "top":0,
+    "bottom":0,
+    "right":0,
+    "left":0
+  },
+
+ 
+
+  "encoding": {
+
+    "x": {
+      "field": "Year", 
+      "type": "nominal",
+      "title":"Year"},
+
+    "y": {
+      "field": "Value", 
+      "type": "quantitative",
+      "title":"Employment Rate (%)"},
+
+     "facet":{
+       "field": "City",
+       "columns": 2,
+       "title":"City",
+       "spacing":15
+
+    
+     } 
+  }
+}
