@@ -2,7 +2,7 @@
 
   "title": {
       "text": "IMF Credit Outstanding as a % of Global GDP",
-      "subtitle":"For all members from 1984 - 2021, SDRs (billions), Source: IMF and World Bank",
+      "subtitle":"For all members from 1984 - 2021, Source: IMF and World Bank",
       "subtitleFontStyle":"italic",
       "subtitleFontSize":10,
       "anchor": "start",
@@ -25,7 +25,7 @@
        "field": "Year",
        "type": "temporal",
        "axis": {
-         "title": null,
+         "title": "Year",
          "grid": false,
          "ticks": false,
          "labelAngle": 45}},
@@ -33,7 +33,7 @@
       "y": {
         "field": "Credit as a % of Global GDP",
         "type": "quantitative",
-        "title": "",
+        "title": "Credit as a % of Global GDP, SDR/$ ",
         "axis": {"grid": false}}
 }
 }
