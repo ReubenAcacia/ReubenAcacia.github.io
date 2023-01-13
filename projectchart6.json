@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "Chart 6: Regression of Production Costs against Domestic Gross",
-    "subtitle": "Top 20 Blockbusters, 2014-18, Source: Deadline",
+   "subtitle": ["2014-2018, Source: Deadline ", "Size of circle is proportion to worldwide box office gross", ""],
     "subtitleFontStyle": "italic",
     "subtitleFontSize": 10,
     "anchor": "start",
