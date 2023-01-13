@@ -112,8 +112,8 @@
       },
       "transform": [
         {
-          "regression": "International",
-          "on": "Costs"
+          "regression": "Costs",
+          "on": "International"
         }
       ],
       "encoding": {
@@ -144,8 +144,8 @@
     {
       "transform": [
         {
-          "regression": "International",
-          "on": "Costs",
+          "regression": "Costs",
+          "on": "International",
           "params": true
         },
         {
