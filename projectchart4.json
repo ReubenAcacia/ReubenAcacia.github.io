@@ -5,7 +5,7 @@
 
   "title": {
     "text": "Chart 4: Film Profits Compared to Costs",
-    "subtitle": ["2014-2018, Source: Deadline ", "Size of circle in proportion to worldwide box office gross", ""],
+    "subtitle": ["2014-2018, Source: Deadline ", "Size of circle is proportion to worldwide box office gross", ""],
     "subtitleFontStyle":"italic",
     "subtitleFontSize":10,
     "subtitleColor": "#3a3a3a",
