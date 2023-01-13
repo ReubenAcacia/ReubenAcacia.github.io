@@ -9,7 +9,7 @@
 
   "title": {
     "text": "Aging populations",
-    "subtitle":"Share of popluation that is ages 65+. Source: UN. S Korea=blue",
+    "subtitle":"Source: UN",
     "subtitleFontStyle":"italic",
     "subtitleFontSize":10,
     "anchor": "start",
@@ -30,7 +30,7 @@
       "bind": {
         "input": "select",
         "options": [
-          null,
+          "Republic of Korea",
           "Australia",
           "Bangladesh",
           "Brazil",
@@ -44,7 +44,6 @@
           "Italy",
           "France",
           "Japan",
-          "Republic of Korea",
           "Spain",
           "United Kingdom",
           "United States of America"
@@ -55,12 +54,20 @@
   },
 
   "encoding": {
-    "x": {"field": "Year", "type": "temporal", "title": null},
+    "x": {"field": "Year", 
+    "type": "temporal", 
+    "title": "Year",
+    "axis": {"grid": false}
+  
+  
+  
+  },
     
     "y": {
       "field": "sh_65+",
       "type": "quantitative",
-      "title": null
+      "title": "Share of popluation that is ages 65+ (%)",
+      "axis": {"grid": false}
     },
     
       
