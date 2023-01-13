@@ -1,52 +1,437 @@
-/* Richard Davies, Data Science for Economists */
-
-/* This is my second CSS file */
-
-
-/* Import a font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-
 
 /* Set the background color for my page: */
 
-/* Book on colour = Joseph Albers - Interaction of Colour */
+/* Book on colour = Joseph Albers - Interaction of Colour, best blue rgba(0, 47, 167, 0.8) */
 
 body{
-    background-color: rgb(200,200,200);
- }
+  background: linear-gradient(
+      to right,
+      #D9D9D9 0%,
+        #D9D9D9 50%,
+        #6a696957 50%,
+        #6a696957 100%
+      );
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+  font-family: 'Poppins', sans-serif ;
+  align-content: center;
 
 
-/* Choose the appearance of the tags, h1, h3 and p: */
-h1, h3, p{
+}
+
+
+ /* <!-- ///////////////////  Title //////////////////////////////////// --> */
+
+h1{   color: rgb(0, 0, 0);
+    font-family: 'Poppins', sans-serif ;
+    font-size: 75px;
+    font-weight: 500;
+  
+    margin: auto;
+      margin-top: 30px;
+      align-content: center;
+      max-width: 400px;
+      background-color: #FeFeF8;
+      border-width: 5px;
+      border-style: solid;
+      border-radius: 15px;
+      border-color: black;
+}
+
+h2{   color: rgb(0, 0, 0);
+  font-family: 'Poppins', sans-serif ;
+  font-size: 25px;
+
+
+  margin: auto;
+    margin-top: 30px;
+    align-content: center;
+    max-width: 400px;
+    background-color: #FeFeF8;
+    border-radius: 15px;
+    border-width: 2px;
+      border-style: solid;
+      border-radius: 15px;
+      border-color: black;
+   
+}
+
+
+
+
+h5, h3, p{
     color:rgb(0, 0, 0);
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif ;
     text-align: center;
 }
-    
-.myWeek1{
-    margin: auto;
-    max-width: 400px;
-    background-color: rgb(220, 220, 220);
 
-      
+ /* <!-- ///////////////////   Titles //////////////////////////////////// --> */
+   
+ .title{ color: rgb(0, 0, 0);
+    font-family: 'Poppins', sans-serif ;
+    font-size: 15px;
+    font-weight: 500;
+  
+    margin: auto;
+      margin-top: 30px;
+      align-content: center;
+      max-width: 300px;
+      background-color: #FeFeF8;
+      border-width: 5px;
+      border-style: solid;
+      border-radius: 15px;
+      border-color: #FeFeF8;
+}
+
+/* <!-- /////////////////// Standard Text //////////////////////////////////// --> */
+.text{
+    margin: auto;
+    font-family: 'Poppins', sans-serif ;
+    align-content: center;
+    max-width: 900px;
+    background-color: #FeFeF8;
+    padding: 30px;
+}
+
+/* <!-- /////////////////// Chart Text //////////////////////////////////// --> */
+.charttext{
+    margin: auto;
+    align-content: center;
+    max-width: 900px;
+    font-family: 'Poppins', sans-serif ;
+    background-color: #FeFeF8;
+    padding-top: 160px;
+    padding-bottom: 160px; 
+}
+
+/* <!-- /////////////////// standard chart //////////////////////////////////// --> */
+.chart{
+  background-color: #FeFeF8;
+  width: 400px;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: #FeFeF8;
+}
+
+
+
+/* <!-- /////////////////// Project chart //////////////////////////////////// --> */
+
+
+
+.chartp{
+    align-items: center;
+    background-color: #FeFeF8;
+    width: 600px;
     border-width: 3px;
     border-style: solid;
-    border-radius: 10px;
-    border-color: rgb(100,100,100);
+    border-radius: 8px;
+    border-color: #FeFeF8;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
 }
 
+.chart1 {
+    background: #FeFeF8;
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    margin: 0px auto;
+    color: #FeFeF8;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    transition: 0.5s ease;
+    max-width: 350px;
+  }
 
-/* Set the apperance of the class, chart */
-.chart{
-    background-color: white;
-    width: 380px;
+
+
+
+/* <!-- /////////////////// Section //////////////////////////////////// --> */
+.section{
+    margin: auto;
+    margin-top: 30px;
+    align-content: center;
+    max-width: 600px;
+    background-color: #FeFeF8;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif ;
+
     border-width: 2px;
     border-style: solid;
-    border-radius: 10px;
-    border-color: grey;
-    
+    border-radius: 15px;
+    border-color: #FeFeF8;
 }
-    
 
+/* <!-- /////////////////// Chart Outer  //////////////////////////////////// --> */
+.outerchart{
+
+        margin: auto;
+        margin-top: 30px;
+        align-content: center;
+        max-width: 660px;
+        background-color: #FeFeF8;
+        padding: 20px;
     
+        border-width: 6px;
+        border-style: solid;
+        border-radius: 15px;
+        border-color: #FeFeF8;
+}
+
+.outerchart2{
+
+  margin: auto;
+  margin-top: 30px;
+  align-content: center;
+  max-width: 500px;
+  background-color: #FeFeF8;
+  padding: 20px;
+
+  border-width: 6px;
+  border-style: solid;
+  border-radius: 15px;
+  border-color: #FeFeF8;
+}
+
+.outerchart3{
+
+  margin: auto;
+  margin-top: 30px;
+  align-content: center;
+  max-width: 660px;
+  background-color: #FeFeF8;
+  padding: 20px;
+
+  border-width: 6px;
+  border-style: solid;
+  border-radius: 15px;
+  border-color: #FeFeF8;
+}
+
+
+
+/* <!-- /////////////////// Body //////////////////////////////////// --> */
+
+div.body {
+    margin: auto;
+    margin-top: 30px;
+    align-content: center;
+    max-width: 900px;
+    background-color: #FeFeF8;
+    padding: 20px;
+
+    border-width: 6px;
+        border-style: solid;
+        border-radius: 15px;
+        border-color: #FeFeF8;
+  }
+
+  /* <!-- /////////////////// Button //////////////////////////////////// --> */
+
+  .button1{
+    background-color: #75777a;
+    border-color: rgba(0, 47, 167)  ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    font-size: 15px; 
+  }
+  
+  .button1:hover{
+    background-color: rgba(0, 47, 167)  ;
+  
+  }
+  
+  .button2{
+    background-color: #75777a;
+    border-color: #FC4A1A;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    font-size: 15px; 
+  }
+  
+  .button2:hover{
+    background-color: #FC4A1A;
+  
+  } 
+  
+  .button3{
+    background-color: #75777a;
+    border-color: #F7B733 ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    font-size: 15px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+  }
+  
+  .button3:hover{
+    background-color: #F7B733 ;
+  
+  } 
+  
+  
+  .button4{
+    background-color: #75777a;
+    border-color: #4ABDAC  ;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    font-size: 15px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+  }
+  
+  .button4:hover{
+    background-color: #4ABDAC  ;
+    border-color: transparent;
+  } 
+  
+  
+  .button5{
+    background-color: #75777a;
+    border-color: #EF25AF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    font-size: 15px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: background-color 1s ease;
+  }
+  
+  .button5:hover{
+    background-color: #EF25AF;
+   } 
+  
+  .container {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    column-gap: 0px;
+    margin-top: 15px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    align-content: center;
+    --borderWidth: 3px;
+    background: #5a5c5e;
+    position: relative;
+    border-radius: var(--borderWidth);
+  }
+  
+  .container:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedgradient 3s ease alternate infinite;
+    background-size: 300% 300%;
+  }
+  
+  
+  @keyframes animatedgradient {
+      0% {
+          background-position: 0% 50%;
+      }
+      50% {
+          background-position: 100% 50%;
+      }
+      100% {
+          background-position: 0% 50%;
+      }
+  }
+  
+  
+  #text {
+    position: static;
+    top: 80px;
+    right: 50px;
+    bottom: 50px;
+    left: 50px;
+    padding: 20px;
+    overflow-y: hidden;
+    box-sizing: border-box;
+  }
+  
+  #text2 {
+    position: static;
+    top: 80px;
+    right: 50px;
+    bottom: 50px;
+    left: 50px;
+    padding: 20px;
+    overflow-y: hidden;
+    box-sizing: border-box;
+  }
+  
+  #text3 {
+    position: static;
+    top: 80px;
+    right: 50px;
+    bottom: 50px;
+    left: 50px;
+    padding: 20px;
+    overflow-y: hidden;
+    box-sizing: border-box;
+  }
 
