@@ -1,0 +1,49 @@
+.mapPath {
+    fill: lightgray;
+    stroke: #000;
+    stroke-width: 0.2px;
+}    
+
+.foreground {
+fill: rgb;
+stroke: #333;
+stroke-width: 1.5px;
+}
+
+.map_label{
+    filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.3));
+}
+
+.map_border{
+    fill: none;
+    stroke: #333;
+    stroke-width: 0.5px;
+    box-sizing: border-box;
+}
+
+.place_label{
+    color: red;
+}
+
+#legSvg{
+    overflow:visible;
+}
+
+#legendSvg{
+    overflow:visible;
+    background-color: lemonchiffon;
+}
+
+
+.legPadding{
+    height: 50%;
+}
+
+#mapDiv{
+    max-height: max(80vh,80px);
+    aspect-ratio: 1 / 2;
+}
+
+#legDiv{
+    width:300px;
+}
