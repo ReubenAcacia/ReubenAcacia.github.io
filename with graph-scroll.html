@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    
+</style>
+<!-- <script src="d3v4+jetpack.js"></script> -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script src="graph-scroll.js"></script>
+<!-- Stylesheets -->
+<link rel="stylesheet" href="main-old.css">
+<link rel="stylesheet" href="map.css">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;8..144,500&display=swap" rel="stylesheet"> </head>
+<body>
+
+    <div id='container-1' class='container'>
+        <div id='ukMapDiv'></div>
+        <div id="sections">
+            <div id="titleSection">
+                <h1> How Unequal is the UK? </h1>
+                <p> The UK has europe's second largest economy, and an average household income of £29,600, post-tax and redistribution but there are large regional variations. </p>
+            </div>
+            <div id="section2">
+                <h3> London</h3>
+                <p>  Many of the richest areas are located in and around London. The ten highest income areas are all within the Greater London Builtup Area. </p> <p> With an average household income of £200,903, the City of London is the UK's richest area. Second and third are Kensington & Chelsea, and Westminster. </p> <p> However, there is considerable inequality between the bouroughs, cities and towns in the London builtup area. At 81% of the median area, Luton has the lowest average household income. </p>
+                
+            </div>
+            <div id="section3">
+                <h3> Birmingham</h3>
+                <p> Many of Britain's other biggest metropolitan areas contain some of the lowest-income areas. For example, Sandwell, outside Birmingham was the third lowest average household income in the country, at £14,545.  </p>
+            </div>
+            <div id="section4">
+                <div id="mapLegend"></div>
+            </div>
+        </div>
+    </div>
+    <div id="gvaSection">
+        <div id="gvaMapContainer" width="100%">
+        </div>
+    </div>
+
+
+    <h1>
+       
+      </h1>
+
+
+<script>
+    var svg = d3.select('#ukMapDiv').html('')
+        .append('svg')
+        .attr("id","ukMapSvg")
+        .attr("width","100%")
+        .attr("height","100%");
+    
+
+    let segmentFunctions = [
+        function(){
+            d3.selectAll("#mapG").transition().duration(2000).attr("transform","translate(0 0) scale(1)");
+            d3.selectAll(".mapLabel").remove();
+        },
+        function(){
+            d3.selectAll("#mapG").transition().duration(2000).attr("transform","translate(-1300 -2800) scale(6)");
+            d3.selectAll(".mapLabel").remove();
+            drawLabel(Map, "City of London",2, 500, 0, "mapLabel")
+            drawLabel(Map, "Luton",2, 500, 0, "mapLabel")
+        },
+        function(){
+            d3.selectAll("#mapG").transition().duration(2000).attr("transform","translate(-1000 -2500) scale(6)");         
+            d3.selectAll(".mapLabel").remove();
+            drawLabel(Map, "Sandwell",2, 500, 0, "mapLabel")
+            drawLabel(Map, "Coventry",2, 500, 0, "mapLabel")
+            drawLabel(Map, "Wolverhampton",2, 500, 0, "mapLabel")
+        },
+        function(){
+            d3.selectAll("#mapG").transition().duration(2000).attr("transform","translate(0 0) scale(1)");
+        }
+    ]
+    
+    var gs = d3.graphScroll()
+        .container(d3.select('#container-1'))
+        .graph(d3.selectAll('#container-1 #ukMapDiv'))
+        .eventId('uniqueId1')  // namespace for scroll and resize events
+        .sections(d3.selectAll('#container-1 #sections > div'))
+        .on('active', function(i){
+            if(i < segmentFunctions.length){
+                segmentFunctions[i]();
+            }
+            console.log(i);
+      })
+
+    function render(){
+        let innerHeight = window.innerHeight; 
+        
+        let ukMapSVG = d3.select("#ukMapSvg");
+        let ukMapDiv = d3.select("#ukMapDiv");
+        let titleSectionDiv = d3.select("#titleSection")
+
+        //first center the map and the first section
+        let mapOffsetValue = Math.max((innerHeight-ukMapDiv.node().clientHeight)/2,0);
+        ukMapDiv
+            .style("top", mapOffsetValue+"px");
+        
+        let titleSectionBoundingRect = titleSectionDiv.node().getBoundingClientRect(); 
+        let titleOffsetValue = Math.max(((innerHeight-titleSectionBoundingRect.height)/2)-titleSectionBoundingRect.top,0);
+        titleSectionDiv
+            .style("padding-top", titleOffsetValue+"px") //padding-top, rather than top because it's not floating?
+            .style("margin-bottom", titleSectionBoundingRect.bottom+"px");
+
+    }
+    window.scrollTo(0, 0);
+    render();
+
+</script>
+<script src="map.js"></script>
+<script src="gvaa_maps.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/FM-ds/FM-ds.github.io/main/Regional_Inequality/clustered_data.json"},
+    "repeat": {
+      "row": ["Average Income (Normalised)", "Life Expectency (Normalised)",  "Household Deprivation (Normalised)", "Life Satisfaction (Normalised)", "Foodbank Distance (Normalised)"],
+      "column": ["Average Income (Normalised)", "Life Expectency (Normalised)",  "Household Deprivation (Normalised)", "Life Satisfaction (Normalised)", "Foodbank Distance (Normalised)"]
+    },
+    "width":1000,
+    "spec": {
+      "mark": {"type":"point", "tooltip": {"content": "data"}},
+      "encoding": {
+        "x": {
+          "field": {"repeat": "column"},
+          "type": "quantitative",
+          "scale": {"zero": false}
+        },
+        "y": {
+          "field": {"repeat": "row"},
+          "type": "quantitative",
+          "scale": {"zero": false}
+        },
+        "color": {"field": "cluster", "type": "nominal"}
+      }
+    }
+  }
