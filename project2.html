@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>China Project</title>
+
+    <link rel="stylesheet" href="project2.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+
+
+<body>
+
+
+    
+<div  style="z-index: 1" class="buttonwrapper">
+    <div class="header">
+
+
+        
+        <a href="index.html" class="button1-underline-animation"> Home</a>
+        <a href="project3.html" class="button2-underline-animation"> Ineqaulity Project</a>
+        <a href="project2.html" class="button3-underline-animation"> China Project</a>
+        <a href="project.html" class="button4-underline-animation"> Box Office Project</a>
+        <a href="portfolio.html" class="button5-underline-animation"> Weekly Tasks</a>
+        <a href="https://github.com/ReubenAcacia/ReubenAcacia.github.io" class="button6-underline-animation" target="_blank" rel="noopener noreferrer"> github</a>
+    
+    </div>
+    <hr/>
+</div>
+</div>
+
+<div class="alctt">
+<h3>GDP, Energy Consumption, and Emissions Growth in China.</h3>
+</div>
+
+<div class="alctt">
+    <span class="altxt">
+
+
+<p>Since the 1980s China’s economy has been on a path of rapid growth. This process has turned China from a small and relatively impoverished economy to one of the worlds’ largest, requiring a prodigious rise in energy consumption. That requirement has had profound consequences, not just for the global economy, but for future environmental sustainability.</p>
+  <p>This project will demonstrate the paths countries’ change in energy consumption and GDP have taken over time, to show how China’s growth story stands out. Giving perspective on how consistent growth creates large changes over time, in terms of total energy consumption, output, and emissions. 
+     </p>
+     <p>Showing how China’s energy consumption patterns have changed over time as China’s economy has developed. Demonstrating that despite increasingly consuming more energy, and an ever-increasing rate of emissions per person, beyond that of countries with similar growth stories. China’s capacity to use energy to drive output has become more efficient overtime, steadily lowering the rate of reliance on polluting fuels. Despite some of the challenges China faces in its quest to increase its share of energy derived from renewables.</p>
+</span>
+</div>
+
+<div>
+  
+</div>
+<div class="alctt">
+        <span class="altxt">
+        <h3> paths of development</h3>
+        <a href="https://colab.research.google.com/drive/1xpJfI3PoHdgEf_IP9mo77yb1N-VB_FgZ?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer">Collab link</a>
+
+    </span> 
+    <div class="chart" id="Chart2">  </div>
+
+
+</div>
+<div class="alctt">
+
+    <span class="altxt">
+    <h3> Heat map of change</h3>
+    <a href="https://colab.research.google.com/drive/1FOj9bpMCZrFltHC644ML_PYl52GBjyfM?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer">Collab Link</a>
+
+</span>
+<div class="chart" id="Chart4">  </div>
+
+
+
+</div>
+<div class="alctt">
+    <span class="altxt">
+        <h3> Rise in share of Global GDP</h3>
+        <a href="https://colab.research.google.com/drive/1Xuy9vgU53hviwXVAQ1zsjOVdpGQeZk32?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer">Collab Link</a>
+        <span class="alctt">
+        <div class="chart" id="Chart6">  </div> 
+    </span>
+    </span>
+
+   
+</div>
+
+
+<div class="alctt">
+    
+    <h3 class="altxt"> Data Used</h3>
+</div>
+<div class="alctt">
+    <span class="altxt">
+       
+<p>The data in this project, mainly comes from BP and the World Bank. Data from the World Bank has been accessed via an API in their provided python library, allowing for the easy calling of data the cleaning of which has all be done in python. It does however require formatting to get into a tidy format, suitable for visualisations.</p>
+<p>The data from BP has been called from their website using requests. The data is first downloaded as an excel file with multiple sheets. Then each of its sheets are passed to a Pandas data frame, with each being sorted by shape such that time series data and stock data can be treated differently given the shape of the frame. Allowing for all data calling and cleaning to be done within python.</p>
+<p>The China geoshape trellis scrapes data from three sources, SP Global, a Wikipedia table, and a PDF file from the university of East Angelia using Camelot.</p>
+<p>All data calling and cleaning is automated, meaning that running the associated collab files will get generate files that allow for recreation of the imbedded Vega graphs.</p>
+</span>
+</div>
+<div class="alctt">
+    <span class="altxt">
+    <h3> Rapid Rise in chinese energy consumption fueled by coal</h3>
+    <a href="https://colab.research.google.com/drive/1sKq2YlE9sAptkVl8YuiRuA5zX4GLzr63?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer"> Collab Link</a>
+</span> 
+</div>
+<div class="alctt">
+    
+    <div class="chart" id="Chart1">  </div>
+
+</div>
+
+<div class="alctt">
+    <span class="altxt">
+    <h3>Fast growth with global ramifications</h3>
+    <a href="https://colab.research.google.com/drive/17q4ye0pjg4Qja1r12AGWEl6VrmaE3lzz?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer">Collab Link</a>
+
+    </span> 
+    <div class="chart" id="Chart5">  </div>
+
+</div>
+<div class="alctt">
+    
+    <h3 class="altxt">  Challenges in Data cleaning </h3>
+</div>
+<div class="alctt">
+    <span class="altxt">    
+<p>The largest hurdle to processing and cleaning the data was ensuring that the calling, sorting, and structuring of BP energy data was all within the collab environment. This involved filtering sheets by shape, as sheets containing time series data skip a different number of rows to those containing stock data. Filtering sheets into separate elements is useful as it means that time series sheets and stock data can be treated differently depending on its shape. Then allowing for easy filtering by data series and values.</p>
+<p>Scrapping the data used in the China trellis chart required cleaning as it was deeply nested within HTML. However, using some of the built in Python commands allowed for the data to be formatted such that it could be passed to Pandas while retaining its structure. Manipulating the columns back in required further formatting, along with ensuring that all the provincial names matched between the three sources. Scraping from the PDF required using Camelot to get the best results.</p>
+
+</span>
+</div>
+<div class="alctt">
+
+    <span class="altxt">
+    <h3> China's Geography Problem </h3>
+    <a href="https://colab.research.google.com/drive/1OjbhvoOEooWwOEeNOSi8xxjvYcjQfPC3?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer">Collab Link</a>
+
+</span>
+<div class="chart" id="Chart3">  </div>
+
+</div>
+<div class="alctt">
+    <span class="altxt">
+    <h3> China an outlier: Kmeans clustering for per person co2 emissions</h3>
+    <a href="https://colab.research.google.com/drive/1aGB7yV9OOK8VWsJDpL31uzxBnB6nluEw?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer">Collab Link</a>
+
+</span> 
+<div class="chart" id="Chart7">  </div>
+
+</div>
+
+<div class="alctt">
+    <span class="altxt">
+        <h3> Energy and carbon intensity of output</h3>
+        <a href="https://colab.research.google.com/drive/1YdK_Ow4Xjqsm5eOg8dx9Mf2oFOhi3dmN?usp=sharing" class="button2-underline-animation" target="_blank" rel="noopener noreferrer">Collab Link</a>
+    </span>
+    </div>
+    <div class="alctt">
+    <div class="chart" id="Chart8">  </div>
+
+</div>
+<div class="alctt">
+    <span class="altxt">
+    <h3 >  Conclusion</h3>
+    <p>China’s economic miracle can be seen not just in its rise in GDP, going from only 3% of global output in 1989 to over 18% in 2021, changing the makeup of the global economy. But, also in the rate at which its energy consumption has grown, with a more than 500% increase in its total energy consumption in the same period. While GDP growth and growth in energy consumption go hand in hand, the rate at which these two factors have grown in China have been its story somewhat unique in contemporary history. </p>
+       <p>These changes pose significant challenges, not just for China, but the world, as in 2021 China produced 32% of global CO2 emissions. A problem not just for China’s net zero 2060 target, but the world. Despite this, China has made strides in reducing “dirty fuels” in its energy mixture, while still generating as much energy from coal as the next 19 largest energy consumers in 2021. These changes have yielded efficiency gains in the rate at which China produces economic output utilising energy and the rate at which energy consumption emits CO2, giving some hope that China will be able to meet its net zero targets.
+        </p>
+    </span>
+</div>
+<div class="alctt">
+    <span class="altxt">    
+
+</span>
+</div>
+</body>
+
+<!--Charts-->
+<script>
+   
+    var myChart1 = "bartrellis.json";
+    var myChart2 = "zoom_scatterV3.json"
+    var myChart3 = "terllischinavis.json";
+    var myChart4 = "globalratechng.json";
+    var myChart5 = "co2stack.json";
+    var myChart6 = "globalgdpmap.json";
+    var myChart7 = "kmeans_china.json";
+    var myChart8 = "predict.json";
+
+
+    vegaEmbed('#Chart1', myChart1);
+    vegaEmbed('#Chart2', myChart2);
+    vegaEmbed('#Chart3', myChart3);
+    vegaEmbed('#Chart4', myChart4);
+    vegaEmbed('#Chart5', myChart5);
+    vegaEmbed('#Chart6', myChart6);
+    vegaEmbed('#Chart7', myChart7);
+    vegaEmbed('#Chart8', myChart8)
+
+</script>
+   
+</html>

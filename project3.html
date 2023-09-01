@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<head>
+    <style>
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="scrollManager.js"></script>
+
+    <link rel="stylesheet" href="project3.css">
+    <link rel="stylesheet" href="boxplot.css">
+
+    <title>Regional Inequality</title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;8..144,500&display=swap"
+        rel="stylesheet">
+</head>
+
+
+
+<body>
+
+    <div class="buttonDiv1">    
+        <button class="button1" onclick="window.location.href = 'index.html'" ><b>Home</b></button>
+
+<div id="container">
+    <div class="guide"></div>
+    <div id='container1' class='container'>
+        <div id='ukMapDiv'>
+        </div>
+        <div id="UKMapSectionContainer" class="sectionContainer">
+            <div class="section" id="titleSection">
+                <h2> Inequality in the UK: </h2>
+                <h1> What is the extent and nature of inter-regional inequality in the UK?</h1>
+                <p> <b> 
+                    Aims: </b>I intend to identify the disparity between the areas with the lowest and highest incomes and outputs. However, I want to go beyond only indicators of Income and output and also examine disparities in measures of health, wellbeing, and deprivation and the relationships between them. In order to interrogate the extent of inter-regional inequality, I would like to compare the UK to its peers.
+                </p>
+            </div>
+            <div class="legendSection" id="section4">
+                <div id="mapLegend"></div>
+            </div>
+            <div class="section" id="section2">
+                <h3> London</h3>
+                <p> 
+                    The ten highest income areas are all
+                    within the Greater London Builtup Area. 
+                </p>
+                <p> 
+                    However, there is considerable inequality between the districts. At 81% of the median area, Luton has the area's lowest average household income. 
+                </p>
+
+            </div>
+            <div class="section" id="section3">
+                <h3> Birmingham</h3>
+                <p> 
+                    Many of Britain's other biggest built-up areas contain some of the lowest-income areas. 
+                Sandwell, outside Birmingham, has the third lowest average household income in the country.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="gvaSection">
+        <h3 style="margin: 5px">International Comparison</h3>
+        <p style="margin: 5px; padding-bottom: 5px;">
+            Gross Value Added Per Capita by NUTS3 Region
+        </p>
+        <div id="gvaMapContainer" width="100%">
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div id="plotSection">
+
+        <div id="stickyBit" >
+            <h3>GVA Bubble-Box-Plot</h3>
+            <p style="margin: 5px; padding-bottom: 5px;">
+                Gross Value Added Per Capita by NUTS2 Region
+            </p>
+            <div id="boxplotContainer"></div>
+        </div>
+         <div id="boxPlotSections">
+            <div id="plotbox1" class="section plotLabelBox">
+                <p>
+                    Outputs by NUTS2 Region are shown here
+                </p>
+            </div>
+            <div id="plotbox2" class="section plotLabelBox">
+                <p>
+                    ... scaled by population.
+                </p>
+            </div>
+            <div id="plotbox3" class="section plotLabelBox">
+                <p>
+                    By centering each country's regions by its median region, we can compare inter-regional inequality across countries.
+                </p>
+            </div>
+            <div id="plotbox4" class="section plotLabelBox">
+                plotbox4
+            </div>
+            <div id="plotbox5" class="section plotLabelBox">
+                plotbox5
+            </div>
+        </div> 
+        <div style="padding-bottom: 500px"></div>
+    </div>
+    <h3 style="font-size:1.5em"> Clustering on Socio-Economic Indicators </h3>
+</div>
+    <figure id="scatterMatrixSection">
+        <div id="scatterMatrix">
+
+        </div>
+    </figure>
+
+    <section id="writeUp">
+        <h2 id="dataTitle"> Data </h2>
+        <p>
+            To complete this project I used several data sources. 
+        </p>
+        <p>
+            For the first map, I used household income data from the Office for National Statistics (ONS) and sourced Local Authority District (LAD) boundaries from the Open Geography Portal. The income data was downloaded into 12 files by region. I looped over them to combine into a single Dataframe. I then associated the income data directly with the geoJSON boundary regions — this turned out to be more performant (avoiding unnecessary http requests) and avoided asynchronous-loading problems.
+        </p>
+        <p>
+            For the GVA maps, I combined data from three different sources: shape files from the European Commission and output data from Eurostat and the ONS. For the bubble-box plot, I expressed the output as a multiple of each country’s population-weighted median.
+        </p>
+        <p>
+            The scatter-matrix uses 5 indicators, each fetched separately and then merged. The life expectency, deprivation, and life-satisfaction data were retrieved using the ONS api. The beta dataset api was used, rather than the ‘timeseries’ api explained in class. A metric of food bank density was constructed by scraping the search page of givefood.org: the distances to nearby food banks were scraped and the average distance of the closest 5 was calculated. These data were then normalised and clusters were created.
+        </p>
+        <h2> Challenges and Limitations </h2>
+        <p>
+            I encountered several challenges.
+        </p>
+        <p>
+            I could not achieve the ‘scrollytelling’ behaviour I desired or create a separate interactive legend using Vega-lite. Instead, I created the map from scratch using d3 which proved to be a challenging but rewarding endeavour. I also found that existing JavaScript scroll libraries either performed poorly or were slow to load so I instead implemented my own (<a href="scrollManager.js">scrollManager.js</a>) using the built-in IntersectionObserver api. Another issue encountered was the LAD shape boundaries’ unnecessary resolution — solved by simplifying the regions using Mapshaper.
+        </p>
+        <p>
+            There were challenges regarding post-Brexit data-stewardship; Eurostat no longer stores most British data so I had to merge in data from the ONS and perform currency conversions.
+        </p>
+        <p>
+            On my bubble-box-plot, I wanted to visualise values relative to its  country’s median. Using a simple median would be misleading due to variations in population. Instead, I implemented a function to find population-weighted quantiles (informed by the discussion <a href='https://aakinshin.net/posts/weighted-quantiles/'>here</a>).
+        </p>
+        <p>
+            An unfortunate limitation of this project is the age of some of the data used — the most recent complete income and output data at the granularity I desired was from 2019. An additional limitation is Vega-lite’s inability to responsively scale figures when multiple subfigures are included, hurting the experience on mobile. 
+        </p>
+        <h2> Conclusion </h2>
+        <p>
+            In my analysis, I found that there were stark disparities in incomes within the UK, as seen on the first map. As expected, the highest income areas were found around London. I was surprised, however, by the low incomes found in the UK’s other largest cities.
+        </p>
+        <p>
+            The pattern of a high-income concentration around the capital was similar in France but notably different in Germany, where there was a more pronounced East-West divide. 
+        </p>
+        <p>
+            Inter-regional inequality in the UK was of a similar extent to its peers. The interquartile range was higher than Denmark’s, The Netherlands’, and France’s, but lower than Germany’s.
+        </p>
+        <p>
+            As the scatterplot matrix shows, the disparities in economic indicators translate to disparities in health and deprivation but, perhaps fortunately, there was not a close relationship between life-satisfaction and the other indicators. Nor was there with the food bank metric.
+        </p>
+        <p>
+            The computed clusters revealed regional patterns in the indicators; even when clustered without location data, the points in each cluster were often close (e.g. cluster 1 is mostly London/South East).
+        </p>
+        <p>
+            In the future, it would be interesting to study the extent of intra-region inequality, something which is now possible with the release of granular 2021 census data. It could also be interesting to examine the geographic spread of food banks and what influences their placement.        </p>
+        <h2> Google Colab and Non-Vega Source Links </h2>
+        <ul>
+            <li>
+                <b> UK Incomes by LAD: </b> Colab: <a href='https://colab.research.google.com/drive/1p9Cdg5Me2-krprdoO1UG_aJhuAQBaMKG?usp=sharing' >ukMapData.ipynb</a>
+                |
+                source: <a href='map.js' >map.js </a>
+            </li>
+            <li>
+                <b> GVA Per Capita by Country: </b> Colab: <a href='https://colab.research.google.com/drive/1H9MfX8R5RkZMthewrMGw7tU8GfmBqzof?usp=sharing' >GVA_NUTS3.ipynb</a>
+                source: <a href='gva_maps.js' >gva_map.js </a>
+            </li>
+            <li>
+                <b> GVA Bubble-Box-Plot: </b> Colab: <a href='https://colab.research.google.com/drive/1H9MfX8R5RkZMthewrMGw7tU8GfmBqzof?usp=sharing' >GVA_NUTS3.ipynb</a>
+                source: <a href='boxplot.js' >boxplot.js </a>
+            </li>
+            <li>
+                <b> Cluster Scatter Matrix: </b> Colab: <a href='https://colab.research.google.com/drive/1uGS5eHlZ2nt4tlLmuix-g8BcSIKj3MIi?usp=sharing' >clustering.ipynb</a>
+    
+            </li>
+
+            
+        </ul>
+        <h2>Word Counts</h2>
+        <ul>
+            <li>Aims: 64</li>
+            <li>London Section: 35</li>
+            <li>Birmingham Section: 26</li>
+            <li>Bubble-Box-Plot: 46</li>
+            <li>Data, Challenges, Conclusion: 626 </li>
+            <li><b>Total: 751</b></li>
+
+
+
+        </ul>
+    </section>
+</body>
+
+    <script>
+        history.scrollRestoration = 'manual';
+        addEventListener('DOMContentLoaded', (event) => {
+            console.log('loaded')
+            window.scrollTo(0, 0);
+        });
+    
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+
+        vegaEmbed('#scatterMatrix', 'scatter_matrix.json');
+
+
+        var svg = d3.select('#ukMapDiv').html('')
+            .append('svg')
+            .attr("id", "ukMapSvg")
+            .attr("width", "100%")
+            .attr("height", "100%");
+
+        function render() {
+            let innerHeight = window.innerHeight;
+
+            let ukMapSVG = d3.select("#ukMapSvg");
+            let ukMapDiv = d3.select("#ukMapDiv");
+            let titleSectionDiv = d3.select("#titleSection")
+
+            //first center the firstMap and the first section
+            let mapOffsetValue = Math.max((innerHeight - ukMapDiv.node().clientHeight) / 2, 0);
+            ukMapDiv
+                .style("top", mapOffsetValue + "px");
+
+            //and also apply this to the legend Div
+            d3.select('.legendSection')
+                .style("top", mapOffsetValue + "px");
+
+            let titleSectionBoundingRect = titleSectionDiv.node().getBoundingClientRect();
+            let titleSectionHeight = window.getComputedStyle(titleSectionDiv.node()).getPropertyValue("height").replace("px", "")
+            let titleOffsetValue = Math.max(((innerHeight - titleSectionHeight) / 2) - titleSectionBoundingRect.top, 0);
+            titleSectionDiv
+                .style("padding-top", titleOffsetValue + "px") //padding-top, rather than top because it's not floating?
+                .style("margin-bottom", titleSectionBoundingRect.bottom + "px");
+        }
+                
+        render();
+
+        let sectionFunctions = [
+            function () {
+                d3.selectAll("#mapG").transition().duration(2000).attr("transform", "translate(0 0) scale(1)");
+                d3.selectAll(".mapLabel").remove();
+            },
+            function () {
+                d3.selectAll("#mapG").transition().duration(2000).attr("transform", "translate(-1300 -2800) scale(6)");
+                d3.selectAll(".mapLabel").remove();
+                drawLabel(firstMap, "City of London", 2, 500, 0, "mapLabel")
+                drawLabel(firstMap, "Luton", 2, 500, 0, "mapLabel")
+            },
+            function () {
+                d3.selectAll("#mapG").transition().duration(2000).attr("transform", "translate(-1000 -2500) scale(6)");
+                d3.selectAll(".mapLabel").remove();
+                drawLabel(firstMap, "Sandwell", 2, 500, 0, "mapLabel")
+                drawLabel(firstMap, "Coventry", 2, 500, 0, "mapLabel")
+                drawLabel(firstMap, "Wolverhampton", 2, 500, 0, "mapLabel")
+            },
+            function(){
+                return null
+            },
+            function () {
+                d3.selectAll("#mapG").transition().duration(2000).attr("transform", "translate(0 0) scale(1)");
+            }]
+
+
+
+        ukMapScrollManager = new ScrollManager({ sectionParent: "#UKMapSectionContainer", sectionFunctions: sectionFunctions })
+
+        let plotSectionFunctions = [
+            function () {
+                console.log('first');
+                d3.select('#box_x_ax').selectAll('.tick') //Making all tick-labels visible
+                    .transition()
+                    .duration(1000)
+                    .style('opacity',1);
+                d3.selectAll('.secondStage') // and all points
+                    .transition()
+                    .duration(1000)
+                    .style("opacity", 1)
+                    .attr('class', 'scatterPoint');
+                updateSize(attr='null', r=2);
+            },
+            function (){
+                updateSize();
+                medians_focus(focus=false)
+            },
+            function(){
+                updatePosition(attr='2019', scale=firstStageScale)
+                medians_focus()
+            },
+            function(){
+                plotSectionFunctions[0]()
+                updatePosition();
+            },
+            function(){
+                updatePosition();
+                plotSectionFunctions[0]()
+
+                updateSize(attr='null', r=2);
+
+                drawBoxPlots();
+                medians_focus(focus=false)
+            }
+        ]
+
+        boxPlotScrollManager = new ScrollManager({ sectionParent: "#boxPlotSections", sectionFunctions: plotSectionFunctions })
+    </script>
+    <script src="map.js"></script>
+    <script src="gva_maps.js"></script>
+    <script src="boxplot.js"></script>
