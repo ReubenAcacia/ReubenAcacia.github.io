@@ -1,0 +1,91 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/sector2.csv"
+    },
+    "title": {
+      "text": "Urabnization Rate for the 21 Most Populous Countries in 1950 and 2050",
+      "anchor": "start",
+      "subtitle": "Source: United Nations"
+    },
+    "height": 350,
+    "width": 350,
+    "params": [
+      {
+        "name": "Order",
+        "value": "ascending",
+        "bind": {"input": "select", "options": ["ascending", "descending"]}
+      },
+      {
+      "name": "by",
+      "value": "ranked19",
+      "bind": {"input": "select", "options": ["1950", "2050"]}
+    }
+    ],
+    "transform": [{
+      "calculate": "by != '2050' ? datum.ranked19 : datum.ranked20",
+      "as" : "customRank"
+    }],
+    "layer": [
+      {
+        "params": [
+          {"name": "highlight", "select": {"type": "point", "on": "mouseover"}}
+        ],
+        "mark": "bar",
+        "encoding": {
+          "x": {
+            "field": "value",
+            "type": "quantitative",
+            "axis": {"format": "%", "gridOpacity": 0.2, "title": null}
+          },
+          "y": {
+            "field": "Country",
+            "sort": {"field": "customRank", "order": {"signal": "Order"}},
+            "axis": {"labelFontSize": 11}
+          },
+          "yOffset": {"field": "variable"},
+          "color": {
+            "field": "variable",
+            "scale": {"range": ["#880000", "#000"]},
+            "legend": {"titleFontSize": 15, "labelFontSize": 11, "title": "Year"}
+          },
+          "opacity": {
+            "condition": {"test": {"param": "highlight"}, "value": 1},
+            "value": 0.4
+          }
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "baseline": "middle",
+          "dx": 2,
+          "size": 10
+        },
+        "encoding": {
+          "text": {"field": "value", "type": "quantitative", "format": ""},
+          "x": {
+            "field": "value",
+            "type": "quantitative",
+            "axis": {"format": "", "gridOpacity": 0.5}
+          },
+          "y": {
+            "field": "Country",
+            "sort": {"field": "rank", "order": "descending"}
+          },
+          "yOffset": {"field": "variable"},
+          "color": {
+            "field": "variable",
+            "scale": {"range": ["#880000000000", "#000"]},
+            "legend": null
+          },
+          "opacity": {
+            "condition": {"test": {"param": "highlight"}, "value": 1},
+            "value": 0.2
+          }
+        }
+      }
+    ],
+    "config": {"view": {"stroke": null}}
+  }
