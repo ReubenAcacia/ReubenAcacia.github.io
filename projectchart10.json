@@ -37,10 +37,9 @@
       "mark": "bar",
       "encoding": {
         "x": {
-           "title": "Employment",
           "field": "value",
           "type": "quantitative",
-          "axis": { "gridOpacity": 0.2, "title": null}
+          "axis": { "gridOpacity": 0.2, "title": "Employment"}
         },
         "y": {
             "title": "Constituent Authority",
