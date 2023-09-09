@@ -14,38 +14,77 @@
       "width": 350,
   
   
-  
-    "mark": "bar",
-    "encoding": {
 
-     "color": {
-          "field": "variable",
+
+
+ "layer": [
+    {
+      "params": [
+        {"name": "highlight", "select": {"type": "point", "on": "mouseover"}}
+      ],
+      "mark": "bar",
+      "encoding": {
+
+        "color": {
+          "field": "v",
           "scale": {"range": ["#880000", "#000"]},
           "legend": null
         },
 
-      "x": {
-        "field": "a", "type": "nominal",
-         "field": "b", "type": "quantitative",
-        "axis": {
-          "domain": false,
-          "ticks": false,
-          "labelAngle": 0,
-          "labelPadding": 4,
-         "title": "Percentage Growth in Employment"
+        "x": {
+          "field": "b",
+          "type": "quantitative",
+          "axis": { "gridOpacity": 0.2, "title": "Percentage Growth Rate in Employment"}
+        },
+        "y": {
+            "title": "Sector",
+          "field": "a",
+          
+          "axis": {"labelFontSize": 11}
         }
+         
+        },
+
+          "opacity": {
+          "condition": {"test": {"param": "highlight"}, "value": 1},
+          "value": 0.4
+        }
+      
+      }
+    
+    ,{
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 2,
+        "size": 10
       },
-      "y": {
-        "field": "a", "type": "nominal",
-        "axis": {
-           "title": "Sector",
-          "gridColor": {
-            "condition": {"test": "datum.value === 0", "value": "black"},
-            "value": "#ddd"
-           
-          }
+      "encoding": {
+        "text": {"field": "b", "type": "quantitative"},
+        "x": {
+          "field": "b",
+          "type": "quantitative",
+          "axis": { "gridOpacity": 0.5}
+      
+        },
+        "y": {
+          "field": "a",
+          "sort": {"field": "rank", "order": "descending"}
+        },
+       
+        "color": {
+       
+          "scale": {"range": ["#880000", "#000"]},
+          "legend": null
+        },
+        "opacity": {
+          "condition": {"test": {"param": "highlight"}, "value": 1},
+          "value": 0.2
         }
       }
     }
-  }
+  ],
+  "config": {"view": {"stroke": null}}
+}
   
