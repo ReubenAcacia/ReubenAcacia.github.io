@@ -14,27 +14,30 @@
       "width": 350,
   
   
-
-
-
- "layer": [
+  
+  "transform": [{"calculate": "datum.b/100", "as": "b2"}],
+  
+  "layer": [
     {
       "params": [
         {"name": "highlight", "select": {"type": "point", "on": "mouseover"}}
       ],
-      "mark": "bar",
+      "mark": {"type": "bar", "fill": "pink"},
       "encoding": {
-
+  
         "color": {
           "field": "v",
           "scale": {"range": ["#880000", "#000"]},
           "legend": null
         },
-
+        "tooltip": [{"field": "Sector"}
+  
+        ],
+  
         "x": {
-          "field": "b",
+          "field": "b2",
           "type": "quantitative",
-          "axis": { "gridOpacity": 0.2, "title": "Percentage Growth Rate in Employment"}
+          "axis": { "gridOpacity": 0.2, "title": "Percentage Growth Rate in Employment", "format": "%"}
         },
         "y": {
             "title": "Sector",
@@ -44,11 +47,12 @@
         }
          
         },
-
+  
           "opacity": {
           "condition": {"test": {"param": "highlight"}, "value": 1},
           "value": 0.4
         }
+        
       
       }
     
@@ -61,9 +65,9 @@
         "size": 10
       },
       "encoding": {
-        "text": {"field": "b", "type": "quantitative"},
+        "text": {"field": "b2", "type": "quantitative", "format": ".2%"},
         "x": {
-          "field": "b",
+          "field": "b2",
           "type": "quantitative",
           "axis": { "gridOpacity": 0.5}
       
@@ -86,5 +90,4 @@
     }
   ],
   "config": {"view": {"stroke": null}}
-}
-  
+  }
