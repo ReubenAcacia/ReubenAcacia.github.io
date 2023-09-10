@@ -25,7 +25,7 @@
   "transform": [{
     "calculate": "by != '2023' ? datum.ranked19 : datum.ranked20",
     "as" : "customRank"
-  }],
+  }, {"calculate": "datum.growth/100", "as": "Growth2"}],
 
 
 
@@ -57,7 +57,8 @@
         "opacity": {
           "condition": {"test": {"param": "highlight"}, "value": 1},
           "value": 0.4
-        }
+        },
+        "tooltip": [{"field": "Growth2", "type": "quantitative", "title": "Employment Growth 2022-2023",  "format": ".1%"}]
       }
     },
     {
