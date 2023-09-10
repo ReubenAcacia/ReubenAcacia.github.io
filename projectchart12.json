@@ -1,81 +1,93 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  
-   
-  
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A bar chart with negative values. We can hide the axis domain line, and instead use a conditional grid color to draw a zero baseline.",
+  "data": {
+   "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/bar.csv"
+  },
+
     "title": {
-      "text": "Chart 4: Film Profits Compared to Costs",
-      "subtitle": ["2014-2018, Source: Deadline ", "Size of circle is proportion to worldwide box office gross", ""],
-      "subtitleFontStyle":"italic",
-      "subtitleFontSize":10,
-      "subtitleColor": "#3a3a3a",
+      "text": "Employment Growth Rate in the West Midlands 2022-23",
       "anchor": "start",
-      "color": "black"},
-  
-    "data": {
-      "url": "https://raw.githubusercontent.com/ReubenAcacia/ReubenAcacia.github.io/main/GVA.employ.csv"
+      "subtitle": "Source: HMRC"
     },
-  
-    "selection": {
-      "paintbrush": {"type": "multi", "on": "mouseover", "nearest": true},
-      "grid": {"type": "interval", "bind": "scales"},
-      "divisionSelect": {"type": "multi", "fields": ["Year"], "bind": "legend"}
-    },
-  
-    "height":300,
-    "width":300,
-    "background":  "#FeFeF8",
-  
-    "mark": "circle",
-  
+    "height": 350,
+    "width": 350,
+
+
+
+"transform": [{"calculate": "datum.b/100", "as": "b2"}],
+
+"layer": [
+  {
+    "params": [
+      {"name": "highlight", "select": {"type": "point", "on": "mouseover"}}
+    ],
+    "mark": {"type": "bar", "fill": "pink"},
     "encoding": {
-      "x": {
-        "field": "Domestic",
-        "type": "quantitative",
-        "title":"Production Costs (Millions US$)"
-      },
-  
-      "y": {
-        "field": "International",
-        "type": "quantitative",
-        "title":"Net Profit (Millions US$)"
-      },
-  
+
       "color": {
-        "field": "Year", 
-        "type": "nominal", 
-        "title":null, 
-        "scale": {"scheme": "turbo"}
+        "field": "v",
+        "scale": {"range": ["#880000", "#000"]},
+        "legend": null
       },
-  
-      "opacity": {
-        "condition": {"selection": "divisionSelect", "value": 0.7}, "value": 0
-        },
-  
-      "size": {
-        "condition": {"selection": "paintbrush", "value": 600},
-      "scale": {"range": [10, 400]},
-  
-        "field": "International", "type": "quantitative", "legend":null},
-  
-      "tooltip": [
-        {"field": "Film", "type": "nominal", "title": "Film"},
-        {"field": "Year", "type": "quantitative", "title": "Film"},
-  
-        {"field": "Profit", "type": "quantitative",  "title": "Profit"},
-  
+      "tooltip": [{"field": "Sector"}
+
+      ],
+
+      "x": {
+        "field": "b2",
+        "type": "quantitative",
+        "axis": { "gridOpacity": 0.2, "title": "Percentage Growth Rate in Employment", "format": "%"}
+      },
+      "y": {
+          "title": "Sector",
+        "field": "a",
+        
+        "axis": {"labelFontSize": 11}
+      }
+       
+      },
+
+        "opacity": {
+        "condition": {"test": {"param": "highlight"}, "value": 1},
+        "value": 0.4
+      }
+      
     
-        {"field": "Worldwide", "type": "quantitative", "title": "Worldwide"},
+    }
   
-  
-        {"field": "Domestic", "type": "quantitative", "title": "Domestic"}, 
-  
-            {"field": "Costs", "type": "quantitative", "title": "Production Costs"},
-  
-   {"field": "International", "type": "quantitative", "title": "International"}  
-  
-   
-  
-      ]
+  ,{
+    "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "middle",
+      "dx": 2,
+      "size": 10
+    },
+    "encoding": {
+      "text": {"field": "b2", "type": "quantitative", "format": ".2%"},
+      "x": {
+        "field": "b2",
+        "type": "quantitative",
+        "axis": { "gridOpacity": 0.5}
+    
+      },
+      "y": {
+        "field": "a",
+        "sort": {"field": "rank", "order": "descending"}
+      },
+     
+      "color": {
+     
+        "scale": {"range": ["#880000", "#000"]},
+        "legend": null
+      },
+      "opacity": {
+        "condition": {"test": {"param": "highlight"}, "value": 1},
+        "value": 0.2
+      }
     }
   }
+],
+"config": {"view": {"stroke": null}}
+}
