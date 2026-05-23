@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derrick Website — what's on in Birmingham this month</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f3ecdc;
+    --paper-warm: #ebe2cb;
+    --paper-deep: #d9cdaf;
+    --ink: #2a1d10;
+    --ink-soft: #5a4a36;
+    --ink-faded: #8a7a64;
+    --rust: #a8421f;
+    --rust-deep: #7d2e13;
+    --moss: #4a5d3a;
+    --gold: #b08828;
+    --rule: #2a1d10;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(168, 66, 31, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(74, 93, 58, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(176, 136, 40, 0.03) 0%, transparent 60%);
+    min-height: 100vh;
+    background-attachment: fixed;
+  }
+
+  /* subtle paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.15 0 0 0 0 0.10 0 0 0 0 0.05 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+  }
+
+  .wrap { position: relative; z-index: 2; }
+
+  /* === MASTHEAD === */
+  header {
+    padding: 56px 48px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--ink);
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 0; right: 0;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  .salutation {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+
+  .salutation .name {
+    color: var(--rust);
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 76px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--rust);
+    font-weight: 500;
+  }
+
+  .subhead {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.45;
+  }
+
+  .date-strip {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+  }
+
+  .date-strip .ornament {
+    color: var(--rust);
+    font-size: 16px;
+  }
+
+  /* === PROFILE BAR === */
+  .profile {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--ink);
+    padding: 24px 48px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .profile-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+    line-height: 1.4;
+  }
+  .profile-label strong { color: var(--rust); display: block; font-size: 11px; margin-bottom: 2px; }
+
+  .tastes {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .taste {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    padding: 4px 14px;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    border-radius: 100px;
+    color: var(--ink);
+    position: relative;
+    transition: all 0.2s;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .taste:hover { transform: translateY(-1px); box-shadow: 2px 2px 0 var(--ink); }
+  .taste:focus { outline: 2px dashed var(--rust); outline-offset: 3px; }
+
+  .taste.rock { border-color: var(--rust); color: var(--rust); }
+  .taste.bud { border-color: var(--moss); color: var(--moss); }
+  .taste.poet { border-color: var(--gold); color: var(--gold); }
+
+  /* Active (filtered-in) state */
+  .taste.active.rock { background: var(--rust); color: var(--paper); }
+  .taste.active.bud { background: var(--moss); color: var(--paper); }
+  .taste.active.poet { background: var(--gold); color: var(--paper); }
+  .taste.active { box-shadow: 2px 2px 0 var(--ink); }
+
+  /* Dimmed (filtered-out) strand */
+  .strand.dim {
+    opacity: 0.18;
+    filter: grayscale(0.4);
+    transition: opacity 0.4s, filter 0.4s;
+  }
+  .strand { transition: opacity 0.4s, filter 0.4s; }
+
+  /* "Showing only" banner */
+  .filter-banner {
+    display: none;
+    background: var(--paper-warm);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 14px 48px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    text-align: center;
+  }
+  .filter-banner.show { display: block; }
+  .filter-banner .clear {
+    margin-left: 16px;
+    color: var(--rust);
+    cursor: pointer;
+    text-decoration: underline;
+    border: none;
+    background: none;
+    font: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .filter-banner .clear:hover { color: var(--rust-deep); }
+
+  .filter-info {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faded);
+    text-align: right;
+    line-height: 1.6;
+  }
+  .filter-info strong { color: var(--ink); font-weight: 600; }
+
+  /* === MAIN LAYOUT === */
+  main {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .content { padding: 56px 48px 80px; }
+  .sidebar {
+    padding: 56px 32px 80px 0;
+    border-left: 1px dotted var(--ink-soft);
+    padding-left: 32px;
+  }
+
+  /* === SECTIONS === */
+  .strand {
+    margin-bottom: 80px;
+    position: relative;
+  }
+
+  .strand:last-child { margin-bottom: 0; }
+
+  .strand-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 12px;
+  }
+
+  .strand-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--rust);
+    opacity: 0.7;
+  }
+
+  .strand h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .strand h2 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .strand-intro {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 580px;
+    margin-bottom: 36px;
+    margin-left: 76px;
+    line-height: 1.5;
+  }
+
+  .strand-divider {
+    height: 1px;
+    background: var(--ink);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .strand-divider::before {
+    content: '✦';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--paper);
+    padding: 0 12px;
+    color: var(--rust);
+    font-size: 16px;
+  }
+
+  /* === EVENT CARD === */
+  .event {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px dotted var(--ink-soft);
+    transition: all 0.25s ease;
+    position: relative;
+  }
+
+  .event:last-child { border-bottom: none; }
+
+  .event:hover {
+    padding-left: 12px;
+    background: linear-gradient(90deg, var(--paper-warm) 0%, transparent 100%);
+  }
+
+  /* Date column */
+  .event-date {
+    text-align: center;
+    padding-top: 4px;
+  }
+
+  .event-date .day {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-faded);
+    margin-bottom: 4px;
+  }
+
+  .event-date .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--ink);
+    display: block;
+  }
+
+  .event-date .month {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--rust);
+    margin-top: 2px;
+  }
+
+  .event-date .time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--ink-soft);
+  }
+
+  /* Body */
+  .event-body { min-width: 0; }
+
+  .event-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-faded);
+    margin-bottom: 8px;
+  }
+  .event-tag .source {
+    color: var(--rust);
+    font-weight: 600;
+  }
+
+  .event h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .event h3 a {
+    color: var(--ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--rust), var(--rust));
+    background-size: 0 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.3s;
+  }
+  .event h3 a:hover { background-size: 100% 1px; }
+
+  .event-venue {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .event-venue .area {
+    color: var(--ink-faded);
+    font-style: normal;
+    font-size: 14px;
+  }
+
+  .event-blurb {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 16px;
+    max-width: 620px;
+  }
+
+  .event-blurb strong { color: var(--rust-deep); font-weight: 600; }
+
+  .why-derrick {
+    background: var(--paper-warm);
+    border-left: 3px solid var(--rust);
+    padding: 12px 16px;
+    margin: 14px 0 14px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-style: italic;
+    max-width: 580px;
+  }
+
+  .why-derrick strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--rust);
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+  }
+
+  .event-footer {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+  }
+
+  .price {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .price.free { color: var(--moss); }
+
+  .event-link {
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rust);
+    padding-bottom: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 11px;
+    transition: all 0.2s;
+  }
+  .event-link:hover {
+    background: var(--rust);
+    color: var(--paper);
+    padding: 2px 6px;
+    border-bottom-color: transparent;
+  }
+
+  /* Match score */
+  .match {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink-faded);
+  }
+  .match-dots {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--paper-deep);
+  }
+  .dot.on { background: var(--rust); }
+
+  /* === SIDEBAR === */
+  .side-block {
+    margin-bottom: 48px;
+  }
+
+  .side-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .side-title .count {
+    color: var(--ink-faded);
+    font-weight: 500;
+  }
+
+  /* Sources */
+  .sources {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .source-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--paper-deep);
+    font-size: 15px;
+  }
+
+  .source-row:last-child { border-bottom: none; }
+
+  .source-row .src-name {
+    font-family: 'EB Garamond', serif;
+  }
+
+  .source-row .src-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faded);
+  }
+
+  .source-row .src-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--moss);
+  }
+  .source-row .src-status::before {
+    content: '●';
+    margin-right: 4px;
+  }
+
+  /* Funnel diagram */
+  .funnel-stage {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--paper-deep);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    align-items: baseline;
+  }
+  .funnel-stage:last-child { border-bottom: none; }
+
+  .funnel-step {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--rust);
+    font-weight: 600;
+  }
+
+  .funnel-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .funnel-desc .small {
+    display: block;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .funnel-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* This week schedule */
+  .week-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .week-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--paper-deep);
+    font-size: 15px;
+    align-items: baseline;
+  }
+
+  .week-row .wd {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faded);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .week-row .ev {
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .week-row .ev .v {
+    display: block;
+    font-style: normal;
+    font-size: 12px;
+    color: var(--ink-faded);
+    margin-top: 1px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 48px 40px;
+    margin-top: 48px;
+    border-top: 1px solid var(--ink);
+  }
+
+  footer .colophon {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--paper-warm);
+    margin-bottom: 28px;
+  }
+
+  footer .colophon strong {
+    color: var(--paper);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  footer .actions {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  footer .btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--paper);
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid var(--paper);
+    transition: all 0.2s;
+  }
+  footer .btn:hover { background: var(--paper); color: var(--ink); }
+  footer .btn.primary { background: var(--rust); border-color: var(--rust); }
+  footer .btn.primary:hover { background: var(--paper); color: var(--rust); border-color: var(--paper); }
+
+  footer .meta {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+  }
+
+  /* === MOCKUP BADGE === */
+  .mockup-badge {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    background: var(--rust);
+    color: var(--paper);
+    padding: 6px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: 1px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  /* Initial Cap */
+  .initial {
+    float: left;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 76px;
+    line-height: 0.85;
+    color: var(--rust);
+    padding: 8px 12px 0 0;
+    font-weight: 500;
+  }
+
+  /* === RESPONSIVE === */
+
+  /* Tablet / narrow desktop */
+  @media (max-width: 1000px) {
+    main { grid-template-columns: 1fr; }
+    .sidebar {
+      border-left: none;
+      border-top: 1px dotted var(--ink-soft);
+      padding: 56px 32px;
+      margin-top: 0;
+    }
+    .profile { grid-template-columns: 1fr; gap: 16px; text-align: left; }
+    .filter-info { text-align: left; }
+    h1 { font-size: 56px; }
+  }
+
+  /* === MOBILE === */
+  @media (max-width: 700px) {
+    body {
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    /* Mockup badge: tuck out of the way */
+    .mockup-badge {
+      top: 8px;
+      right: 8px;
+      font-size: 9px;
+      padding: 4px 8px;
+    }
+
+    /* Masthead: tighter, no longer dominates */
+    header {
+      padding: 28px 20px 22px;
+    }
+    .salutation {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 36px;
+      line-height: 1.02;
+      letter-spacing: -0.005em;
+    }
+    .subhead {
+      font-size: 17px;
+      line-height: 1.45;
+      margin-top: 12px;
+    }
+    .date-strip {
+      margin-top: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+    }
+
+    /* Profile bar -> sticky pill rail on mobile */
+    .profile {
+      padding: 14px 14px 12px;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--paper-warm);
+      box-shadow: 0 2px 12px rgba(42, 29, 16, 0.08);
+    }
+    .profile-label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+    }
+    .profile-label strong { font-size: 10px; }
+    .tastes {
+      gap: 8px;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+      flex-wrap: nowrap;
+      scrollbar-width: none;
+    }
+    .tastes::-webkit-scrollbar { display: none; }
+    .taste {
+      font-size: 15px;
+      padding: 8px 16px;
+      white-space: nowrap;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .filter-info {
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    /* Filter banner — sticky just under the profile pills */
+    .filter-banner {
+      padding: 10px 14px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      line-height: 1.4;
+      position: sticky;
+      top: 92px; /* sits below the sticky profile bar */
+      z-index: 49;
+    }
+    .filter-banner .clear {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 4px 8px;
+    }
+
+    /* Content padding */
+    .content { padding: 32px 18px 48px; }
+
+    /* Strand headers */
+    .strand { margin-bottom: 56px; }
+    .strand-header {
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .strand-num { font-size: 36px; }
+    .strand h2 {
+      font-size: 30px;
+      line-height: 1.08;
+    }
+    .strand-intro {
+      margin-left: 0;
+      font-size: 17px;
+      margin-bottom: 24px;
+    }
+    .strand-divider { margin-bottom: 22px; }
+
+    /* Event card: stack vertically */
+    .event {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 22px 0;
+    }
+    .event:hover {
+      padding-left: 0;
+      background: none;
+    }
+
+    /* Inline horizontal date row instead of calendar block */
+    .event-date {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      text-align: left;
+      padding-top: 0;
+      padding-bottom: 4px;
+      border-bottom: 1px dotted var(--paper-deep);
+      flex-wrap: wrap;
+    }
+    .event-date .day {
+      font-size: 11px;
+      margin-bottom: 0;
+      letter-spacing: 0.12em;
+    }
+    .event-date .num {
+      font-size: 28px;
+      line-height: 1;
+      display: inline;
+    }
+    .event-date .month {
+      font-size: 17px;
+      margin-top: 0;
+    }
+    .event-date .time {
+      font-size: 11px;
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+      margin-left: auto;
+      color: var(--rust);
+      font-weight: 600;
+    }
+
+    .event-tag {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+    .event h3 {
+      font-size: 24px;
+      line-height: 1.12;
+    }
+    .event-venue {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .event-venue .area {
+      font-size: 13px;
+      display: block;
+      margin-top: 2px;
+    }
+    .event-blurb {
+      font-size: 17px;
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    /* No drop cap on mobile — fights with narrow column */
+    .initial {
+      float: none;
+      font-size: 1em;
+      color: inherit;
+      padding: 0;
+      font-style: italic;
+    }
+
+    .why-derrick {
+      padding: 12px 14px;
+      font-size: 15px;
+      line-height: 1.5;
+      margin: 12px 0;
+    }
+    .why-derrick strong {
+      font-size: 9px;
+      letter-spacing: 0.14em;
+    }
+
+    .event-footer {
+      gap: 14px;
+      padding-top: 4px;
+    }
+    .price {
+      font-size: 14px;
+    }
+    .event-link {
+      font-size: 12px;
+      padding: 10px 16px;
+      background: var(--rust);
+      color: var(--paper);
+      border: 1px solid var(--rust);
+      border-bottom: 1px solid var(--rust);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      letter-spacing: 0.1em;
+    }
+    .event-link:hover {
+      background: var(--rust-deep);
+      border-color: var(--rust-deep);
+      padding: 10px 16px;
+    }
+    .match {
+      font-size: 11px;
+    }
+
+    /* Sidebar: collapsible on mobile */
+    .sidebar {
+      padding: 24px 18px 24px;
+      border-top: 2px solid var(--ink);
+    }
+    .side-block {
+      margin-bottom: 0;
+      border-bottom: 1px solid var(--paper-deep);
+    }
+    .side-block:last-child {
+      border-bottom: none;
+    }
+    .side-block .side-title {
+      cursor: pointer;
+      padding: 16px 0;
+      margin-bottom: 0;
+      border-bottom: none;
+      min-height: 44px;
+      user-select: none;
+      position: relative;
+    }
+    .side-block .side-title::after {
+      content: '+';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      color: var(--ink);
+      font-weight: 400;
+      line-height: 0.6;
+      margin-left: 12px;
+      transition: transform 0.2s;
+    }
+    .side-block.open .side-title::after {
+      content: '–';
+    }
+    /* Hide the count text on mobile to keep the row clean */
+    .side-block .side-title .count {
+      display: none;
+    }
+    /* The body content (everything except the title) collapses */
+    .side-block .collapsible {
+      display: none;
+      padding-bottom: 20px;
+    }
+    .side-block.open .collapsible {
+      display: block;
+    }
+
+    .funnel-stage {
+      padding: 10px 0;
+    }
+    .funnel-desc { font-size: 14px; }
+    .funnel-num { font-size: 20px; }
+
+    .source-row { font-size: 14px; padding: 6px 0; }
+    .source-row .src-count { font-size: 10px; }
+    .source-row .src-status { font-size: 9px; }
+
+    .week-row { font-size: 14px; padding: 8px 0; }
+    .week-row .wd { font-size: 10px; }
+    .week-row .ev .v { font-size: 11px; }
+
+    /* Footer */
+    footer { padding: 32px 20px 28px; }
+    footer .colophon {
+      font-size: 16px;
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+    footer .actions {
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+    footer .btn {
+      padding: 14px 18px;
+      font-size: 11px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    footer .meta {
+      font-size: 9px;
+      line-height: 1.6;
+    }
+  }
+
+  /* Very narrow phones */
+  @media (max-width: 380px) {
+    h1 { font-size: 32px; }
+    .strand h2 { font-size: 26px; }
+    .event h3 { font-size: 22px; }
+    .content { padding: 28px 14px 40px; }
+    header { padding: 24px 14px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-badge">Mockup · For Derrick</div>
+
+<a href="derrick-birmingham-mobile.v2.html" style="position:fixed;top:12px;right:12px;z-index:9999;padding:8px 14px;background:#111;color:#fff;font-family:system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.2);">Swap to mobile</a>
+
+<div class="wrap">
+
+<!-- ========== MASTHEAD ========== -->
+<header>
+  <div class="salutation">
+    Good morning, <span class="name">Derrick</span> · Saturday 23 May 2026
+  </div>
+  <h1>What's worth <em>your time</em><br>this month in Birmingham</h1>
+  <p class="subhead">
+    Sixteen events between now and the 23rd of June, drawn from across the city and weighed against the things you care about. No arena pop, no club nights, no jazz brunch.
+  </p>
+  <div class="date-strip">
+    <span>Refreshed 09:14 BST</span>
+    <span class="ornament">✦</span>
+    <span>Hand-checked by AI Editor</span>
+  </div>
+</header>
+
+<!-- ========== PROFILE BAR ========== -->
+<div class="profile">
+  <div class="profile-label">
+    <strong>Curated for</strong>
+    Derrick · 76 · Edgbaston
+  </div>
+  <div class="tastes">
+    <a href="#strand-music" class="taste rock" data-filter="music">70s rock &amp; songwriters</a>
+    <a href="#strand-buddhism" class="taste bud" data-filter="buddhism">Buddhism &amp; meditation</a>
+    <a href="#strand-poetry" class="taste poet" data-filter="poetry">Irish poetry &amp; readings</a>
+  </div>
+  <div class="filter-info">
+    <strong>2,847</strong> events seen → <strong>16</strong> shown<br>
+    <span style="color: var(--ink-faded);">Filter logic visible →</span>
+  </div>
+</div>
+
+<!-- ========== FILTER BANNER ========== -->
+<div class="filter-banner" id="filterBanner">
+  <span id="filterText">Showing only <strong>music</strong></span>
+  <button class="clear" id="clearFilter">Show all three strands ✕</button>
+</div>
+
+<!-- ========== MAIN ========== -->
+<main>
+
+  <!-- LEFT: STRANDS -->
+  <div class="content">
+
+    <!-- STRAND 1: MUSIC -->
+    <section class="strand" id="strand-music" data-strand="music">
+      <div class="strand-header">
+        <div class="strand-num">I.</div>
+        <h2>The <em>music</em> we think you'll love</h2>
+      </div>
+      <p class="strand-intro">
+        Six concerts in venues across the city — from the Symphony Hall down to small rooms in Kings Heath — featuring artists whose work has stayed with you, or who carry on the traditions you've followed since the 70s.
+      </p>
+      <div class="strand-divider"></div>
+
+      <!-- Elvis Costello -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Sat</div>
+          <div class="num">13</div>
+          <div class="month">June</div>
+          <div class="time">19:30</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Concert · Symphony Hall · <span class="source">Source: Ticketmaster + B:Music</span></div>
+          <h3><a href="https://bmusic.co.uk/events/elvis-costello-the-imposters-2026">Elvis Costello &amp; The Imposters — Radio Soul!: The Early Songs</a></h3>
+          <div class="event-venue">Symphony Hall <span class="area">· Centenary Square, B1</span></div>
+          <p class="event-blurb">
+            <span class="initial">A</span>celebration of Costello's first five years — <em>My Aim Is True</em> through <em>Get Happy!!</em> — performed with The Imposters and special guest Charlie Sexton on second guitar. The opening night of his UK tour, immediately after a Brighton warm-up, and the only Midlands date. <strong>This is the catalogue you'd most want to hear him play.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Matches your interest in the original new-wave / pub-rock crossover. You went to see him at the NEC in 1983 (per your saved history). Sit-down venue, generous interval, easy to reach from Edgbaston by tram.
+          </div>
+          <div class="event-footer">
+            <span class="price">From £55</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span>
+              </span>
+            </span>
+            <a class="event-link" href="https://bmusic.co.uk/events/elvis-costello-the-imposters-2026">Buy tickets →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Jason Isbell -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Wed</div>
+          <div class="num">10</div>
+          <div class="month">June</div>
+          <div class="time">19:30</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Concert · Symphony Hall · <span class="source">Source: Songkick</span></div>
+          <h3><a href="#">Jason Isbell &amp; the 400 Unit</a></h3>
+          <div class="event-venue">Symphony Hall <span class="area">· Centenary Square, B1</span></div>
+          <p class="event-blurb">
+            The Alabama songwriter whose work descends straight from the Townes Van Zandt / Guy Clark line — character songs about Southern lives, drinking, regret and recovery, carried by one of the finest live bands in American music. <strong>If Drive-By Truckers ever spoke to you, this is essential.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Songwriter-led Americana, exactly the territory you've moved toward in the last decade. Symphony Hall acoustics suit the quieter material — and the venue is wheelchair-friendly throughout.
+          </div>
+          <div class="event-footer">
+            <span class="price">From £42</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Buy tickets →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Ray LaMontagne -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Tue</div>
+          <div class="num">2</div>
+          <div class="month">June</div>
+          <div class="time">19:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Concert · Symphony Hall · <span class="source">Source: Ticketmaster</span></div>
+          <h3><a href="#">Ray LaMontagne — Trouble 20th Anniversary Tour</a></h3>
+          <div class="event-venue">Symphony Hall <span class="area">· Centenary Square, B1</span></div>
+          <p class="event-blurb">
+            LaMontagne revisits his 2004 debut in full — the gravel-and-smoke record that pulled Van Morrison and early Cat Stevens into the 21st century. He plays the whole album end-to-end, then a second set of selections from the rest. <strong>A confessional, careful show; he doesn't talk much.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Direct descendant of the 70s singer-songwriter tradition. <em>Trouble</em> has been in your saved Spotify library since 2018.
+          </div>
+          <div class="event-footer">
+            <span class="price">From £48</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Buy tickets →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Rumours of Fleetwood Mac -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Tue</div>
+          <div class="num">30</div>
+          <div class="month">June</div>
+          <div class="time">19:30</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Tribute concert · Symphony Hall · <span class="source">Source: Ticketmaster</span></div>
+          <h3><a href="#">Rumours of Fleetwood Mac</a></h3>
+          <div class="event-venue">Symphony Hall <span class="area">· Centenary Square, B1</span></div>
+          <p class="event-blurb">
+            The longest-running Fleetwood Mac tribute in the UK and the only one endorsed by Mick Fleetwood himself. A two-and-a-half hour show built around <em>Rumours</em> and <em>Tusk</em>, with deeper cuts from <em>Tango in the Night</em>. Not a parody — closer to a careful, loving restoration.
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Squarely in your decade. We've shown this rather than the touring Fleetwood Mac estate show because the latter is at the arena, which you've previously told us you avoid.
+          </div>
+          <div class="event-footer">
+            <span class="price">From £36</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Buy tickets →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- The Doors tribute -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Fri</div>
+          <div class="num">19</div>
+          <div class="month">June</div>
+          <div class="time">20:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Tribute · Hare &amp; Hounds · <span class="source">Source: Skiddle</span></div>
+          <h3><a href="#">The Soft Parade — The Doors revisited</a></h3>
+          <div class="event-venue">Hare &amp; Hounds <span class="area">· Kings Heath, B14</span></div>
+          <p class="event-blurb">
+            A four-piece taking The Doors' first three albums — <em>L.A. Woman</em>, <em>Strange Days</em>, the self-titled — back to the bar-room intensity they were written in. The upstairs room at the Hare &amp; Hounds is tiled, dark and intimate. <strong>UB40 played their first gig downstairs in 1979</strong>; the upstairs room hasn't changed much since.
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Smaller venue, but the Hare &amp; Hounds has seating along three walls and the gig finishes by 10.30pm. Kings Heath is one stop on the train from University station.
+          </div>
+          <div class="event-footer">
+            <span class="price">£18</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Buy tickets →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Jimmy Aldridge & Sid Goldsmith -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Thu</div>
+          <div class="num">18</div>
+          <div class="month">June</div>
+          <div class="time">19:30</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Folk concert · Symphony Hall (Foyle Foyer) · <span class="source">Source: B:Music</span></div>
+          <h3><a href="#">Jimmy Aldridge &amp; Sid Goldsmith + Wakefire</a></h3>
+          <div class="event-venue">Symphony Hall, Foyle Foyer <span class="area">· Centenary Square, B1</span></div>
+          <p class="event-blurb">
+            A quietly devastating English folk duo whose new record draws on Wendell Berry, John Clare and the Cumbrian shepherds' songs. Support from Wakefire, an Irish-trad ensemble playing summer-themed sets. <strong>Sit-down show, foyer setting — closer to a folk club than a concert hall.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            The Irish-trad opening set is the connection here — Wakefire's fiddler is from Galway and the programme overlaps with the territory of the Chieftains-era you've listened to.
+          </div>
+          <div class="event-footer">
+            <span class="price">£22</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Buy tickets →</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ STRAND 2: BUDDHISM ============ -->
+    <section class="strand" id="strand-buddhism" data-strand="buddhism">
+      <div class="strand-header">
+        <div class="strand-num">II.</div>
+        <h2>Sitting, <em>silence</em>, study</h2>
+      </div>
+      <p class="strand-intro">
+        Five gatherings across Moseley, Edgbaston and Kings Heath — from open Saturday morning sits at the Birmingham Buddhist Centre to a Zen evening at the Vihara. None require booking unless noted.
+      </p>
+      <div class="strand-divider"></div>
+
+      <!-- Intro course -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Thu</div>
+          <div class="num">11</div>
+          <div class="month">June</div>
+          <div class="time">19:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Course · Triratna · <span class="source">Source: Birmingham Buddhist Centre</span></div>
+          <h3><a href="https://birminghambuddhistcentre.org.uk/introductory-courses/">Introduction to Meditation &amp; Buddhism</a></h3>
+          <div class="event-venue">Birmingham Buddhist Centre <span class="area">· 11 Park Road, Moseley, B13</span></div>
+          <p class="event-blurb">
+            A six-week evening course rooted in the Triratna tradition. Three meditations taught over the weeks, threaded through with core Buddhist teachings on awareness, kindness and the nature of experience. <strong>The Moseley centre is one of the warmest rooms in the city.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Marked because you've attended the Centre's drop-in sessions before. This course is the natural next step — and runs in the evening, after rush-hour traffic settles.
+          </div>
+          <div class="event-footer">
+            <span class="price free">By donation</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Reserve a place →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Silent Saturday -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Sat</div>
+          <div class="num">20</div>
+          <div class="month">June</div>
+          <div class="time">10:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Drop-in · Open meditation · <span class="source">Source: Birmingham Buddhist Centre</span></div>
+          <h3><a href="https://birminghambuddhistcentre.org.uk/">Silent Saturday Morning Meditation</a></h3>
+          <div class="event-venue">Birmingham Buddhist Centre <span class="area">· Moseley, B13</span></div>
+          <p class="event-blurb">
+            Three unguided sits, ringing in on the hour. You can join for any one of them, or stay for all three. The room fills with regular practitioners and a few curious visitors; bells mark the stages. <strong>No teacher, no instruction — just the held space.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            For more experienced sitters. Morning slot is gentler on the joints than evening. Tea is offered between sessions.
+          </div>
+          <div class="event-footer">
+            <span class="price free">Free</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">More info →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Zen Birmingham Buddhist Vihara -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Fri</div>
+          <div class="num">5</div>
+          <div class="month">June</div>
+          <div class="time">19:30</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Zen sitting · Soto tradition · <span class="source">Source: Buddhist Directory</span></div>
+          <h3><a href="#">Zazen at the Birmingham Buddhist Vihara</a></h3>
+          <div class="event-venue">Birmingham Buddhist Vihara <span class="area">· Osler Street, Ladywood, B16</span></div>
+          <p class="event-blurb">
+            A two-hour Zen meditation evening hosted in the Vihara's upstairs shrine room — first and third Fridays each month. Two periods of zazen with a kinhin (walking meditation) between, followed by a short dharma reading and tea. <strong>Cushions and chairs both available.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            A different tradition to Triratna — included so you can see another flavour. The Vihara is the oldest Theravada temple in the UK (founded 1962); the Zen group is an evening guest.
+          </div>
+          <div class="event-footer">
+            <span class="price free">By donation</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">More info →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Amida Buddhist Group -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Sat</div>
+          <div class="num">6</div>
+          <div class="month">June</div>
+          <div class="time">10:30</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Pureland Buddhist group · <span class="source">Source: Meetup + Buddhist Directory</span></div>
+          <h3><a href="#">Amida Birmingham — Walking Meditation &amp; Tea</a></h3>
+          <div class="event-venue">All Saints Community Centre <span class="area">· Vicarage Road, Kings Heath, B14</span></div>
+          <p class="event-blurb">
+            A small Pureland-tradition group meeting Saturday mornings. Begins with walking meditation, followed by a seated period, then tea and open discussion of a teaching. Suitable for complete beginners and seasoned sitters alike. <strong>Around eight regulars; warm and unhurried.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Smaller and less formal than the Centre. The walking meditation component is gentle on the back. Around the corner from where your daughter lives.
+          </div>
+          <div class="event-footer">
+            <span class="price">£5 suggested donation</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">More info →</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ STRAND 3: POETRY ============ -->
+    <section class="strand" id="strand-poetry" data-strand="poetry">
+      <div class="strand-header">
+        <div class="strand-num">III.</div>
+        <h2>Words, <em>read aloud</em></h2>
+      </div>
+      <p class="strand-intro">
+        Five poetry evenings — VERVE's regular Glee Club night is a fixture, and we've also pulled in two events with strong Irish-poetic threads: a Seamus Heaney centenary reading and a Belfast-Birmingham exchange at the Hive.
+      </p>
+      <div class="strand-divider"></div>
+
+      <!-- Seamus Heaney centenary -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Sat</div>
+          <div class="num">14</div>
+          <div class="month">June</div>
+          <div class="time">14:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Poetry reading · Special event · <span class="source">Source: Birmingham City Council events + Eventbrite</span></div>
+          <h3><a href="#">"Digging" — A Heaney Centenary Reading</a></h3>
+          <div class="event-venue">The Library of Birmingham <span class="area">· Centenary Square, B1</span></div>
+          <p class="event-blurb">
+            An afternoon reading marking the centenary year of Seamus Heaney's birth, with poets from Birmingham and Belfast reading his work alongside their own. Hosted by VERVE Poetry Festival with the Irish Centre. <strong>Heaney's "Death of a Naturalist" read by Cahal Dallat in the final hour.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Heaney is at the heart of your saved poetry library. Library of Birmingham is a 12-minute walk from New Street; lifts to the reading room.
+          </div>
+          <div class="event-footer">
+            <span class="price free">Free · register in advance</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Reserve →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- VERVE Poetry Night at Glee -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Tue</div>
+          <div class="num">9</div>
+          <div class="month">June</div>
+          <div class="time">19:30</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Spoken word · Monthly · <span class="source">Source: VERVE + Glee Club</span></div>
+          <h3><a href="https://www.glee.co.uk/performer/verve-poetry-night/">VERVE Poetry Night — June</a></h3>
+          <div class="event-venue">The Glee Club <span class="area">· Hurst Street, Arcadian Centre, B5</span></div>
+          <p class="event-blurb">
+            Four featured poets — two local Birmingham writers, two national — plus an open-mic slot. June's headline includes Pádraig Ó Tuama, the Irish poet and theologian whose work on the Troubles, prayer and queerness has built a quietly devoted audience. <strong>This is the month to go.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Ó Tuama specifically — his Poetry Unbound podcast is in your saved list. Glee Club is fully seated; gig finishes around 21:30.
+          </div>
+          <div class="event-footer">
+            <span class="price">£12</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Book →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- VERVE Open Door open mic -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Wed</div>
+          <div class="num">17</div>
+          <div class="month">June</div>
+          <div class="time">19:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Open mic poetry · <span class="source">Source: Eventbrite</span></div>
+          <h3><a href="#">VERVE Open Door — open mic poetry</a></h3>
+          <div class="event-venue">The Hive <span class="area">· Digbeth, B5</span></div>
+          <p class="event-blurb">
+            A friendly, generously hosted open-mic poetry night that has run for years. Five-minute slots, a long list, a forgiving audience. You don't have to read to attend — many people come just to listen.
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Lower-stakes evening if you want to test the water on writing again. The Hive is a small café-bar; tea served as well as wine.
+          </div>
+          <div class="event-footer">
+            <span class="price free">Free</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Details →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Belfast Birmingham exchange -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Fri</div>
+          <div class="num">12</div>
+          <div class="month">June</div>
+          <div class="time">19:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Reading + conversation · <span class="source">Source: Eventbrite + Irish in Britain</span></div>
+          <h3><a href="#">Belfast / Birmingham: A poetic exchange</a></h3>
+          <div class="event-venue">The Irish Centre <span class="area">· Digbeth, B12</span></div>
+          <p class="event-blurb">
+            A two-city reading: three poets from Belfast's Lifeboat reading series in conversation with three Birmingham-based writers. Hosted by the Irish Centre; programmed in partnership with Verve and the Seamus Heaney HomePlace centre. <strong>Includes a panel on diaspora writing after the interval.</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            Direct intersection of your two poetic interests. The Irish Centre runs a bar and serves a small supper before readings.
+          </div>
+          <div class="event-footer">
+            <span class="price">£8</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Book →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Poetry workshop blitz poems -->
+      <article class="event">
+        <div class="event-date">
+          <div class="day">Sat</div>
+          <div class="num">7</div>
+          <div class="month">June</div>
+          <div class="time">11:00</div>
+        </div>
+        <div class="event-body">
+          <div class="event-tag">Workshop · <span class="source">Source: Birmingham City Council events</span></div>
+          <h3><a href="#">Poetry workshop: Blitz poems</a></h3>
+          <div class="event-venue">The Hive <span class="area">· Digbeth, B5</span></div>
+          <p class="event-blurb">
+            A two-hour creative writing workshop exploring blitz poetry — the rapid-fire form developed by Robert Keim. Suitable for any level. Notebook and pen recommended; tea included. <strong>Small group (typically 10–12).</strong>
+          </p>
+          <div class="why-derrick">
+            <strong>Why this is for Derrick</strong>
+            A practical session rather than a reading. Run by Helen Calcutt whose work draws on Irish ancestry — likely to land for you.
+          </div>
+          <div class="event-footer">
+            <span class="price">£15</span>
+            <span class="match">match
+              <span class="match-dots">
+                <span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span>
+              </span>
+            </span>
+            <a class="event-link" href="#">Book →</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+  </div>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar">
+
+    <!-- The funnel -->
+    <div class="side-block">
+      <div class="side-title">
+        <span>How we found these</span>
+        <span class="count">The funnel</span>
+      </div>
+      <div class="collapsible">
+
+      <div class="funnel-stage">
+        <div class="funnel-step">01</div>
+        <div class="funnel-desc">
+          Pulled from sources
+          <span class="small">9 platforms scraped overnight</span>
+        </div>
+        <div class="funnel-num">2,847</div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="funnel-step">02</div>
+        <div class="funnel-desc">
+          Birmingham &amp; within 30 days
+          <span class="small">B-postcodes; 23 May → 23 Jun</span>
+        </div>
+        <div class="funnel-num">412</div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="funnel-step">03</div>
+        <div class="funnel-desc">
+          Matched to your interests
+          <span class="small">tag overlap + artist/author graph</span>
+        </div>
+        <div class="funnel-num">38</div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="funnel-step">04</div>
+        <div class="funnel-desc">
+          Editor-reviewed for you
+          <span class="small">human checked for fit + access</span>
+        </div>
+        <div class="funnel-num">16</div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Sources -->
+    <div class="side-block">
+      <div class="side-title">
+        <span>Sources scraped</span>
+        <span class="count">last run · 09:14</span>
+      </div>
+      <div class="collapsible">
+      <div class="sources">
+        <div class="source-row">
+          <div class="src-name">Skiddle</div>
+          <div class="src-count">847 events</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">Ticketmaster</div>
+          <div class="src-count">312</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">Eventbrite</div>
+          <div class="src-count">684</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">Visit Birmingham</div>
+          <div class="src-count">218</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">B:Music (Symphony Hall &amp; Town Hall)</div>
+          <div class="src-count">94</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">Songkick</div>
+          <div class="src-count">156</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">Birmingham Buddhist Centre</div>
+          <div class="src-count">28</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">Birmingham City Council</div>
+          <div class="src-count">142</div>
+          <div class="src-status">live</div>
+        </div>
+        <div class="source-row">
+          <div class="src-name">Meetup (filtered)</div>
+          <div class="src-count">366</div>
+          <div class="src-status">live</div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- This week -->
+    <div class="side-block">
+      <div class="side-title">
+        <span>Your week ahead</span>
+        <span class="count">at a glance</span>
+      </div>
+      <div class="collapsible">
+      <div class="week-grid">
+        <div class="week-row">
+          <div class="wd">Tue 2</div>
+          <div class="ev">Ray LaMontagne <span class="v">Symphony Hall · 19:00</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Fri 5</div>
+          <div class="ev">Zazen at the Vihara <span class="v">Ladywood · 19:30</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Sat 6</div>
+          <div class="ev">Amida Buddhist group <span class="v">Kings Heath · 10:30</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Sat 7</div>
+          <div class="ev">Blitz Poetry workshop <span class="v">The Hive · 11:00</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Tue 9</div>
+          <div class="ev">VERVE Poetry Night <span class="v">Glee Club · 19:30</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Wed 10</div>
+          <div class="ev">Jason Isbell <span class="v">Symphony Hall · 19:30</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Thu 11</div>
+          <div class="ev">Buddhism intro course <span class="v">Moseley · 19:00</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Fri 12</div>
+          <div class="ev">Belfast/Birmingham exchange <span class="v">Irish Centre · 19:00</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Sat 13</div>
+          <div class="ev">Elvis Costello <span class="v">Symphony Hall · 19:30</span></div>
+        </div>
+        <div class="week-row">
+          <div class="wd">Sat 14</div>
+          <div class="ev">Heaney centenary <span class="v">Library of Birmingham · 14:00</span></div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- A note -->
+    <div class="side-block">
+      <div class="side-title">
+        <span>A note</span>
+      </div>
+      <div class="collapsible">
+      <p style="font-family: 'EB Garamond', serif; font-style: italic; font-size: 17px; line-height: 1.55; color: var(--ink-soft);">
+        We've hidden nine events that scored high but where the venue isn't level-access, or the show ends after 23:00, or you've said no to that artist before.<br><br>
+        <a href="#" style="color: var(--rust); text-decoration: none; border-bottom: 1px solid var(--rust); padding-bottom: 1px; font-style: normal; font-size: 14px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em;">Show me anyway →</a>
+      </p>
+      </div>
+    </div>
+
+  </aside>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <p class="colophon">
+    This page was put together for <strong>Derrick</strong> in Edgbaston, on the morning of Saturday 23rd May 2026. It reflects the events worth your time between today and the same day next month. A new version arrives in your inbox each Saturday — or you can come back here any time.
+  </p>
+  <div class="actions">
+    <a class="btn primary" href="#">Email me this list</a>
+    <a class="btn" href="#">Print friendly version</a>
+    <a class="btn" href="#">Adjust my interests</a>
+    <a class="btn" href="#">Show me everything</a>
+  </div>
+  <div class="meta">
+    Built locally · No tracking · Run by people, checked by people
+  </div>
+</footer>
+
+</div><!-- /.wrap -->
+
+<script>
+(function () {
+  const pills = document.querySelectorAll('.taste[data-filter]');
+  const strands = document.querySelectorAll('.strand[data-strand]');
+  const banner = document.getElementById('filterBanner');
+  const bannerText = document.getElementById('filterText');
+  const clearBtn = document.getElementById('clearFilter');
+
+  const labels = {
+    music: 'the music',
+    buddhism: 'meditation &amp; Buddhism',
+    poetry: 'Irish poetry &amp; readings'
+  };
+
+  function setFilter(key) {
+    pills.forEach(p => {
+      p.classList.toggle('active', p.dataset.filter === key);
+    });
+    strands.forEach(s => {
+      s.classList.toggle('dim', s.dataset.strand !== key);
+    });
+    bannerText.innerHTML = 'Showing only <strong>' + labels[key] + '</strong>';
+    banner.classList.add('show');
+  }
+
+  function clearFilter() {
+    pills.forEach(p => p.classList.remove('active'));
+    strands.forEach(s => s.classList.remove('dim'));
+    banner.classList.remove('show');
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', e => {
+      e.preventDefault();
+      const key = pill.dataset.filter;
+      // Toggle: clicking the active pill clears the filter
+      if (pill.classList.contains('active')) {
+        clearFilter();
+      } else {
+        setFilter(key);
+      }
+      // Scroll to the relevant strand smoothly
+      const target = document.getElementById('strand-' + key);
+      if (target && !pill.classList.contains('active') === false) {
+        // Only scroll when we just activated (not when clearing)
+        if (document.querySelector('.taste.active')) {
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 50);
+        }
+      }
+    });
+  });
+
+  clearBtn.addEventListener('click', clearFilter);
+
+  // ---- Sidebar collapse on mobile ----
+  const sideBlocks = document.querySelectorAll('.side-block');
+  const mq = window.matchMedia('(max-width: 700px)');
+
+  function bindSidebarToggles() {
+    sideBlocks.forEach((block, i) => {
+      const title = block.querySelector('.side-title');
+      if (!title || title.dataset.bound) return;
+      title.dataset.bound = '1';
+      title.setAttribute('role', 'button');
+      title.setAttribute('tabindex', '0');
+
+      const toggle = () => {
+        if (!mq.matches) return; // only collapse on mobile
+        block.classList.toggle('open');
+      };
+      title.addEventListener('click', toggle);
+      title.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      });
+    });
+  }
+
+  function applyMobileState() {
+    if (mq.matches) {
+      // Collapse all on mobile, then open the first one so it's discoverable
+      sideBlocks.forEach((b, i) => b.classList.toggle('open', i === 0));
+    } else {
+      // On desktop, remove the open class — CSS handles full display
+      sideBlocks.forEach(b => b.classList.remove('open'));
+    }
+  }
+
+  bindSidebarToggles();
+  applyMobileState();
+  mq.addEventListener('change', applyMobileState);
+})();
+</script>
+
+</body>
+</html>
