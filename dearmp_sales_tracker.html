@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DearMP &middot; Sales Pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --ink: #0f1419;
+    --ink-soft: #4a5560;
+    --ink-muted: #8a939e;
+    --rule: #e8e6df;
+    --accent: #1e40af;
+
+    --contact: #475569;    --contact-tint: #f1f5f9;
+    --meeting: #a16207;    --meeting-tint: #fefce8;
+    --dpa: #0369a1;        --dpa-tint: #f0f9ff;
+    --migrated: #6d28d9;   --migrated-tint: #f5f3ff;
+    --complete: #15803d;   --complete-tint: #f0fdf4;
+    --neutral: #d4d0c4;    --neutral-stroke: #b8b3a3;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter Tight", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0; z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 30px; height: 30px;
+    background: var(--ink); color: var(--surface);
+    display: grid; place-items: center;
+    border-radius: 6px;
+    font-family: "Instrument Serif", serif;
+    font-style: italic; font-size: 20px; line-height: 1;
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-text .name { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .brand-text .tagline {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px; color: var(--ink-muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .topbar-right { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--ink-soft); }
+  .topbar-right .dot {
+    width: 7px; height: 7px; background: #22c55e;
+    border-radius: 50%; display: inline-block; margin-right: 5px;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+  }
+  .topbar-right .domain { display: none; }
+
+  .page-header {
+    padding: 24px 16px 16px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .breadcrumb {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px; color: var(--ink-muted);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .breadcrumb a { color: var(--ink-muted); text-decoration: none; }
+  .breadcrumb .sep { margin: 0 6px; opacity: 0.5; }
+  .breadcrumb .here { color: var(--ink); }
+
+  h1 {
+    font-family: "Instrument Serif", serif;
+    font-weight: 400; font-size: 36px;
+    letter-spacing: -0.02em; line-height: 1;
+    margin: 0 0 8px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .subtitle { color: var(--ink-soft); font-size: 14px; max-width: 640px; line-height: 1.5; }
+
+  .stats {
+    max-width: 1400px;
+    margin: 16px auto 0;
+    padding: 0 16px;
+  }
+  .stats-inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .stat {
+    padding: 14px 14px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stat:nth-child(2n) { border-right: none; }
+  .stat:nth-last-child(-n+2) { border-bottom: none; }
+  .stat-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-family: "Instrument Serif", serif;
+    font-size: 26px; line-height: 1; color: var(--ink);
+  }
+  .stat-value .unit {
+    font-family: "Inter Tight", sans-serif;
+    font-size: 11px; color: var(--ink-muted);
+    margin-left: 4px; font-weight: 500;
+  }
+
+  .main {
+    max-width: 1400px;
+    margin: 16px auto 0;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .map-panel {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .map-panel h2 {
+    font-family: "Instrument Serif", serif;
+    font-weight: 400; font-size: 20px;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .map-panel .map-sub {
+    font-size: 12px; color: var(--ink-muted);
+    margin-bottom: 12px; line-height: 1.4;
+  }
+
+  .map-search {
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .map-search input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 8px 56px 8px 32px;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 120ms;
+  }
+  .map-search input:focus { border-color: var(--accent); }
+  .map-search input::placeholder { color: var(--ink-muted); font-style: italic; }
+  .map-search::before {
+    content: "⌕";
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .map-search .counter {
+    position: absolute;
+    right: 10px; top: 50%;
+    transform: translateY(-50%);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    pointer-events: none;
+  }
+
+  #map-svg-wrap { margin: 0; }
+  #map-svg-wrap svg {
+    width: 100%; height: auto; display: block;
+    max-height: 70vh;
+  }
+
+  #map-svg-wrap svg .seat {
+    fill: var(--neutral);
+    stroke: var(--neutral-stroke);
+    stroke-width: 1.5;
+    cursor: pointer;
+    transition: fill 120ms ease, stroke 120ms ease, stroke-width 120ms ease, opacity 120ms ease;
+  }
+  #map-svg-wrap svg .border {
+    stroke: var(--ink-muted);
+    fill: none;
+    stroke-width: 2;
+  }
+  #map-svg-wrap svg .stage-contact  { fill: var(--contact);  stroke: #1e293b; stroke-width: 2; }
+  #map-svg-wrap svg .stage-meeting  { fill: var(--meeting);  stroke: #713f12; stroke-width: 2; }
+  #map-svg-wrap svg .stage-dpa      { fill: var(--dpa);      stroke: #075985; stroke-width: 2; }
+  #map-svg-wrap svg .stage-migrated { fill: var(--migrated); stroke: #5b21b6; stroke-width: 2; }
+  #map-svg-wrap svg .stage-complete { fill: var(--complete); stroke: #166534; stroke-width: 2; }
+
+  #map-svg-wrap svg .seat:hover {
+    stroke: var(--ink); stroke-width: 3;
+  }
+  #map-svg-wrap svg .seat.linked {
+    stroke: var(--ink); stroke-width: 3.5;
+    filter: drop-shadow(0 0 4px rgba(15, 20, 25, 0.4));
+  }
+  #map-svg-wrap svg .seat.dimmed { opacity: 0.2; }
+  #map-svg-wrap svg .seat.matched {
+    stroke: #f59e0b;
+    stroke-width: 3;
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.6));
+  }
+
+  .map-legend {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+    font-size: 11px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; color: var(--ink-soft); }
+  .legend-swatch {
+    width: 10px; height: 10px; border-radius: 2px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  #map-tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: var(--ink);
+    color: var(--surface);
+    padding: 7px 11px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 10px));
+    transition: opacity 100ms;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    max-width: 90vw;
+  }
+  #map-tooltip.visible { opacity: 1; }
+  #map-tooltip .tt-mp { font-weight: 600; font-size: 13px; }
+  #map-tooltip .tt-cons { opacity: 0.75; font-size: 11px; margin-top: 1px; }
+  #map-tooltip .tt-ref { opacity: 0.7; font-size: 11px; margin-top: 4px; font-style: italic; }
+  #map-tooltip .tt-stage {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .tt-stage-contact  { background: var(--contact);  color: white; }
+  .tt-stage-meeting  { background: var(--meeting);  color: white; }
+  .tt-stage-dpa      { background: var(--dpa);      color: white; }
+  .tt-stage-migrated { background: var(--migrated); color: white; }
+  .tt-stage-complete { background: var(--complete); color: white; }
+
+  .referrers-panel {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .referrers-panel h2 {
+    font-family: "Instrument Serif", serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 0 4px 0;
+    color: var(--ink);
+  }
+  .referrers-sub {
+    font-size: 12px; color: var(--ink-muted);
+    margin-bottom: 14px; line-height: 1.4;
+  }
+  .referrers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 720px) {
+    .referrers-grid { grid-template-columns: 1fr; }
+  }
+  .referrer-card {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 12px;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .referrer-head {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .referrer-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .referrer-name {
+    font-weight: 600; font-size: 13px; color: var(--ink);
+    line-height: 1.1;
+  }
+  .referrer-count {
+    margin-left: auto;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .referrer-mps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .referrer-mp {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 100ms, border-color 100ms, color 100ms;
+  }
+  .referrer-mp:hover {
+    background: var(--ink);
+    color: var(--surface);
+    border-color: var(--ink);
+  }
+  .referrer-empty {
+    font-size: 11px; color: var(--ink-muted); font-style: italic;
+  }
+
+  .board {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .column {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  .col-header {
+    padding: 14px 14px 12px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .col-header::before {
+    content: ""; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--stage-color, var(--ink));
+    border-radius: 10px 10px 0 0;
+  }
+  .col-stage-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px; color: var(--ink-muted);
+    letter-spacing: 0.1em; margin-bottom: 4px;
+  }
+  .col-title {
+    font-weight: 600; font-size: 15px;
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .col-count {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    background: var(--stage-tint, var(--bg));
+    color: var(--stage-color, var(--ink));
+    padding: 2px 7px; border-radius: 10px;
+    font-weight: 500;
+  }
+  .col-sub {
+    font-size: 11px; color: var(--ink-muted);
+    margin-top: 4px; line-height: 1.4;
+  }
+
+  .cards {
+    padding: 10px; display: flex; flex-direction: column;
+    gap: 6px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 12px;
+    transition: all 120ms ease;
+    cursor: pointer;
+    border-left: 3px solid var(--stage-color, var(--ink));
+  }
+  .card:hover, .card.linked {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px -4px rgba(15, 20, 25, 0.15);
+    border-color: var(--stage-color, var(--ink));
+  }
+  .card.linked { background: var(--stage-tint, var(--bg)); }
+  .card-name {
+    font-weight: 500; font-size: 14px;
+    color: var(--ink); letter-spacing: -0.005em;
+  }
+  .card-meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px; color: var(--ink-muted);
+    margin-top: 3px; letter-spacing: 0.02em;
+  }
+  .card-ref {
+    font-size: 10.5px; color: var(--ink-soft);
+    margin-top: 4px; font-style: italic;
+  }
+
+  .empty-state {
+    padding: 22px 12px; text-align: center;
+    color: var(--ink-muted); font-style: italic;
+    font-family: "Instrument Serif", serif;
+    font-size: 14px;
+  }
+  .empty-state .icon {
+    font-size: 22px; display: block;
+    margin-bottom: 4px; opacity: 0.4;
+  }
+
+  .col-contact, [data-stage="contact"]  { --stage-color: var(--contact);  --stage-tint: var(--contact-tint); }
+  .col-meeting, [data-stage="meeting"]  { --stage-color: var(--meeting);  --stage-tint: var(--meeting-tint); }
+  .col-dpa, [data-stage="dpa"]      { --stage-color: var(--dpa);      --stage-tint: var(--dpa-tint); }
+  .col-migrated, [data-stage="migrated"] { --stage-color: var(--migrated); --stage-tint: var(--migrated-tint); }
+  .col-complete, [data-stage="complete"] { --stage-color: var(--complete); --stage-tint: var(--complete-tint); }
+
+  footer {
+    max-width: 1400px;
+    margin: 24px auto 0;
+    padding: 20px 16px 32px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px dotted var(--ink-muted); }
+
+  @media (min-width: 640px) {
+    .topbar { padding: 14px 24px; }
+    .topbar-right .domain { display: inline; }
+    .page-header { padding: 36px 24px 20px; }
+    h1 { font-size: 44px; }
+    .subtitle { font-size: 15px; }
+    .stats { padding: 0 24px; }
+    .stats-inner { grid-template-columns: repeat(3, 1fr); }
+    .stat { padding: 16px 18px; }
+    .stat:nth-child(2n) { border-right: 1px solid var(--rule); }
+    .stat:nth-child(3n) { border-right: none; }
+    .stat:nth-last-child(-n+2) { border-bottom: 1px solid var(--rule); }
+    .stat:nth-last-child(-n+3) { border-bottom: none; }
+    .main { padding: 0 24px; gap: 20px; }
+    .map-panel { padding: 20px; }
+    .map-panel h2 { font-size: 24px; }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .stats-inner { grid-template-columns: repeat(6, 1fr); }
+    .stat, .stat:nth-child(2n), .stat:nth-child(3n) {
+      border-right: 1px solid var(--rule);
+      border-bottom: none;
+    }
+    .stat:last-child { border-right: none; }
+    h1 { font-size: 52px; }
+
+    /* Side-by-side: sticky map on the left, referrers + board stacked on the right */
+    .main {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      grid-template-rows: auto 1fr;
+      align-items: start;
+      gap: 24px;
+    }
+    .map-panel {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      position: sticky;
+      top: 80px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+    .referrers-panel { grid-column: 2; grid-row: 1; }
+    .board           { grid-column: 2; grid-row: 2; }
+    /* Six categories always in one horizontal line */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+    /* Tighten columns so all six fit comfortably */
+    .col-header { padding: 12px 10px 10px; }
+    .col-title { font-size: 13px; }
+    .col-stage-num { font-size: 9px; }
+    .col-sub { font-size: 10px; }
+    .cards { padding: 8px; gap: 5px; }
+    .card { padding: 8px 10px; }
+    .card-name { font-size: 13px; }
+    .card-meta { font-size: 9.5px; }
+  }
+
+  @media (min-width: 1280px) {
+    .main { grid-template-columns: 420px 1fr; }
+    .board { gap: 10px; }
+    .col-header { padding: 14px 12px 12px; }
+    .col-title { font-size: 14px; }
+    .card { padding: 10px 12px; }
+    .card-name { font-size: 14px; }
+  }
+
+  @media (min-width: 1600px) {
+    .main { grid-template-columns: 440px 1fr; }
+    .board { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">d</div>
+    <div class="brand-text">
+      <div class="name">DearMP</div>
+      <div class="tagline">Sales · Pipeline</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span><span class="dot"></span>Live</span>
+    <span class="domain" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">dearmp.uk</span>
+  </div>
+</div>
+
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Dashboard</a><span class="sep">/</span><span class="here">Sales Pipeline</span>
+  </div>
+  <h1>MP <em>acquisition</em> pipeline</h1>
+  <p class="subtitle">Tracking parliamentary offices through onboarding — from first contact to a fully migrated caseworker, replacing legacy casework systems with DearMP.</p>
+</div>
+
+<div class="main">
+
+  <section class="map-panel">
+    <h2>Pipeline geography</h2>
+    <div class="map-sub">Tracked MPs coloured by stage. Tap or hover any seat for details; search filters all 650 constituencies and tracked MPs.</div>
+    <div class="map-search">
+      <input id="search" type="text" placeholder="Search a constituency or MP…" autocomplete="off" spellcheck="false">
+      <span class="counter"><span id="match-count">650</span>/650</span>
+    </div>
+    <div id="map-svg-wrap">
+      <svg overflow="visible" viewBox="-37.25 -43.5512701892219 2363 3074.89018343476" preserveAspectRatio="xMidYMin meet" style="width:100%;max-width:100%;max-height:100%;margin:auto;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" vector-effect="non-scaling-stroke">
+<g class="data-layer" role="table">
+<g class="series" role="row" tabindex="0" aria-label="Hexagons">
+<path class="seat" data-cons="W07000081" data-name="Aberafan Maesteg" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(281.25 2338.27)"/>
+<path class="seat" data-cons="S14000060" data-name="Aberdeen North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 194.86)"/>
+<path class="seat" data-cons="S14000061" data-name="Aberdeen South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 259.81)"/>
+<path class="seat" data-cons="S14000062" data-name="Aberdeenshire North and Moray East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 194.86)"/>
+<path class="seat" data-cons="S14000063" data-name="Airdrie and Shotts" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 714.47)"/>
+<path class="seat" data-cons="E14001063" data-name="Aldershot" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 2598.08)"/>
+<path class="seat stage-meeting tracked" data-cons="E14001064" data-name="Aldridge-Brownhills" data-mp="Wendy Morton" data-stage="meeting" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1948.56)"/>
+<path class="seat" data-cons="S14000064" data-name="Alloa and Grangemouth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 454.66)"/>
+<path class="seat" data-cons="E14001065" data-name="Altrincham and Sale West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 1623.8)"/>
+<path class="seat" data-cons="W07000082" data-name="Alyn and Deeside" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 1883.61)"/>
+<path class="seat" data-cons="E14001066" data-name="Amber Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 1753.7)"/>
+<path class="seat" data-cons="S14000065" data-name="Angus and Perthshire Glens" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 324.76)"/>
+<path class="seat" data-cons="S14000066" data-name="Arbroath and Broughty Ferry" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 324.76)"/>
+<path class="seat" data-cons="S14000067" data-name="Argyll, Bute and South Lochaber" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 324.76)"/>
+<path class="seat stage-contact tracked" data-cons="E14001067" data-name="Arundel and South Downs" data-mp="Andrew Griffith" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 2857.88)"/>
+<path class="seat" data-cons="E14001068" data-name="Ashfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 1753.7)"/>
+<path class="seat" data-cons="E14001069" data-name="Ashford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2231.25 2727.98)"/>
+<path class="seat" data-cons="E14001070" data-name="Ashton-under-Lyne" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 1493.89)"/>
+<path class="seat" data-cons="E14001071" data-name="Aylesbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 2273.32)"/>
+<path class="seat" data-cons="S14000107" data-name="Ayr, Carrick and Cumnock" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 844.37)"/>
+<path class="seat" data-cons="E14001072" data-name="Banbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 2143.41)"/>
+<path class="seat" data-cons="W07000083" data-name="Bangor Aberconwy" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(393.75 2013.51)"/>
+<path class="seat" data-cons="E14001073" data-name="Barking" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 2468.17)"/>
+<path class="seat" data-cons="E14001074" data-name="Barnsley North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 1493.89)"/>
+<path class="seat" data-cons="E14001075" data-name="Barnsley South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 1493.89)"/>
+<path class="seat stage-migrated tracked" data-cons="E14001076" data-name="Barrow and Furness" data-mp="Michelle Scrogham" data-stage="migrated" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1039.23)"/>
+<path class="seat" data-cons="E14001077" data-name="Basildon and Billericay" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 2208.36)"/>
+<path class="seat" data-cons="E14001078" data-name="Basingstoke" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 2533.12)"/>
+<path class="seat" data-cons="E14001079" data-name="Bassetlaw" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 1688.75)"/>
+<path class="seat" data-cons="E14001080" data-name="Bath" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 2598.08)"/>
+<path class="seat" data-cons="S14000068" data-name="Bathgate and Linlithgow" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 584.57)"/>
+<path class="seat" data-cons="E14001081" data-name="Battersea" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 2663.03)"/>
+<path class="seat" data-cons="E14001082" data-name="Beaconsfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 2403.22)"/>
+<path class="seat" data-cons="E14001083" data-name="Beckenham and Penge" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 2792.93)"/>
+<path class="seat" data-cons="E14001084" data-name="Bedford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 2078.46)"/>
+<path class="seat" data-cons="N05000001" data-name="Belfast East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(243.75 1104.18)"/>
+<path class="seat" data-cons="N05000002" data-name="Belfast North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(206.25 1039.23)"/>
+<path class="seat" data-cons="N05000003" data-name="Belfast South and Mid Down" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(206.25 1169.13)"/>
+<path class="seat" data-cons="N05000004" data-name="Belfast West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(168.75 1104.18)"/>
+<path class="seat" data-cons="E14001085" data-name="Bermondsey and Old Southwark" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 2598.08)"/>
+<path class="seat" data-cons="S14000108" data-name="Berwickshire, Roxburgh and Selkirk" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 779.42)"/>
+<path class="seat" data-cons="E14001086" data-name="Bethnal Green and Stepney" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 2533.12)"/>
+<path class="seat" data-cons="E14001087" data-name="Beverley and Holderness" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 1428.94)"/>
+<path class="seat" data-cons="E14001088" data-name="Bexhill and Battle" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2081.25 2857.88)"/>
+<path class="seat" data-cons="E14001089" data-name="Bexleyheath and Crayford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2533.12)"/>
+<path class="seat" data-cons="E14001090" data-name="Bicester and Woodstock" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 2208.36)"/>
+<path class="seat" data-cons="E14001091" data-name="Birkenhead" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 1753.7)"/>
+<path class="seat" data-cons="E14001092" data-name="Birmingham Edgbaston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2143.41)"/>
+<path class="seat" data-cons="E14001093" data-name="Birmingham Erdington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2013.51)"/>
+<path class="seat" data-cons="E14001094" data-name="Birmingham Hall Green and Moseley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 2078.46)"/>
+<path class="seat" data-cons="E14001095" data-name="Birmingham Hodge Hill and Solihull North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 2013.51)"/>
+<path class="seat" data-cons="E14001096" data-name="Birmingham Ladywood" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 2078.46)"/>
+<path class="seat" data-cons="E14001097" data-name="Birmingham Northfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 2208.36)"/>
+<path class="seat" data-cons="E14001098" data-name="Birmingham Perry Barr" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2013.51)"/>
+<path class="seat" data-cons="E14001099" data-name="Birmingham Selly Oak" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2143.41)"/>
+<path class="seat" data-cons="E14001100" data-name="Birmingham Yardley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 2078.46)"/>
+<path class="seat" data-cons="E14001101" data-name="Bishop Auckland" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 909.33)"/>
+<path class="seat" data-cons="E14001102" data-name="Blackburn" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 1234.09)"/>
+<path class="seat" data-cons="E14001103" data-name="Blackley and Middleton South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 1493.89)"/>
+<path class="seat" data-cons="E14001104" data-name="Blackpool North and Fleetwood" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1169.13)"/>
+<path class="seat" data-cons="E14001105" data-name="Blackpool South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 1169.13)"/>
+<path class="seat" data-cons="W07000084" data-name="Blaenau Gwent and Rhymney" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 2143.41)"/>
+<path class="seat" data-cons="E14001106" data-name="Blaydon and Consett" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 909.33)"/>
+<path class="seat" data-cons="E14001107" data-name="Blyth and Ashington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 779.42)"/>
+<path class="seat" data-cons="E14001108" data-name="Bognor Regis and Littlehampton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 2857.88)"/>
+<path class="seat" data-cons="E14001109" data-name="Bolsover" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 1688.75)"/>
+<path class="seat" data-cons="E14001110" data-name="Bolton North East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 1363.99)"/>
+<path class="seat stage-contact tracked" data-cons="E14001111" data-name="Bolton South and Walkden" data-mp="Yasmin Qureshi" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 1428.94)"/>
+<path class="seat" data-cons="E14001112" data-name="Bolton West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 1363.99)"/>
+<path class="seat" data-cons="E14001113" data-name="Bootle" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 1428.94)"/>
+<path class="seat" data-cons="E14001114" data-name="Boston and Skegness" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 1688.75)"/>
+<path class="seat" data-cons="E14001115" data-name="Bournemouth East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 2792.93)"/>
+<path class="seat" data-cons="E14001116" data-name="Bournemouth West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 2727.98)"/>
+<path class="seat" data-cons="E14001117" data-name="Bracknell" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 2533.12)"/>
+<path class="seat" data-cons="E14001118" data-name="Bradford East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1299.04)"/>
+<path class="seat" data-cons="E14001119" data-name="Bradford South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 1363.99)"/>
+<path class="seat" data-cons="E14001120" data-name="Bradford West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1299.04)"/>
+<path class="seat" data-cons="E14001121" data-name="Braintree" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2013.51)"/>
+<path class="seat" data-cons="W07000085" data-name="Brecon, Radnor and Cwm Tawe" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 2078.46)"/>
+<path class="seat" data-cons="E14001122" data-name="Brent East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 2468.17)"/>
+<path class="seat" data-cons="E14001123" data-name="Brent West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 2468.17)"/>
+<path class="seat stage-meeting tracked" data-cons="E14001124" data-name="Brentford and Isleworth" data-mp="Ruth Cadbury" data-stage="meeting" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 2598.08)"/>
+<path class="seat" data-cons="E14001125" data-name="Brentwood and Ongar" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 2143.41)"/>
+<path class="seat" data-cons="W07000086" data-name="Bridgend" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(318.75 2403.22)"/>
+<path class="seat" data-cons="E14001126" data-name="Bridgwater" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 2663.03)"/>
+<path class="seat" data-cons="E14001127" data-name="Bridlington and The Wolds" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 1299.04)"/>
+<path class="seat" data-cons="E14001128" data-name="Brigg and Immingham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 1558.85)"/>
+<path class="seat" data-cons="E14001129" data-name="Brighton Kemptown and Peacehaven" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2922.84)"/>
+<path class="seat" data-cons="E14001130" data-name="Brighton Pavilion" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 2857.88)"/>
+<path class="seat" data-cons="E14001131" data-name="Bristol Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 2468.17)"/>
+<path class="seat" data-cons="E14001132" data-name="Bristol East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 2468.17)"/>
+<path class="seat" data-cons="E14001133" data-name="Bristol North East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 2403.22)"/>
+<path class="seat" data-cons="E14001134" data-name="Bristol North West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 2468.17)"/>
+<path class="seat" data-cons="E14001135" data-name="Bristol South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 2533.12)"/>
+<path class="seat" data-cons="E14001136" data-name="Broadland and Fakenham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 1753.7)"/>
+<path class="seat" data-cons="E14001137" data-name="Bromley and Biggin Hill" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 2727.98)"/>
+<path class="seat" data-cons="E14001138" data-name="Bromsgrove" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 2143.41)"/>
+<path class="seat" data-cons="E14001139" data-name="Broxbourne" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 2273.32)"/>
+<path class="seat" data-cons="E14001140" data-name="Broxtowe" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 1753.7)"/>
+<path class="seat" data-cons="E14001141" data-name="Buckingham and Bletchley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 2208.36)"/>
+<path class="seat" data-cons="E14001142" data-name="Burnley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 1234.09)"/>
+<path class="seat" data-cons="E14001143" data-name="Burton and Uttoxeter" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1818.65)"/>
+<path class="seat" data-cons="E14001144" data-name="Bury North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 1363.99)"/>
+<path class="seat" data-cons="E14001145" data-name="Bury South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1428.94)"/>
+<path class="seat" data-cons="E14001146" data-name="Bury St Edmunds and Stowmarket" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 2013.51)"/>
+<path class="seat" data-cons="W07000087" data-name="Caerfyrddin" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 2078.46)"/>
+<path class="seat" data-cons="W07000088" data-name="Caerphilly" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 2273.32)"/>
+<path class="seat" data-cons="S14000069" data-name="Caithness, Sutherland and Easter Ross" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 129.9)"/>
+<path class="seat" data-cons="E14001147" data-name="Calder Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1299.04)"/>
+<path class="seat" data-cons="E14001148" data-name="Camborne and Redruth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(93.75 2922.84)"/>
+<path class="seat" data-cons="E14001149" data-name="Cambridge" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 1948.56)"/>
+<path class="seat" data-cons="E14001150" data-name="Cannock Chase" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 1883.61)"/>
+<path class="seat" data-cons="E14001151" data-name="Canterbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2193.75 2663.03)"/>
+<path class="seat" data-cons="W07000089" data-name="Cardiff East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 2403.22)"/>
+<path class="seat" data-cons="W07000090" data-name="Cardiff North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 2338.27)"/>
+<path class="seat" data-cons="W07000091" data-name="Cardiff South and Penarth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 2468.17)"/>
+<path class="seat" data-cons="W07000092" data-name="Cardiff West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(393.75 2403.22)"/>
+<path class="seat" data-cons="E14001152" data-name="Carlisle" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 909.33)"/>
+<path class="seat" data-cons="E14001153" data-name="Carshalton and Wallington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 2792.93)"/>
+<path class="seat" data-cons="E14001154" data-name="Castle Point" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2006.25 2338.27)"/>
+<path class="seat" data-cons="S14000109" data-name="Central Ayrshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 779.42)"/>
+<path class="seat" data-cons="E14001155" data-name="Central Devon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(356.25 2727.98)"/>
+<path class="seat" data-cons="E14001156" data-name="Central Suffolk and North Ipswich" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 1883.61)"/>
+<path class="seat" data-cons="W07000093" data-name="Ceredigion Preseli" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 2208.36)"/>
+<path class="seat" data-cons="E14001157" data-name="Chatham and Aylesford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2006.25 2598.08)"/>
+<path class="seat" data-cons="E14001158" data-name="Cheadle" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1688.75)"/>
+<path class="seat" data-cons="E14001159" data-name="Chelmsford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2143.41)"/>
+<path class="seat" data-cons="E14001160" data-name="Chelsea and Fulham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 2598.08)"/>
+<path class="seat" data-cons="E14001161" data-name="Cheltenham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 2338.27)"/>
+<path class="seat" data-cons="E14001162" data-name="Chesham and Amersham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 2338.27)"/>
+<path class="seat" data-cons="E14001163" data-name="Chester North and Neston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 1818.65)"/>
+<path class="seat" data-cons="E14001164" data-name="Chester South and Eddisbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 1753.7)"/>
+<path class="seat" data-cons="E14001165" data-name="Chesterfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1688.75)"/>
+<path class="seat" data-cons="E14001166" data-name="Chichester" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 2857.88)"/>
+<path class="seat" data-cons="E14001167" data-name="Chingford and Woodford Green" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 2273.32)"/>
+<path class="seat" data-cons="E14001168" data-name="Chippenham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 2533.12)"/>
+<path class="seat" data-cons="E14001169" data-name="Chipping Barnet" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 2338.27)"/>
+<path class="seat" data-cons="E14001170" data-name="Chorley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1299.04)"/>
+<path class="seat" data-cons="E14001171" data-name="Christchurch" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 2727.98)"/>
+<path class="seat" data-cons="E14001172" data-name="Cities of London and Westminster" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 2598.08)"/>
+<path class="seat" data-cons="E14001173" data-name="City of Durham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1039.23)"/>
+<path class="seat" data-cons="E14001174" data-name="Clacton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2006.25 2078.46)"/>
+<path class="seat" data-cons="E14001175" data-name="Clapham and Brixton Hill" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 2727.98)"/>
+<path class="seat" data-cons="W07000094" data-name="Clwyd East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 1948.56)"/>
+<path class="seat" data-cons="W07000095" data-name="Clwyd North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 1948.56)"/>
+<path class="seat" data-cons="S14000070" data-name="Coatbridge and Bellshill" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 779.42)"/>
+<path class="seat" data-cons="E14001176" data-name="Colchester" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 2078.46)"/>
+<path class="seat" data-cons="E14001177" data-name="Colne Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 1493.89)"/>
+<path class="seat" data-cons="E14001178" data-name="Congleton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 1753.7)"/>
+<path class="seat" data-cons="E14001179" data-name="Corby and East Northamptonshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 1948.56)"/>
+<path class="seat" data-cons="E14001180" data-name="Coventry East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 2143.41)"/>
+<path class="seat" data-cons="E14001181" data-name="Coventry North West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 2143.41)"/>
+<path class="seat" data-cons="E14001182" data-name="Coventry South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 2208.36)"/>
+<path class="seat" data-cons="S14000071" data-name="Cowdenbeath and Kirkcaldy" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 454.66)"/>
+<path class="seat" data-cons="E14001183" data-name="Cramlington and Killingworth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 779.42)"/>
+<path class="seat" data-cons="E14001184" data-name="Crawley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2006.25 2857.88)"/>
+<path class="seat" data-cons="E14001185" data-name="Crewe and Nantwich" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 1753.7)"/>
+<path class="seat" data-cons="E14001186" data-name="Croydon East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 2727.98)"/>
+<path class="seat" data-cons="E14001187" data-name="Croydon South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 2792.93)"/>
+<path class="seat" data-cons="E14001188" data-name="Croydon West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 2792.93)"/>
+<path class="seat" data-cons="S14000072" data-name="Cumbernauld and Kirkintilloch" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 519.62)"/>
+<path class="seat" data-cons="E14001189" data-name="Dagenham and Rainham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2403.22)"/>
+<path class="seat" data-cons="E14001190" data-name="Darlington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 1104.18)"/>
+<path class="seat" data-cons="E14001191" data-name="Dartford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 2598.08)"/>
+<path class="seat" data-cons="E14001192" data-name="Daventry" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 2078.46)"/>
+<path class="seat" data-cons="E14001193" data-name="Derby North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1818.65)"/>
+<path class="seat" data-cons="E14001194" data-name="Derby South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1818.65)"/>
+<path class="seat" data-cons="E14001195" data-name="Derbyshire Dales" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1688.75)"/>
+<path class="seat" data-cons="E14001196" data-name="Dewsbury and Batley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1428.94)"/>
+<path class="seat" data-cons="E14001197" data-name="Didcot and Wantage" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 2468.17)"/>
+<path class="seat" data-cons="E14001198" data-name="Doncaster Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 1493.89)"/>
+<path class="seat" data-cons="E14001199" data-name="Doncaster East and the Isle of Axholme" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 1493.89)"/>
+<path class="seat" data-cons="E14001200" data-name="Doncaster North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 1428.94)"/>
+<path class="seat" data-cons="E14001201" data-name="Dorking and Horley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 2792.93)"/>
+<path class="seat" data-cons="E14001202" data-name="Dover and Deal" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2268.75 2663.03)"/>
+<path class="seat stage-contact tracked" data-cons="E14001203" data-name="Droitwich and Evesham" data-mp="Nigel Huddleston" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 2338.27)"/>
+<path class="seat" data-cons="E14001204" data-name="Dudley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 2013.51)"/>
+<path class="seat" data-cons="E14001205" data-name="Dulwich and West Norwood" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 2727.98)"/>
+<path class="seat" data-cons="S14000073" data-name="Dumfries and Galloway" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 844.37)"/>
+<path class="seat" data-cons="S14000074" data-name="Dumfriesshire, Clydesdale and Tweeddale" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 844.37)"/>
+<path class="seat" data-cons="S14000075" data-name="Dundee Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 389.71)"/>
+<path class="seat" data-cons="S14000076" data-name="Dunfermline and Dollar" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 454.66)"/>
+<path class="seat" data-cons="E14001206" data-name="Dunstable and Leighton Buzzard" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 2143.41)"/>
+<path class="seat" data-cons="W07000096" data-name="Dwyfor Meirionnydd" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 2013.51)"/>
+<path class="seat" data-cons="E14001207" data-name="Ealing Central and Acton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 2533.12)"/>
+<path class="seat" data-cons="E14001208" data-name="Ealing North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 2468.17)"/>
+<path class="seat" data-cons="E14001209" data-name="Ealing Southall" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 2533.12)"/>
+<path class="seat stage-migrated tracked" data-cons="E14001210" data-name="Earley and Woodley" data-mp="Yuan Yang" data-stage="migrated" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 2338.27)"/>
+<path class="seat" data-cons="E14001211" data-name="Easington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1039.23)"/>
+<path class="seat" data-cons="N05000005" data-name="East Antrim" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(243.75 974.28)"/>
+<path class="seat" data-cons="E14001212" data-name="East Grinstead and Uckfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2043.75 2792.93)"/>
+<path class="seat stage-dpa tracked" data-cons="E14001213" data-name="East Ham" data-mp="Stephen Timms" data-stage="dpa" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 2468.17)"/>
+<path class="seat" data-cons="E14001214" data-name="East Hampshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 2663.03)"/>
+<path class="seat" data-cons="S14000077" data-name="East Kilbride and Strathaven" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 844.37)"/>
+<path class="seat" data-cons="N05000006" data-name="East Londonderry" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(93.75 974.28)"/>
+<path class="seat" data-cons="S14000021" data-name="East Renfrewshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 714.47)"/>
+<path class="seat" data-cons="E14001215" data-name="East Surrey" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2792.93)"/>
+<path class="seat" data-cons="E14001216" data-name="East Thanet" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2193.75 2533.12)"/>
+<path class="seat" data-cons="E14001217" data-name="East Wiltshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2663.03)"/>
+<path class="seat" data-cons="E14001218" data-name="East Worthing and Shoreham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 2857.88)"/>
+<path class="seat" data-cons="E14001219" data-name="Eastbourne" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2043.75 2922.84)"/>
+<path class="seat" data-cons="E14001220" data-name="Eastleigh" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2663.03)"/>
+<path class="seat" data-cons="S14000078" data-name="Edinburgh East and Musselburgh" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 649.52)"/>
+<path class="seat" data-cons="S14000079" data-name="Edinburgh North and Leith" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 584.57)"/>
+<path class="seat stage-migrated tracked" data-cons="S14000080" data-name="Edinburgh South" data-mp="Ian Murray" data-stage="migrated" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 649.52)"/>
+<path class="seat" data-cons="S14000081" data-name="Edinburgh South West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 649.52)"/>
+<path class="seat" data-cons="S14000082" data-name="Edinburgh West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 584.57)"/>
+<path class="seat" data-cons="E14001221" data-name="Edmonton and Winchmore Hill" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 2338.27)"/>
+<path class="seat" data-cons="E14001222" data-name="Ellesmere Port and Bromborough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 1753.7)"/>
+<path class="seat" data-cons="E14001223" data-name="Eltham and Chislehurst" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 2663.03)"/>
+<path class="seat" data-cons="E14001224" data-name="Ely and East Cambridgeshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 1948.56)"/>
+<path class="seat" data-cons="E14001225" data-name="Enfield North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 2273.32)"/>
+<path class="seat" data-cons="E14001226" data-name="Epping Forest" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2273.32)"/>
+<path class="seat" data-cons="E14001227" data-name="Epsom and Ewell" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 2792.93)"/>
+<path class="seat" data-cons="E14001228" data-name="Erewash" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1818.65)"/>
+<path class="seat" data-cons="E14001229" data-name="Erith and Thamesmead" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 2598.08)"/>
+<path class="seat" data-cons="E14001230" data-name="Esher and Walton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 2727.98)"/>
+<path class="seat" data-cons="E14001231" data-name="Exeter" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 2727.98)"/>
+<path class="seat" data-cons="E14001232" data-name="Exmouth and Exeter East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 2792.93)"/>
+<path class="seat stage-meeting tracked" data-cons="S14000083" data-name="Falkirk" data-mp="Euan Stainbank" data-stage="meeting" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 519.62)"/>
+<path class="seat" data-cons="E14001233" data-name="Fareham and Waterlooville" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 2792.93)"/>
+<path class="seat" data-cons="E14001234" data-name="Farnham and Bordon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 2727.98)"/>
+<path class="seat" data-cons="E14001235" data-name="Faversham and Mid Kent" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2156.25 2598.08)"/>
+<path class="seat" data-cons="E14001236" data-name="Feltham and Heston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 2598.08)"/>
+<path class="seat" data-cons="N05000007" data-name="Fermanagh and South Tyrone" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(18.75 1104.18)"/>
+<path class="seat" data-cons="E14001237" data-name="Filton and Bradley Stoke" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 2403.22)"/>
+<path class="seat" data-cons="E14001238" data-name="Finchley and Golders Green" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 2403.22)"/>
+<path class="seat stage-dpa tracked" data-cons="E14001239" data-name="Folkestone and Hythe" data-mp="Tony Vaughan" data-stage="dpa" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2156.25 2727.98)"/>
+<path class="seat" data-cons="E14001240" data-name="Forest of Dean" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 2273.32)"/>
+<path class="seat" data-cons="N05000008" data-name="Foyle" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(18.75 974.28)"/>
+<path class="seat" data-cons="E14001241" data-name="Frome and East Somerset" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 2663.03)"/>
+<path class="seat" data-cons="E14001242" data-name="Fylde" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 1234.09)"/>
+<path class="seat" data-cons="E14001243" data-name="Gainsborough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 1623.8)"/>
+<path class="seat" data-cons="E14001244" data-name="Gateshead Central and Whickham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 974.28)"/>
+<path class="seat" data-cons="E14001245" data-name="Gedling" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 1818.65)"/>
+<path class="seat" data-cons="E14001246" data-name="Gillingham and Rainham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2081.25 2598.08)"/>
+<path class="seat" data-cons="S14000084" data-name="Glasgow East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 649.52)"/>
+<path class="seat" data-cons="S14000085" data-name="Glasgow North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 584.57)"/>
+<path class="seat" data-cons="S14000086" data-name="Glasgow North East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 584.57)"/>
+<path class="seat" data-cons="S14000087" data-name="Glasgow South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 714.47)"/>
+<path class="seat" data-cons="S14000088" data-name="Glasgow South West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 649.52)"/>
+<path class="seat" data-cons="S14000089" data-name="Glasgow West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 519.62)"/>
+<path class="seat" data-cons="E14001247" data-name="Glastonbury and Somerton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 2663.03)"/>
+<path class="seat" data-cons="S14000090" data-name="Glenrothes and Mid Fife" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 389.71)"/>
+<path class="seat" data-cons="E14001248" data-name="Gloucester" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 2273.32)"/>
+<path class="seat" data-cons="E14001249" data-name="Godalming and Ash" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 2727.98)"/>
+<path class="seat" data-cons="E14001250" data-name="Goole and Pocklington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 1363.99)"/>
+<path class="seat" data-cons="S14000091" data-name="Gordon and Buchan" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 259.81)"/>
+<path class="seat" data-cons="E14001251" data-name="Gorton and Denton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1558.85)"/>
+<path class="seat" data-cons="E14001252" data-name="Gosport" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 2792.93)"/>
+<path class="seat" data-cons="W07000097" data-name="Gower" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(168.75 2403.22)"/>
+<path class="seat" data-cons="E14001253" data-name="Grantham and Bourne" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 1818.65)"/>
+<path class="seat" data-cons="E14001254" data-name="Gravesham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 2533.12)"/>
+<path class="seat" data-cons="E14001255" data-name="Great Grimsby and Cleethorpes" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 1558.85)"/>
+<path class="seat" data-cons="E14001256" data-name="Great Yarmouth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 1753.7)"/>
+<path class="seat" data-cons="E14001257" data-name="Greenwich and Woolwich" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 2598.08)"/>
+<path class="seat" data-cons="E14001258" data-name="Guildford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 2663.03)"/>
+<path class="seat" data-cons="E14001259" data-name="Hackney North and Stoke Newington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 2468.17)"/>
+<path class="seat" data-cons="E14001260" data-name="Hackney South and Shoreditch" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 2533.12)"/>
+<path class="seat stage-dpa tracked" data-cons="E14001261" data-name="Halesowen" data-mp="Alex Ballinger" data-stage="dpa" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 2143.41)"/>
+<path class="seat" data-cons="E14001262" data-name="Halifax" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 1363.99)"/>
+<path class="seat" data-cons="E14001263" data-name="Hamble Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 2792.93)"/>
+<path class="seat" data-cons="S14000092" data-name="Hamilton and Clyde Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 779.42)"/>
+<path class="seat" data-cons="E14001264" data-name="Hammersmith and Chiswick" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 2533.12)"/>
+<path class="seat" data-cons="E14001265" data-name="Hampstead and Highgate" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 2468.17)"/>
+<path class="seat" data-cons="E14001266" data-name="Harborough, Oadby and Wigston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 2013.51)"/>
+<path class="seat" data-cons="E14001267" data-name="Harlow" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 2078.46)"/>
+<path class="seat" data-cons="E14001268" data-name="Harpenden and Berkhamsted" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 2208.36)"/>
+<path class="seat" data-cons="E14001269" data-name="Harrogate and Knaresborough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1169.13)"/>
+<path class="seat" data-cons="E14001270" data-name="Harrow East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 2403.22)"/>
+<path class="seat" data-cons="E14001271" data-name="Harrow West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 2403.22)"/>
+<path class="seat" data-cons="E14001272" data-name="Hartlepool" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1039.23)"/>
+<path class="seat" data-cons="E14001273" data-name="Harwich and North Essex" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2043.75 2013.51)"/>
+<path class="seat" data-cons="E14001274" data-name="Hastings and Rye" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2118.75 2792.93)"/>
+<path class="seat" data-cons="E14001275" data-name="Havant" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 2857.88)"/>
+<path class="seat" data-cons="E14001276" data-name="Hayes and Harlington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 2468.17)"/>
+<path class="seat" data-cons="E14001277" data-name="Hazel Grove" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 1623.8)"/>
+<path class="seat stage-meeting tracked" data-cons="E14001278" data-name="Hemel Hempstead" data-mp="David Taylor" data-stage="meeting" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 2208.36)"/>
+<path class="seat" data-cons="E14001279" data-name="Hendon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 2338.27)"/>
+<path class="seat" data-cons="E14001280" data-name="Henley and Thame" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 2273.32)"/>
+<path class="seat" data-cons="E14001281" data-name="Hereford and South Herefordshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 2208.36)"/>
+<path class="seat" data-cons="E14001282" data-name="Herne Bay and Sandwich" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2231.25 2598.08)"/>
+<path class="seat" data-cons="E14001283" data-name="Hertford and Stortford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 2078.46)"/>
+<path class="seat" data-cons="E14001284" data-name="Hertsmere" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 2208.36)"/>
+<path class="seat" data-cons="E14001285" data-name="Hexham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 844.37)"/>
+<path class="seat" data-cons="E14001286" data-name="Heywood and Middleton North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1299.04)"/>
+<path class="seat" data-cons="E14001287" data-name="High Peak" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 1623.8)"/>
+<path class="seat" data-cons="E14001288" data-name="Hinckley and Bosworth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1948.56)"/>
+<path class="seat" data-cons="E14001289" data-name="Hitchin" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 2078.46)"/>
+<path class="seat" data-cons="E14001290" data-name="Holborn and St Pancras" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 2533.12)"/>
+<path class="seat" data-cons="E14001291" data-name="Honiton and Sidmouth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 2792.93)"/>
+<path class="seat" data-cons="E14001292" data-name="Hornchurch and Upminster" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 2403.22)"/>
+<path class="seat" data-cons="E14001293" data-name="Hornsey and Friern Barnet" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 2338.27)"/>
+<path class="seat" data-cons="E14001294" data-name="Horsham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 2857.88)"/>
+<path class="seat" data-cons="E14001295" data-name="Houghton and Sunderland South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 974.28)"/>
+<path class="seat" data-cons="E14001296" data-name="Hove and Portslade" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 2857.88)"/>
+<path class="seat" data-cons="E14001297" data-name="Huddersfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1428.94)"/>
+<path class="seat" data-cons="E14001298" data-name="Huntingdon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 2013.51)"/>
+<path class="seat" data-cons="E14001299" data-name="Hyndburn" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 1234.09)"/>
+<path class="seat" data-cons="E14001300" data-name="Ilford North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 2338.27)"/>
+<path class="seat" data-cons="E14001301" data-name="Ilford South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 2403.22)"/>
+<path class="seat" data-cons="S14000093" data-name="Inverclyde and Renfrewshire West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 519.62)"/>
+<path class="seat" data-cons="S14000094" data-name="Inverness, Skye and West Ross-shire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 194.86)"/>
+<path class="seat" data-cons="E14001302" data-name="Ipswich" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 1948.56)"/>
+<path class="seat" data-cons="E14001303" data-name="Isle of Wight East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2922.84)"/>
+<path class="seat" data-cons="E14001304" data-name="Isle of Wight West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2922.84)"/>
+<path class="seat" data-cons="E14001305" data-name="Islington North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 2468.17)"/>
+<path class="seat" data-cons="E14001306" data-name="Islington South and Finsbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 2533.12)"/>
+<path class="seat" data-cons="E14001307" data-name="Jarrow and Gateshead East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 909.33)"/>
+<path class="seat" data-cons="E14001308" data-name="Keighley and Ilkley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 1234.09)"/>
+<path class="seat" data-cons="E14001309" data-name="Kenilworth and Southam" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 2208.36)"/>
+<path class="seat" data-cons="E14001310" data-name="Kensington and Bayswater" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 2533.12)"/>
+<path class="seat" data-cons="E14001311" data-name="Kettering" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 1948.56)"/>
+<path class="seat" data-cons="S14000110" data-name="Kilmarnock and Loudoun" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 844.37)"/>
+<path class="seat" data-cons="E14001312" data-name="Kingston and Surbiton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 2727.98)"/>
+<path class="seat" data-cons="E14001313" data-name="Kingston upon Hull East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 1428.94)"/>
+<path class="seat" data-cons="E14001314" data-name="Kingston upon Hull North and Cottingham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 1363.99)"/>
+<path class="seat" data-cons="E14001315" data-name="Kingston upon Hull West and Haltemprice" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 1428.94)"/>
+<path class="seat stage-contact tracked" data-cons="E14001316" data-name="Kingswinford and South Staffordshire" data-mp="Mike Wood" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 1948.56)"/>
+<path class="seat" data-cons="E14001317" data-name="Knowsley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 1493.89)"/>
+<path class="seat" data-cons="N05000009" data-name="Lagan Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(131.25 1169.13)"/>
+<path class="seat" data-cons="E14001318" data-name="Lancaster and Wyre" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1169.13)"/>
+<path class="seat" data-cons="E14001319" data-name="Leeds Central and Headingley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 1299.04)"/>
+<path class="seat" data-cons="E14001320" data-name="Leeds East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 1299.04)"/>
+<path class="seat" data-cons="E14001321" data-name="Leeds North East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 1234.09)"/>
+<path class="seat" data-cons="E14001322" data-name="Leeds North West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 1234.09)"/>
+<path class="seat" data-cons="E14001323" data-name="Leeds South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 1363.99)"/>
+<path class="seat" data-cons="E14001324" data-name="Leeds South West and Morley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 1363.99)"/>
+<path class="seat" data-cons="E14001325" data-name="Leeds West and Pudsey" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1299.04)"/>
+<path class="seat" data-cons="E14001326" data-name="Leicester East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 1948.56)"/>
+<path class="seat" data-cons="E14001327" data-name="Leicester South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 2013.51)"/>
+<path class="seat" data-cons="E14001328" data-name="Leicester West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 2013.51)"/>
+<path class="seat" data-cons="E14001329" data-name="Leigh and Atherton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 1623.8)"/>
+<path class="seat" data-cons="E14001330" data-name="Lewes" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 2922.84)"/>
+<path class="seat" data-cons="E14001331" data-name="Lewisham East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 2727.98)"/>
+<path class="seat" data-cons="E14001332" data-name="Lewisham North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 2598.08)"/>
+<path class="seat" data-cons="E14001333" data-name="Lewisham West and East Dulwich" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 2663.03)"/>
+<path class="seat" data-cons="E14001334" data-name="Leyton and Wanstead" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 2403.22)"/>
+<path class="seat" data-cons="E14001335" data-name="Lichfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 1883.61)"/>
+<path class="seat" data-cons="E14001336" data-name="Lincoln" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 1623.8)"/>
+<path class="seat" data-cons="E14001337" data-name="Liverpool Garston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 1623.8)"/>
+<path class="seat" data-cons="E14001338" data-name="Liverpool Riverside" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 1558.85)"/>
+<path class="seat" data-cons="E14001339" data-name="Liverpool Walton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 1493.89)"/>
+<path class="seat" data-cons="E14001340" data-name="Liverpool Wavertree" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 1623.8)"/>
+<path class="seat" data-cons="E14001341" data-name="Liverpool West Derby" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 1558.85)"/>
+<path class="seat" data-cons="S14000095" data-name="Livingston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 714.47)"/>
+<path class="seat" data-cons="W07000098" data-name="Llanelli" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(206.25 2338.27)"/>
+<path class="seat" data-cons="S14000096" data-name="Lothian East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 714.47)"/>
+<path class="seat" data-cons="E14001342" data-name="Loughborough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1948.56)"/>
+<path class="seat" data-cons="E14001343" data-name="Louth and Horncastle" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 1623.8)"/>
+<path class="seat" data-cons="E14001344" data-name="Lowestoft" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 1818.65)"/>
+<path class="seat" data-cons="E14001345" data-name="Luton North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 2143.41)"/>
+<path class="seat" data-cons="E14001346" data-name="Luton South and South Bedfordshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 2208.36)"/>
+<path class="seat" data-cons="E14001347" data-name="Macclesfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1688.75)"/>
+<path class="seat stage-migrated tracked" data-cons="E14001348" data-name="Maidenhead" data-mp="Joshua Reynolds" data-stage="migrated" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 2338.27)"/>
+<path class="seat" data-cons="E14001349" data-name="Maidstone and Malling" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2043.75 2663.03)"/>
+<path class="seat" data-cons="E14001350" data-name="Makerfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 1428.94)"/>
+<path class="seat" data-cons="E14001351" data-name="Maldon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2043.75 2143.41)"/>
+<path class="seat" data-cons="E14001352" data-name="Manchester Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1558.85)"/>
+<path class="seat" data-cons="E14001353" data-name="Manchester Rusholme" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 1623.8)"/>
+<path class="seat" data-cons="E14001354" data-name="Manchester Withington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1688.75)"/>
+<path class="seat" data-cons="E14001355" data-name="Mansfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 1753.7)"/>
+<path class="seat" data-cons="E14001356" data-name="Melksham and Devizes" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 2598.08)"/>
+<path class="seat" data-cons="E14001357" data-name="Melton and Syston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 1883.61)"/>
+<path class="seat" data-cons="E14001358" data-name="Meriden and Solihull East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 2143.41)"/>
+<path class="seat" data-cons="W07000099" data-name="Merthyr Tydfil and Aberdare" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 2208.36)"/>
+<path class="seat" data-cons="E14001359" data-name="Mid Bedfordshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 2078.46)"/>
+<path class="seat" data-cons="E14001360" data-name="Mid Buckinghamshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 2273.32)"/>
+<path class="seat" data-cons="E14001361" data-name="Mid Cheshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 1753.7)"/>
+<path class="seat" data-cons="E14001362" data-name="Mid Derbyshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 1753.7)"/>
+<path class="seat" data-cons="E14001363" data-name="Mid Dorset and North Poole" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 2792.93)"/>
+<path class="seat" data-cons="S14000097" data-name="Mid Dunbartonshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 454.66)"/>
+<path class="seat" data-cons="E14001364" data-name="Mid Leicestershire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 2013.51)"/>
+<path class="seat" data-cons="E14001365" data-name="Mid Norfolk" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 1818.65)"/>
+<path class="seat" data-cons="E14001366" data-name="Mid Sussex" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 2792.93)"/>
+<path class="seat" data-cons="N05000010" data-name="Mid Ulster" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(56.25 1039.23)"/>
+<path class="seat" data-cons="W07000100" data-name="Mid and South Pembrokeshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(131.25 2338.27)"/>
+<path class="seat" data-cons="E14001368" data-name="Middlesbrough South and East Cleveland" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 1104.18)"/>
+<path class="seat" data-cons="E14001367" data-name="Middlesbrough and Thornaby East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 1104.18)"/>
+<path class="seat" data-cons="S14000045" data-name="Midlothian" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 714.47)"/>
+<path class="seat" data-cons="E14001369" data-name="Milton Keynes Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 2208.36)"/>
+<path class="seat" data-cons="E14001370" data-name="Milton Keynes North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 2143.41)"/>
+<path class="seat" data-cons="E14001371" data-name="Mitcham and Morden" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 2792.93)"/>
+<path class="seat" data-cons="W07000101" data-name="Monmouthshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 2338.27)"/>
+<path class="seat" data-cons="W07000102" data-name="Montgomeryshire and Glyndŵr" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 2013.51)"/>
+<path class="seat" data-cons="S14000098" data-name="Moray West, Nairn and Strathspey" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 259.81)"/>
+<path class="seat" data-cons="E14001372" data-name="Morecambe and Lunesdale" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 1104.18)"/>
+<path class="seat" data-cons="S14000099" data-name="Motherwell, Wishaw and Carluke" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 779.42)"/>
+<path class="seat" data-cons="S14000027" data-name="Na h-Eileanan an Iar" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(356.25 129.9)"/>
+<path class="seat" data-cons="W07000103" data-name="Neath and Swansea East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(393.75 2273.32)"/>
+<path class="seat" data-cons="E14001373" data-name="New Forest East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2792.93)"/>
+<path class="seat" data-cons="E14001374" data-name="New Forest West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2792.93)"/>
+<path class="seat" data-cons="E14001375" data-name="Newark" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 1688.75)"/>
+<path class="seat" data-cons="E14001376" data-name="Newbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2403.22)"/>
+<path class="seat" data-cons="E14001377" data-name="Newcastle upon Tyne Central and West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 844.37)"/>
+<path class="seat" data-cons="E14001378" data-name="Newcastle upon Tyne East and Wallsend" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 909.33)"/>
+<path class="seat" data-cons="E14001379" data-name="Newcastle upon Tyne North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 844.37)"/>
+<path class="seat" data-cons="E14001380" data-name="Newcastle-under-Lyme" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 1818.65)"/>
+<path class="seat" data-cons="W07000104" data-name="Newport East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 2403.22)"/>
+<path class="seat" data-cons="W07000105" data-name="Newport West and Islwyn" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 2338.27)"/>
+<path class="seat" data-cons="N05000011" data-name="Newry and Armagh" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(168.75 1234.09)"/>
+<path class="seat" data-cons="E14001381" data-name="Newton Abbot" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(393.75 2792.93)"/>
+<path class="seat" data-cons="E14001382" data-name="Newton Aycliffe and Spennymoor" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1039.23)"/>
+<path class="seat" data-cons="E14001383" data-name="Normanton and Hemsworth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 1493.89)"/>
+<path class="seat" data-cons="N05000012" data-name="North Antrim" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(168.75 974.28)"/>
+<path class="seat" data-cons="S14000048" data-name="North Ayrshire and Arran" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 649.52)"/>
+<path class="seat" data-cons="E14001384" data-name="North Bedfordshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 2013.51)"/>
+<path class="seat" data-cons="E14001385" data-name="North Cornwall" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(243.75 2792.93)"/>
+<path class="seat" data-cons="E14001386" data-name="North Cotswolds" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2403.22)"/>
+<path class="seat" data-cons="E14001387" data-name="North Devon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(318.75 2663.03)"/>
+<path class="seat" data-cons="E14001388" data-name="North Dorset" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 2727.98)"/>
+<path class="seat" data-cons="N05000013" data-name="North Down" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(281.25 1039.23)"/>
+<path class="seat" data-cons="E14001389" data-name="North Durham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 974.28)"/>
+<path class="seat" data-cons="E14001390" data-name="North East Cambridgeshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 1883.61)"/>
+<path class="seat" data-cons="E14001391" data-name="North East Derbyshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1688.75)"/>
+<path class="seat" data-cons="S14000100" data-name="North East Fife" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 389.71)"/>
+<path class="seat" data-cons="E14001392" data-name="North East Hampshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 2468.17)"/>
+<path class="seat" data-cons="E14001393" data-name="North East Hertfordshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 2078.46)"/>
+<path class="seat" data-cons="E14001394" data-name="North East Somerset and Hanham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 2533.12)"/>
+<path class="seat" data-cons="E14001395" data-name="North Herefordshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 2208.36)"/>
+<path class="seat" data-cons="E14001396" data-name="North Norfolk" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 1753.7)"/>
+<path class="seat" data-cons="E14001397" data-name="North Northumberland" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 779.42)"/>
+<path class="seat" data-cons="E14001398" data-name="North Shropshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 1883.61)"/>
+<path class="seat" data-cons="E14001399" data-name="North Somerset" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 2533.12)"/>
+<path class="seat" data-cons="E14001400" data-name="North Warwickshire and Bedworth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 2078.46)"/>
+<path class="seat" data-cons="E14001401" data-name="North West Cambridgeshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 1948.56)"/>
+<path class="seat" data-cons="E14001402" data-name="North West Essex" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 2013.51)"/>
+<path class="seat" data-cons="E14001403" data-name="North West Hampshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2533.12)"/>
+<path class="seat" data-cons="E14001404" data-name="North West Leicestershire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 1883.61)"/>
+<path class="seat" data-cons="E14001405" data-name="North West Norfolk" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 1818.65)"/>
+<path class="seat" data-cons="E14001406" data-name="Northampton North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 2078.46)"/>
+<path class="seat" data-cons="E14001407" data-name="Northampton South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 2143.41)"/>
+<path class="seat" data-cons="E14001408" data-name="Norwich North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 1818.65)"/>
+<path class="seat" data-cons="E14001409" data-name="Norwich South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 1883.61)"/>
+<path class="seat" data-cons="E14001410" data-name="Nottingham East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 1883.61)"/>
+<path class="seat" data-cons="E14001411" data-name="Nottingham North and Kimberley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 1818.65)"/>
+<path class="seat" data-cons="E14001412" data-name="Nottingham South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 1883.61)"/>
+<path class="seat" data-cons="E14001413" data-name="Nuneaton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 2013.51)"/>
+<path class="seat" data-cons="E14001414" data-name="Old Bexley and Sidcup" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 2663.03)"/>
+<path class="seat" data-cons="E14001415" data-name="Oldham East and Saddleworth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1428.94)"/>
+<path class="seat" data-cons="E14001416" data-name="Oldham West, Chadderton and Royton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1428.94)"/>
+<path class="seat" data-cons="S14000051" data-name="Orkney and Shetland" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 0)"/>
+<path class="seat" data-cons="E14001417" data-name="Orpington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 2792.93)"/>
+<path class="seat" data-cons="E14001418" data-name="Ossett and Denby Dale" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1428.94)"/>
+<path class="seat" data-cons="E14001419" data-name="Oxford East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 2208.36)"/>
+<path class="seat" data-cons="E14001420" data-name="Oxford West and Abingdon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 2273.32)"/>
+<path class="seat" data-cons="S14000101" data-name="Paisley and Renfrewshire North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 584.57)"/>
+<path class="seat" data-cons="S14000102" data-name="Paisley and Renfrewshire South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 649.52)"/>
+<path class="seat" data-cons="E14001421" data-name="Peckham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 2663.03)"/>
+<path class="seat" data-cons="E14001422" data-name="Pendle and Clitheroe" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1169.13)"/>
+<path class="seat" data-cons="E14001423" data-name="Penistone and Stocksbridge" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 1493.89)"/>
+<path class="seat" data-cons="E14001424" data-name="Penrith and Solway" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 974.28)"/>
+<path class="seat" data-cons="S14000103" data-name="Perth and Kinross-shire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 324.76)"/>
+<path class="seat" data-cons="E14001425" data-name="Peterborough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 1883.61)"/>
+<path class="seat" data-cons="E14001426" data-name="Plymouth Moor View" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(318.75 2792.93)"/>
+<path class="seat" data-cons="E14001427" data-name="Plymouth Sutton and Devonport" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(356.25 2857.88)"/>
+<path class="seat" data-cons="E14001428" data-name="Pontefract, Castleford and Knottingley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 1428.94)"/>
+<path class="seat" data-cons="W07000106" data-name="Pontypridd" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 2273.32)"/>
+<path class="seat" data-cons="E14001429" data-name="Poole" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 2792.93)"/>
+<path class="seat" data-cons="E14001430" data-name="Poplar and Limehouse" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1818.75 2533.12)"/>
+<path class="seat" data-cons="E14001431" data-name="Portsmouth North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 2792.93)"/>
+<path class="seat" data-cons="E14001432" data-name="Portsmouth South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 2857.88)"/>
+<path class="seat stage-dpa tracked" data-cons="E14001433" data-name="Preston" data-mp="Mark Hendrick" data-stage="dpa" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 1234.09)"/>
+<path class="seat" data-cons="E14001434" data-name="Putney" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 2663.03)"/>
+<path class="seat" data-cons="E14001435" data-name="Queen's Park and Maida Vale" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 2598.08)"/>
+<path class="seat" data-cons="E14001436" data-name="Rawmarsh and Conisbrough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 1558.85)"/>
+<path class="seat" data-cons="E14001437" data-name="Rayleigh and Wickford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 2208.36)"/>
+<path class="seat" data-cons="E14001438" data-name="Reading Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 2403.22)"/>
+<path class="seat" data-cons="E14001439" data-name="Reading West and Mid Berkshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 2338.27)"/>
+<path class="seat" data-cons="E14001440" data-name="Redcar" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 1104.18)"/>
+<path class="seat" data-cons="E14001441" data-name="Redditch" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2273.32)"/>
+<path class="seat" data-cons="E14001442" data-name="Reigate" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 2857.88)"/>
+<path class="seat" data-cons="W07000107" data-name="Rhondda and Ogmore" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(356.25 2338.27)"/>
+<path class="seat" data-cons="E14001443" data-name="Ribble Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1169.13)"/>
+<path class="seat" data-cons="E14001445" data-name="Richmond Park" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 2663.03)"/>
+<path class="seat" data-cons="E14001444" data-name="Richmond and Northallerton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1169.13)"/>
+<path class="seat" data-cons="E14001446" data-name="Rochdale" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 1363.99)"/>
+<path class="seat" data-cons="E14001447" data-name="Rochester and Strood" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2043.75 2533.12)"/>
+<path class="seat" data-cons="E14001448" data-name="Romford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 2338.27)"/>
+<path class="seat" data-cons="E14001449" data-name="Romsey and Southampton North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 2598.08)"/>
+<path class="seat" data-cons="E14001450" data-name="Rossendale and Darwen" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1299.04)"/>
+<path class="seat" data-cons="E14001451" data-name="Rother Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 1623.8)"/>
+<path class="seat" data-cons="E14001452" data-name="Rotherham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1558.85)"/>
+<path class="seat" data-cons="E14001453" data-name="Rugby" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 2078.46)"/>
+<path class="seat" data-cons="E14001454" data-name="Ruislip, Northwood and Pinner" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 2338.27)"/>
+<path class="seat" data-cons="E14001455" data-name="Runcorn and Helsby" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 1818.65)"/>
+<path class="seat" data-cons="E14001456" data-name="Runnymede and Weybridge" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 2663.03)"/>
+<path class="seat" data-cons="E14001457" data-name="Rushcliffe" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 1818.65)"/>
+<path class="seat" data-cons="S14000104" data-name="Rutherglen" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 779.42)"/>
+<path class="seat" data-cons="E14001458" data-name="Rutland and Stamford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 1883.61)"/>
+<path class="seat" data-cons="E14001459" data-name="Salford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1558.85)"/>
+<path class="seat" data-cons="E14001460" data-name="Salisbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 2663.03)"/>
+<path class="seat" data-cons="E14001461" data-name="Scarborough and Whitby" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 1234.09)"/>
+<path class="seat" data-cons="E14001462" data-name="Scunthorpe" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 1558.85)"/>
+<path class="seat" data-cons="E14001463" data-name="Sefton Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 1299.04)"/>
+<path class="seat" data-cons="E14001464" data-name="Selby" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 1363.99)"/>
+<path class="seat" data-cons="E14001465" data-name="Sevenoaks" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 2727.98)"/>
+<path class="seat" data-cons="E14001466" data-name="Sheffield Brightside and Hillsborough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1558.85)"/>
+<path class="seat" data-cons="E14001467" data-name="Sheffield Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 1623.8)"/>
+<path class="seat" data-cons="E14001468" data-name="Sheffield Hallam" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1558.85)"/>
+<path class="seat" data-cons="E14001469" data-name="Sheffield Heeley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 1623.8)"/>
+<path class="seat" data-cons="E14001470" data-name="Sheffield South East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 1623.8)"/>
+<path class="seat" data-cons="E14001471" data-name="Sherwood Forest" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 1753.7)"/>
+<path class="seat" data-cons="E14001472" data-name="Shipley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 1234.09)"/>
+<path class="seat" data-cons="E14001473" data-name="Shrewsbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 1948.56)"/>
+<path class="seat" data-cons="E14001474" data-name="Sittingbourne and Sheppey" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2118.75 2533.12)"/>
+<path class="seat" data-cons="E14001475" data-name="Skipton and Ripon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1169.13)"/>
+<path class="seat" data-cons="E14001476" data-name="Sleaford and North Hykeham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 1688.75)"/>
+<path class="seat" data-cons="E14001477" data-name="Slough" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 2403.22)"/>
+<path class="seat" data-cons="E14001478" data-name="Smethwick" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 2078.46)"/>
+<path class="seat" data-cons="E14001479" data-name="Solihull West and Shirley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 2208.36)"/>
+<path class="seat" data-cons="N05000014" data-name="South Antrim" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(131.25 1039.23)"/>
+<path class="seat" data-cons="E14001480" data-name="South Basildon and East Thurrock" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1931.25 2338.27)"/>
+<path class="seat" data-cons="E14001481" data-name="South Cambridgeshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 2013.51)"/>
+<path class="seat" data-cons="E14001482" data-name="South Cotswolds" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 2468.17)"/>
+<path class="seat" data-cons="E14001483" data-name="South Derbyshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 1883.61)"/>
+<path class="seat" data-cons="E14001484" data-name="South Devon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 2922.84)"/>
+<path class="seat" data-cons="E14001485" data-name="South Dorset" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 2857.88)"/>
+<path class="seat" data-cons="N05000015" data-name="South Down" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(281.25 1169.13)"/>
+<path class="seat" data-cons="E14001486" data-name="South East Cornwall" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(281.25 2857.88)"/>
+<path class="seat" data-cons="E14001487" data-name="South Holland and The Deepings" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 1753.7)"/>
+<path class="seat" data-cons="E14001488" data-name="South Leicestershire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 2078.46)"/>
+<path class="seat" data-cons="E14001489" data-name="South Norfolk" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1893.75 1883.61)"/>
+<path class="seat" data-cons="E14001490" data-name="South Northamptonshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1293.75 2143.41)"/>
+<path class="seat" data-cons="E14001491" data-name="South Ribble" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 1299.04)"/>
+<path class="seat" data-cons="E14001492" data-name="South Shields" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 909.33)"/>
+<path class="seat" data-cons="E14001493" data-name="South Shropshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 2013.51)"/>
+<path class="seat" data-cons="E14001494" data-name="South Suffolk" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2006.25 1948.56)"/>
+<path class="seat" data-cons="E14001495" data-name="South West Devon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(393.75 2922.84)"/>
+<path class="seat" data-cons="E14001496" data-name="South West Hertfordshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1443.75 2273.32)"/>
+<path class="seat" data-cons="E14001497" data-name="South West Norfolk" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 1883.61)"/>
+<path class="seat" data-cons="E14001498" data-name="South West Wiltshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 2663.03)"/>
+<path class="seat" data-cons="E14001499" data-name="Southampton Itchen" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 2727.98)"/>
+<path class="seat" data-cons="E14001500" data-name="Southampton Test" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 2727.98)"/>
+<path class="seat" data-cons="E14001501" data-name="Southend East and Rochford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2006.25 2208.36)"/>
+<path class="seat" data-cons="E14001502" data-name="Southend West and Leigh" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 2273.32)"/>
+<path class="seat" data-cons="E14001503" data-name="Southgate and Wood Green" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 2273.32)"/>
+<path class="seat" data-cons="E14001504" data-name="Southport" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 1234.09)"/>
+<path class="seat" data-cons="E14001505" data-name="Spelthorne" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 2598.08)"/>
+<path class="seat" data-cons="E14001506" data-name="Spen Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 1363.99)"/>
+<path class="seat" data-cons="E14001507" data-name="St Albans" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 2208.36)"/>
+<path class="seat" data-cons="E14001508" data-name="St Austell and Newquay" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(206.25 2857.88)"/>
+<path class="seat" data-cons="E14001509" data-name="St Helens North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 1363.99)"/>
+<path class="seat" data-cons="E14001510" data-name="St Helens South and Whiston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 1428.94)"/>
+<path class="seat" data-cons="E14001511" data-name="St Ives" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(56.25 2987.79)"/>
+<path class="seat" data-cons="E14001512" data-name="St Neots and Mid Cambridgeshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 2013.51)"/>
+<path class="seat" data-cons="E14001513" data-name="Stafford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1818.65)"/>
+<path class="seat" data-cons="E14001514" data-name="Staffordshire Moorlands" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 1753.7)"/>
+<path class="seat" data-cons="E14001515" data-name="Stalybridge and Hyde" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1031.25 1558.85)"/>
+<path class="seat" data-cons="E14001516" data-name="Stevenage" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1668.75 2143.41)"/>
+<path class="seat" data-cons="S14000105" data-name="Stirling and Strathallan" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 389.71)"/>
+<path class="seat" data-cons="E14001517" data-name="Stockport" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 1623.8)"/>
+<path class="seat" data-cons="E14001518" data-name="Stockton North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 1039.23)"/>
+<path class="seat" data-cons="E14001519" data-name="Stockton West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 1104.18)"/>
+<path class="seat" data-cons="E14001520" data-name="Stoke-on-Trent Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1818.65)"/>
+<path class="seat" data-cons="E14001521" data-name="Stoke-on-Trent North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 1753.7)"/>
+<path class="seat" data-cons="E14001522" data-name="Stoke-on-Trent South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 1883.61)"/>
+<path class="seat" data-cons="E14001523" data-name="Stone, Great Wyrley and Penkridge" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1818.65)"/>
+<path class="seat" data-cons="E14001524" data-name="Stourbridge" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 2078.46)"/>
+<path class="seat" data-cons="N05000016" data-name="Strangford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(318.75 1104.18)"/>
+<path class="seat" data-cons="E14001525" data-name="Stratford and Bow" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1706.25 2468.17)"/>
+<path class="seat stage-contact tracked" data-cons="E14001526" data-name="Stratford-on-Avon" data-mp="Manuela Perteghella" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(918.75 2273.32)"/>
+<path class="seat" data-cons="E14001527" data-name="Streatham and Croydon North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 2727.98)"/>
+<path class="seat" data-cons="E14001528" data-name="Stretford and Urmston" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 1558.85)"/>
+<path class="seat" data-cons="E14001529" data-name="Stroud" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 2403.22)"/>
+<path class="seat" data-cons="E14001530" data-name="Suffolk Coastal" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2043.75 1883.61)"/>
+<path class="seat" data-cons="E14001531" data-name="Sunderland Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 974.28)"/>
+<path class="seat" data-cons="E14001532" data-name="Surrey Heath" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1143.75 2533.12)"/>
+<path class="seat" data-cons="E14001533" data-name="Sussex Weald" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2081.25 2727.98)"/>
+<path class="seat" data-cons="E14001535" data-name="Sutton Coldfield" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 2013.51)"/>
+<path class="seat" data-cons="E14001534" data-name="Sutton and Cheam" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 2727.98)"/>
+<path class="seat" data-cons="W07000108" data-name="Swansea West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(243.75 2403.22)"/>
+<path class="seat" data-cons="E14001536" data-name="Swindon North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 2533.12)"/>
+<path class="seat" data-cons="E14001537" data-name="Swindon South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 2598.08)"/>
+<path class="seat stage-dpa tracked" data-cons="E14001538" data-name="Tamworth" data-mp="Sarah Edwards" data-stage="dpa" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 1948.56)"/>
+<path class="seat" data-cons="E14001539" data-name="Tatton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 1688.75)"/>
+<path class="seat" data-cons="E14001540" data-name="Taunton and Wellington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 2727.98)"/>
+<path class="seat" data-cons="E14001541" data-name="Telford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 1883.61)"/>
+<path class="seat" data-cons="E14001542" data-name="Tewkesbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 2338.27)"/>
+<path class="seat" data-cons="E14001543" data-name="The Wrekin" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 1883.61)"/>
+<path class="seat" data-cons="E14001544" data-name="Thirsk and Malton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1331.25 1169.13)"/>
+<path class="seat" data-cons="E14001545" data-name="Thornbury and Yate" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 2338.27)"/>
+<path class="seat" data-cons="E14001546" data-name="Thurrock" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 2338.27)"/>
+<path class="seat" data-cons="E14001547" data-name="Tipton and Wednesbury" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 2013.51)"/>
+<path class="seat" data-cons="E14001548" data-name="Tiverton and Minehead" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(393.75 2663.03)"/>
+<path class="seat" data-cons="E14001549" data-name="Tonbridge" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 2663.03)"/>
+<path class="seat" data-cons="E14001550" data-name="Tooting" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 2727.98)"/>
+<path class="seat" data-cons="E14001551" data-name="Torbay" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(431.25 2857.88)"/>
+<path class="seat" data-cons="W07000109" data-name="Torfaen" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 2208.36)"/>
+<path class="seat" data-cons="E14001552" data-name="Torridge and Tavistock" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(281.25 2727.98)"/>
+<path class="seat" data-cons="E14001553" data-name="Tottenham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1518.75 2403.22)"/>
+<path class="seat" data-cons="E14001554" data-name="Truro and Falmouth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(168.75 2922.84)"/>
+<path class="seat" data-cons="E14001555" data-name="Tunbridge Wells" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2006.25 2727.98)"/>
+<path class="seat" data-cons="E14001556" data-name="Twickenham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 2663.03)"/>
+<path class="seat" data-cons="E14001557" data-name="Tynemouth" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 844.37)"/>
+<path class="seat" data-cons="N05000017" data-name="Upper Bann" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(56.25 1169.13)"/>
+<path class="seat" data-cons="E14001558" data-name="Uxbridge and South Ruislip" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1218.75 2403.22)"/>
+<path class="seat stage-dpa tracked" data-cons="W07000110" data-name="Vale of Glamorgan" data-mp="Kanishka Narayan" data-stage="dpa" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(356.25 2468.17)"/>
+<path class="seat" data-cons="E14001559" data-name="Vauxhall and Camberwell Green" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 2663.03)"/>
+<path class="seat" data-cons="E14001560" data-name="Wakefield and Rothwell" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1256.25 1428.94)"/>
+<path class="seat" data-cons="E14001561" data-name="Wallasey" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 1753.7)"/>
+<path class="seat" data-cons="E14001562" data-name="Walsall and Bloxwich" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 1948.56)"/>
+<path class="seat" data-cons="E14001563" data-name="Walthamstow" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1593.75 2403.22)"/>
+<path class="seat" data-cons="E14001564" data-name="Warrington North" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(693.75 1493.89)"/>
+<path class="seat" data-cons="E14001565" data-name="Warrington South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 1558.85)"/>
+<path class="seat" data-cons="E14001566" data-name="Warwick and Leamington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 2273.32)"/>
+<path class="seat" data-cons="E14001567" data-name="Washington and Gateshead South" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(993.75 974.28)"/>
+<path class="seat" data-cons="E14001568" data-name="Watford" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 2273.32)"/>
+<path class="seat" data-cons="E14001569" data-name="Waveney Valley" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 1818.65)"/>
+<path class="seat" data-cons="E14001570" data-name="Weald of Kent" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(2118.75 2663.03)"/>
+<path class="seat" data-cons="E14001571" data-name="Wellingborough and Rushden" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1556.25 1948.56)"/>
+<path class="seat" data-cons="E14001572" data-name="Wells and Mendip Hills" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 2598.08)"/>
+<path class="seat stage-contact tracked" data-cons="E14001573" data-name="Welwyn Hatfield" data-mp="Andrew Lewin" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1743.75 2143.41)"/>
+<path class="seat" data-cons="S14000111" data-name="West Aberdeenshire and Kincardine" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 259.81)"/>
+<path class="seat stage-contact tracked" data-cons="E14001574" data-name="West Bromwich" data-mp="Sarah Coombes" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(731.25 2078.46)"/>
+<path class="seat" data-cons="E14001575" data-name="West Dorset" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 2857.88)"/>
+<path class="seat" data-cons="S14000106" data-name="West Dunbartonshire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(468.75 454.66)"/>
+<path class="seat" data-cons="E14001576" data-name="West Ham and Beckton" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1781.25 2468.17)"/>
+<path class="seat" data-cons="E14001577" data-name="West Lancashire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(543.75 1363.99)"/>
+<path class="seat stage-contact tracked" data-cons="E14001578" data-name="West Suffolk" data-mp="Nick Timothy" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1856.25 1948.56)"/>
+<path class="seat" data-cons="N05000018" data-name="West Tyrone" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(-18.75 1039.23)"/>
+<path class="seat" data-cons="E14001579" data-name="West Worcestershire" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 2273.32)"/>
+<path class="seat" data-cons="E14001580" data-name="Westmorland and Lonsdale" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 974.28)"/>
+<path class="seat" data-cons="E14001581" data-name="Weston-super-Mare" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 2598.08)"/>
+<path class="seat" data-cons="E14001582" data-name="Wetherby and Easingwold" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1481.25 1299.04)"/>
+<path class="seat" data-cons="E14001583" data-name="Whitehaven and Workington" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1039.23)"/>
+<path class="seat" data-cons="E14001584" data-name="Widnes and Halewood" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 1688.75)"/>
+<path class="seat" data-cons="E14001585" data-name="Wigan" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(656.25 1299.04)"/>
+<path class="seat" data-cons="E14001586" data-name="Wimbledon" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 2663.03)"/>
+<path class="seat" data-cons="E14001587" data-name="Winchester" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 2598.08)"/>
+<path class="seat" data-cons="E14001588" data-name="Windsor" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 2468.17)"/>
+<path class="seat" data-cons="E14001589" data-name="Wirral West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(506.25 1818.65)"/>
+<path class="seat" data-cons="E14001590" data-name="Witham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1968.75 2143.41)"/>
+<path class="seat" data-cons="E14001591" data-name="Witney" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1068.75 2273.32)"/>
+<path class="seat" data-cons="E14001592" data-name="Woking" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1106.25 2598.08)"/>
+<path class="seat" data-cons="E14001593" data-name="Wokingham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(956.25 2468.17)"/>
+<path class="seat" data-cons="E14001594" data-name="Wolverhampton North East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(843.75 1883.61)"/>
+<path class="seat" data-cons="E14001595" data-name="Wolverhampton South East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(881.25 1948.56)"/>
+<path class="seat stage-contact tracked" data-cons="E14001596" data-name="Wolverhampton West" data-mp="Warinder Juss" data-stage="contact" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1948.56)"/>
+<path class="seat" data-cons="E14001597" data-name="Worcester" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 2208.36)"/>
+<path class="seat" data-cons="E14001598" data-name="Worsley and Eccles" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(768.75 1493.89)"/>
+<path class="seat" data-cons="E14001599" data-name="Worthing West" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1631.25 2857.88)"/>
+<path class="seat" data-cons="W07000111" data-name="Wrexham" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 1948.56)"/>
+<path class="seat" data-cons="E14001600" data-name="Wycombe" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1181.25 2338.27)"/>
+<path class="seat" data-cons="E14001601" data-name="Wyre Forest" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(618.75 2143.41)"/>
+<path class="seat" data-cons="E14001602" data-name="Wythenshawe and Sale East" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(806.25 1688.75)"/>
+<path class="seat" data-cons="E14001603" data-name="Yeovil" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(581.25 2727.98)"/>
+<path class="seat" data-cons="W07000112" data-name="Ynys Môn" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(318.75 1883.61)"/>
+<path class="seat" data-cons="E14001604" data-name="York Central" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1368.75 1234.09)"/>
+<path class="seat" data-cons="E14001605" data-name="York Outer" d="M0 -43.3L37.5 -21.65L37.5 21.65L0 43.3L-37.5 21.65L-37.5 -21.65z" transform="translate(1406.25 1169.13)"/>
+</g>
+</g>
+<g class="boundaries">
+<path class="border" data-region="ea-em" d="M1443.75 2100.11l0 -43.3L1443.75 2056.81l37.5 -21.65L1481.25 2035.16l0 -43.3L1481.25 1991.86l37.5 -21.65L1518.75 1970.21l37.5 21.65L1556.25 1991.86l37.5 -21.65L1593.75 1970.21l0 -43.3L1593.75 1926.91l-37.5 -21.65L1556.25 1905.26l0 -43.3L1556.25 1861.95l37.5 -21.65L1593.75 1840.3l0 -43.3L1593.75 1797l37.5 -21.65"/>
+<path class="border" data-region="ea-se" d="M1443.75 2100.11l37.5 21.65L1481.25 2121.76l0 43.3L1481.25 2165.06l-37.5 21.65L1443.75 2186.71l0 43.3L1443.75 2230.02l-37.5 21.65L1406.25 2251.67l0 43.3"/>
+<path class="border" data-region="lo-ea" d="M1406.25 2294.97l37.5 21.65L1443.75 2316.62l37.5 -21.65L1481.25 2294.97l0 -43.3L1481.25 2251.67l37.5 -21.65L1518.75 2230.02l37.5 21.65L1556.25 2251.67l37.5 -21.65L1593.75 2230.02l37.5 21.65L1631.25 2251.67l37.5 -21.65L1668.75 2230.02l37.5 21.65L1706.25 2251.67l0 43.3L1706.25 2294.97l37.5 21.65L1743.75 2316.62l37.5 -21.65L1781.25 2294.97l37.5 21.65L1818.75 2316.62l0 43.3L1818.75 2359.92l37.5 21.65L1856.25 2381.57l37.5 -21.65L1893.75 2359.92l37.5 21.65"/>
+<path class="border" data-region="lo-se" d="M1406.25 2294.97l-37.5 21.65L1368.75 2316.62l-37.5 -21.65L1331.25 2294.97l-37.5 21.65L1293.75 2316.62l0 43.3L1293.75 2359.92l-37.5 21.65L1256.25 2381.57l-37.5 -21.65L1218.75 2359.92l-37.5 21.65L1181.25 2381.57l0 43.3L1181.25 2424.87l-37.5 21.65L1143.75 2446.52l0 43.3L1143.75 2489.82l37.5 21.65L1181.25 2511.47l0 43.3L1181.25 2554.77l37.5 21.65L1218.75 2576.43l0 43.3L1218.75 2619.73l-37.5 21.65L1181.25 2641.38l0 43.3L1181.25 2684.68l37.5 21.65L1218.75 2706.33l0 43.3L1218.75 2749.63l37.5 21.65L1256.25 2771.28l37.5 -21.65L1293.75 2749.63l37.5 21.65L1331.25 2771.28l37.5 -21.65L1368.75 2749.63l37.5 21.65L1406.25 2771.28l0 43.3L1406.25 2814.58l37.5 21.65L1443.75 2836.23l37.5 -21.65L1481.25 2814.58l37.5 21.65L1518.75 2836.23l37.5 -21.65L1556.25 2814.58l37.5 21.65L1593.75 2836.23l37.5 -21.65L1631.25 2814.58l37.5 21.65L1668.75 2836.23l37.5 -21.65L1706.25 2814.58l37.5 21.65L1743.75 2836.23l37.5 -21.65L1781.25 2814.58l37.5 21.65L1818.75 2836.23l37.5 -21.65L1856.25 2814.58l0 -43.3L1856.25 2771.28l37.5 -21.65L1893.75 2749.63l0 -43.3L1893.75 2706.33l37.5 -21.65L1931.25 2684.68l0 -43.3L1931.25 2641.38l-37.5 -21.65L1893.75 2619.73l0 -43.3L1893.75 2576.43l37.5 -21.65L1931.25 2554.77l0 -43.3L1931.25 2511.47l37.5 -21.65"/>
+<path class="border" data-region="ne-yh" d="M1068.75 1147.48l37.5 -21.65L1106.25 1125.83l37.5 21.65L1143.75 1147.48l37.5 -21.65L1181.25 1125.83l37.5 21.65L1218.75 1147.48l37.5 -21.65L1256.25 1125.83l37.5 21.65L1293.75 1147.48l37.5 -21.65"/>
+<path class="border" data-region="nw-em" d="M1068.75 1580.5l-37.5 21.65L1031.25 1602.15l0 43.3L1031.25 1645.45l37.5 21.65L1068.75 1667.1l0 43.3"/>
+<path class="border" data-region="nw-ne" d="M806.25 866.03l37.5 21.65L843.75 887.68l0 43.3L843.75 930.98l37.5 21.65L881.25 952.63l0 43.3L881.25 995.93l37.5 21.65L918.75 1017.58l0 43.3L918.75 1060.88l37.5 21.65L956.25 1082.53l0 43.3L956.25 1125.83l37.5 21.65L993.75 1147.48l37.5 -21.65L1031.25 1125.83l37.5 21.65"/>
+<path class="border" data-region="nw-wm" d="M1068.75 1710.4l-37.5 21.65L1031.25 1732.05l-37.5 -21.65L993.75 1710.4l-37.5 21.65L956.25 1732.05l0 43.3L956.25 1775.35l-37.5 21.65L918.75 1797l-37.5 -21.65L881.25 1775.35l-37.5 21.65L843.75 1797l-37.5 -21.65L806.25 1775.35l-37.5 21.65L768.75 1797l-37.5 -21.65L731.25 1775.35l-37.5 21.65L693.75 1797l0 43.3L693.75 1840.3l-37.5 21.65L656.25 1861.95l-37.5 -21.65L618.75 1840.3l-37.5 21.65"/>
+<path class="border" data-region="nw-yh" d="M1068.75 1147.48l0 43.3L1068.75 1190.78l-37.5 21.65L1031.25 1212.44l0 43.3L1031.25 1255.74l-37.5 21.65L993.75 1277.39l0 43.3L993.75 1320.69l-37.5 21.65L956.25 1342.34l0 43.3L956.25 1385.64l37.5 21.65L993.75 1407.29l0 43.3L993.75 1450.59l-37.5 21.65L956.25 1472.24l0 43.3L956.25 1515.54l37.5 21.65L993.75 1537.2l37.5 -21.65L1031.25 1515.54l37.5 21.65L1068.75 1537.2l0 43.3"/>
+<path class="border" data-region="sc-en" d="M881.25 736.12l-37.5 21.65L843.75 757.77l0 43.3L843.75 801.07l-37.5 21.65L806.25 822.72l0 43.3L806.25 866.03l-37.5 21.65"/>
+<path class="border" data-region="se-em" d="M1218.75 2100.11l37.5 21.65L1256.25 2121.76l0 43.3L1256.25 2165.06l37.5 21.65L1293.75 2186.71l37.5 -21.65L1331.25 2165.06l37.5 21.65L1368.75 2186.71l37.5 -21.65L1406.25 2165.06l0 -43.3L1406.25 2121.76l37.5 -21.65"/>
+<path class="border" data-region="sw-se" d="M881.25 2381.57l0 43.3L881.25 2424.87l-37.5 21.65L843.75 2446.52l0 43.3L843.75 2489.82l37.5 21.65L881.25 2511.47l0 43.3L881.25 2554.77l-37.5 21.65L843.75 2576.43l0 43.3L843.75 2619.73l37.5 21.65L881.25 2641.38l0 43.3L881.25 2684.68l-37.5 21.65L843.75 2706.33l0 43.3L843.75 2749.63l-37.5 21.65L806.25 2771.28l0 43.3"/>
+<path class="border" data-region="wa-en" d="M506.25 1861.95l37.5 -21.65L543.75 1840.3l37.5 21.65L581.25 1861.95l0 43.3L581.25 1905.26l37.5 21.65L618.75 1926.91l0 43.3L618.75 1970.21l-37.5 21.65L581.25 1991.86l0 43.3L581.25 2035.16l37.5 21.65L618.75 2056.81l0 43.3L618.75 2100.11l-37.5 21.65L581.25 2121.76l0 43.3L581.25 2165.06l37.5 21.65L618.75 2186.71l0 43.3L618.75 2230.02l-37.5 21.65L581.25 2251.67l0 43.3L581.25 2294.97l37.5 21.65L618.75 2316.62l0 43.3L618.75 2359.92l-37.5 21.65L581.25 2381.57l0 43.3L581.25 2424.87l-37.5 21.65"/>
+<path class="border" data-region="wm-em" d="M1068.75 1710.4l37.5 21.65L1106.25 1732.05l0 43.3L1106.25 1775.35l-37.5 21.65L1068.75 1797l0 43.3L1068.75 1840.3l37.5 21.65L1106.25 1861.95l0 43.3L1106.25 1905.26l37.5 21.65L1143.75 1926.91l0 43.3L1143.75 1970.21l37.5 21.65L1181.25 1991.86l0 43.3L1181.25 2035.16l37.5 21.65L1218.75 2056.81l0 43.3"/>
+<path class="border" data-region="wm-se" d="M881.25 2381.57l37.5 -21.65L918.75 2359.92l0 -43.3L918.75 2316.62l37.5 -21.65L956.25 2294.97l37.5 21.65L993.75 2316.62l37.5 -21.65L1031.25 2294.97l0 -43.3L1031.25 2251.67l37.5 -21.65L1068.75 2230.02l37.5 21.65L1106.25 2251.67l37.5 -21.65L1143.75 2230.02l0 -43.3L1143.75 2186.71l37.5 -21.65L1181.25 2165.06l0 -43.3L1181.25 2121.76l37.5 -21.65"/>
+<path class="border" data-region="wm-sw" d="M618.75 2230.02l37.5 21.65L656.25 2251.67l37.5 -21.65L693.75 2230.02l37.5 21.65L731.25 2251.67l0 43.3L731.25 2294.97l37.5 21.65L768.75 2316.62l37.5 -21.65L806.25 2294.97l37.5 21.65L843.75 2316.62l0 43.3L843.75 2359.92l37.5 21.65"/>
+<path class="border" data-region="yh-em" d="M1068.75 1580.5l37.5 21.65L1106.25 1602.15l0 43.3L1106.25 1645.45l37.5 21.65L1143.75 1667.1l37.5 -21.65L1181.25 1645.45l37.5 21.65L1218.75 1667.1l37.5 -21.65L1256.25 1645.45l37.5 21.65L1293.75 1667.1l37.5 -21.65L1331.25 1645.45l37.5 21.65L1368.75 1667.1l37.5 -21.65L1406.25 1645.45l0 -43.3L1406.25 1602.15l37.5 -21.65L1443.75 1580.5l37.5 21.65L1481.25 1602.15l37.5 -21.65L1518.75 1580.5l37.5 21.65L1556.25 1602.15l37.5 -21.65"/>
+</g>
+</svg>
+
+    </div>
+    <div class="map-legend">
+      <div class="legend-item"><span class="legend-swatch" style="background: var(--contact);"></span>Contact</div>
+      <div class="legend-item"><span class="legend-swatch" style="background: var(--meeting);"></span>Meeting</div>
+      <div class="legend-item"><span class="legend-swatch" style="background: var(--dpa);"></span>Signed DPA</div>
+      <div class="legend-item"><span class="legend-swatch" style="background: var(--migrated);"></span>Migrated</div>
+      <div class="legend-item"><span class="legend-swatch" style="background: var(--complete);"></span>Complete</div>
+      <div class="legend-item" style="grid-column: 1 / -1;"><span class="legend-swatch" style="background: var(--neutral); border-color: var(--neutral-stroke);"></span>Not in pipeline</div>
+    </div>
+  </section>
+
+  <section class="referrers-panel">
+    <h2>Referrers</h2>
+    <div class="referrers-sub">Internal contacts who introduced MPs into the pipeline. Click an MP to highlight on the map.</div>
+    <div class="referrers-grid">
+      <div class="referrer-card">
+        <div class="referrer-head">
+          <div class="referrer-avatar">CJ</div>
+          <div class="referrer-name">Charles Jeynes</div>
+          <div class="referrer-count">3 MPs</div>
+        </div>
+        <div class="referrer-mps">
+          <span class="referrer-mp" data-cons="E14001064">Wendy Morton</span>
+          <span class="referrer-mp" data-cons="E14001316">Mike Wood</span>
+          <span class="referrer-mp" data-cons="E14001596">Warinder Juss</span>
+        </div>
+      </div>
+      <div class="referrer-card">
+        <div class="referrer-head">
+          <div class="referrer-avatar">N</div>
+          <div class="referrer-name">Nathan</div>
+          <div class="referrer-count">0 MPs</div>
+        </div>
+        <div class="referrer-empty">No introductions yet</div>
+      </div>
+      <div class="referrer-card">
+        <div class="referrer-head">
+          <div class="referrer-avatar">F</div>
+          <div class="referrer-name">Felix</div>
+          <div class="referrer-count">0 MPs</div>
+        </div>
+        <div class="referrer-empty">No introductions yet</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="board">
+
+    <div class="column col-contact" data-stage="contact">
+      <div class="col-header">
+        <div class="col-stage-num">01 · OUTREACH</div>
+        <div class="col-title">Contact <span class="col-count">9</span></div>
+        <div class="col-sub">Initial outreach made</div>
+      </div>
+      <div class="cards"><div class="card" data-cons="E14001526" data-mp="Manuela Perteghella"><div class="card-name">Manuela Perteghella</div><div class="card-meta">Lib Dem &middot; Stratford-on-Avon</div></div>
+<div class="card" data-cons="E14001573" data-mp="Andrew Lewin"><div class="card-name">Andrew Lewin</div><div class="card-meta">Labour &middot; Welwyn Hatfield</div></div>
+<div class="card" data-cons="E14001316" data-mp="Mike Wood"><div class="card-name">Mike Wood</div><div class="card-meta">Conservative &middot; Kingswinford and South Staffordshire</div><div class="card-ref">via Charles Jeynes</div></div>
+<div class="card" data-cons="E14001067" data-mp="Andrew Griffith"><div class="card-name">Andrew Griffith</div><div class="card-meta">Conservative &middot; Arundel and South Downs</div></div>
+<div class="card" data-cons="E14001574" data-mp="Sarah Coombes"><div class="card-name">Sarah Coombes</div><div class="card-meta">Labour &middot; West Bromwich</div></div>
+<div class="card" data-cons="E14001203" data-mp="Nigel Huddleston"><div class="card-name">Nigel Huddleston</div><div class="card-meta">Conservative &middot; Droitwich and Evesham</div></div>
+<div class="card" data-cons="E14001578" data-mp="Nick Timothy"><div class="card-name">Nick Timothy</div><div class="card-meta">Conservative &middot; West Suffolk</div></div>
+<div class="card" data-cons="E14001596" data-mp="Warinder Juss"><div class="card-name">Warinder Juss</div><div class="card-meta">Labour &middot; Wolverhampton West</div><div class="card-ref">via Charles Jeynes</div></div>
+<div class="card" data-cons="E14001111" data-mp="Yasmin Qureshi"><div class="card-name">Yasmin Qureshi</div><div class="card-meta">Labour &middot; Bolton South and Walkden</div></div></div>
+    </div>
+
+    <div class="column col-meeting" data-stage="meeting">
+      <div class="col-header">
+        <div class="col-stage-num">02 · QUALIFIED</div>
+        <div class="col-title">Office Meeting <span class="col-count">4</span></div>
+        <div class="col-sub">Demo scheduled or held</div>
+      </div>
+      <div class="cards"><div class="card" data-cons="E14001124" data-mp="Ruth Cadbury"><div class="card-name">Ruth Cadbury</div><div class="card-meta">Labour &middot; Brentford and Isleworth</div></div>
+<div class="card" data-cons="E14001064" data-mp="Wendy Morton"><div class="card-name">Wendy Morton</div><div class="card-meta">Conservative &middot; Aldridge-Brownhills</div><div class="card-ref">via Charles Jeynes</div></div>
+<div class="card" data-cons="S14000083" data-mp="Euan Stainbank"><div class="card-name">Euan Stainbank</div><div class="card-meta">Labour &middot; Falkirk</div></div>
+<div class="card" data-cons="E14001278" data-mp="David Taylor"><div class="card-name">David Taylor</div><div class="card-meta">Labour &middot; Hemel Hempstead</div></div></div>
+    </div>
+
+    <div class="column col-dpa" data-stage="dpa">
+      <div class="col-header">
+        <div class="col-stage-num">03 · COMMITTED</div>
+        <div class="col-title">Signed DPA <span class="col-count">6</span></div>
+        <div class="col-sub">Data Processing Agreement returned</div>
+      </div>
+      <div class="cards"><div class="card" data-cons="E14001433" data-mp="Mark Hendrick"><div class="card-name">Mark Hendrick</div><div class="card-meta">Labour &middot; Preston</div></div>
+<div class="card" data-cons="E14001239" data-mp="Tony Vaughan"><div class="card-name">Tony Vaughan</div><div class="card-meta">Labour &middot; Folkestone and Hythe</div></div>
+<div class="card" data-cons="E14001213" data-mp="Stephen Timms"><div class="card-name">Stephen Timms</div><div class="card-meta">Labour &middot; East Ham</div></div>
+<div class="card" data-cons="W07000110" data-mp="Kanishka Narayan"><div class="card-name">Kanishka Narayan</div><div class="card-meta">Labour &middot; Vale of Glamorgan</div></div>
+<div class="card" data-cons="E14001261" data-mp="Alex Ballinger"><div class="card-name">Alex Ballinger</div><div class="card-meta">Labour &middot; Halesowen</div></div>
+<div class="card" data-cons="E14001538" data-mp="Sarah Edwards"><div class="card-name">Sarah Edwards</div><div class="card-meta">Labour &middot; Tamworth</div></div></div>
+    </div>
+
+    <div class="column col-migrated" data-stage="migrated">
+      <div class="col-header">
+        <div class="col-stage-num">04 · ONBOARDED</div>
+        <div class="col-title">Caseworker Migrated <span class="col-count">4</span></div>
+        <div class="col-sub">Data ported &middot; staff using DearMP</div>
+      </div>
+      <div class="cards"><div class="card" data-cons="E14001348" data-mp="Joshua Reynolds"><div class="card-name">Joshua Reynolds</div><div class="card-meta">Lib Dem &middot; Maidenhead</div></div>
+<div class="card" data-cons="E14001210" data-mp="Yuan Yang"><div class="card-name">Yuan Yang</div><div class="card-meta">Labour &middot; Earley and Woodley</div></div>
+<div class="card" data-cons="S14000080" data-mp="Ian Murray"><div class="card-name">Ian Murray</div><div class="card-meta">Labour &middot; Edinburgh South</div></div>
+<div class="card" data-cons="E14001076" data-mp="Michelle Scrogham"><div class="card-name">Michelle Scrogham</div><div class="card-meta">Labour &middot; Barrow and Furness</div></div></div>
+    </div>
+
+    <div class="column col-complete" data-stage="complete">
+      <div class="col-header">
+        <div class="col-stage-num">05 · WON</div>
+        <div class="col-title">Sale Complete <span class="col-count">0</span></div>
+        <div class="col-sub">Contracted &middot; renewable</div>
+      </div>
+      <div class="cards"><div class="empty-state"><span class="icon">∅</span>No MPs at this stage</div></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div>DearMP &middot; Internal sales tracker &middot; <a href="https://dearmp.uk/" target="_blank" rel="noopener">dearmp.uk</a></div>
+  <div id="updated">—</div>
+</footer>
+
+<div id="map-tooltip"></div>
+
+<script>
+(function () {
+  const consToMP = {
+    "E14001526": { name: "Manuela Perteghella", stage: "contact" },
+    "E14001573": { name: "Andrew Lewin", stage: "contact" },
+    "E14001316": { name: "Mike Wood", stage: "contact", referrer: "Charles Jeynes" },
+    "E14001067": { name: "Andrew Griffith", stage: "contact" },
+    "E14001574": { name: "Sarah Coombes", stage: "contact" },
+    "E14001203": { name: "Nigel Huddleston", stage: "contact" },
+    "E14001578": { name: "Nick Timothy", stage: "contact" },
+    "E14001596": { name: "Warinder Juss", stage: "contact", referrer: "Charles Jeynes" },
+    "E14001111": { name: "Yasmin Qureshi", stage: "contact" },
+    "E14001124": { name: "Ruth Cadbury", stage: "meeting" },
+    "E14001064": { name: "Wendy Morton", stage: "meeting", referrer: "Charles Jeynes" },
+    "S14000083": { name: "Euan Stainbank", stage: "meeting" },
+    "E14001278": { name: "David Taylor", stage: "meeting" },
+    "E14001433": { name: "Mark Hendrick", stage: "dpa" },
+    "E14001239": { name: "Tony Vaughan", stage: "dpa" },
+    "E14001213": { name: "Stephen Timms", stage: "dpa" },
+    "W07000110": { name: "Kanishka Narayan", stage: "dpa" },
+    "E14001261": { name: "Alex Ballinger", stage: "dpa" },
+    "E14001538": { name: "Sarah Edwards", stage: "dpa" },
+    "E14001348": { name: "Joshua Reynolds", stage: "migrated" },
+    "E14001210": { name: "Yuan Yang", stage: "migrated" },
+    "S14000080": { name: "Ian Murray", stage: "migrated" },
+    "E14001076": { name: "Michelle Scrogham", stage: "migrated" }
+  };
+
+  const stageLabels = {
+    contact: "Contact",
+    meeting: "Office Meeting",
+    dpa: "Signed DPA",
+    migrated: "Caseworker Migrated",
+    complete: "Sale Complete",
+  };
+
+  const tooltip = document.getElementById("map-tooltip");
+  const seats = document.querySelectorAll("#map-svg-wrap svg .seat");
+  const cards = document.querySelectorAll(".card[data-cons]");
+  const searchInput = document.getElementById("search");
+  const matchCount = document.getElementById("match-count");
+
+  function linkPair(cons, on) {
+    document.querySelectorAll(
+      '#map-svg-wrap svg [data-cons="' + cons + '"], .card[data-cons="' + cons + '"]'
+    ).forEach((el) => el.classList.toggle("linked", on));
+  }
+
+  function showTooltip(seat, x, y) {
+    const cons = seat.getAttribute("data-cons");
+    const consName = seat.getAttribute("data-name") || cons;
+    const info = consToMP[cons];
+
+    let html = '';
+    if (info) {
+      html += '<div class="tt-mp">' + info.name + '</div>';
+      html += '<div class="tt-cons">' + consName + '</div>';
+      html += '<div class="tt-stage tt-stage-' + info.stage + '">' + stageLabels[info.stage] + '</div>';
+      if (info.referrer) {
+        html += '<div class="tt-ref">via ' + info.referrer + '</div>';
+      }
+    } else {
+      html += '<div class="tt-mp" style="font-weight:500;">' + consName + '</div>';
+      html += '<div class="tt-cons" style="opacity:0.6;">Not in pipeline</div>';
+    }
+    tooltip.innerHTML = html;
+    tooltip.classList.add("visible");
+    tooltip.style.left = x + "px";
+    tooltip.style.top = y + "px";
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove("visible");
+  }
+
+  seats.forEach((seat) => {
+    const cons = seat.getAttribute("data-cons");
+
+    seat.addEventListener("mouseenter", (e) => {
+      showTooltip(seat, e.clientX, e.clientY);
+      if (cons) linkPair(cons, true);
+    });
+    seat.addEventListener("mousemove", (e) => {
+      tooltip.style.left = e.clientX + "px";
+      tooltip.style.top = e.clientY + "px";
+    });
+    seat.addEventListener("mouseleave", () => {
+      hideTooltip();
+      if (cons) linkPair(cons, false);
+    });
+
+    seat.addEventListener("touchstart", (e) => {
+      const touch = e.touches[0];
+      showTooltip(seat, touch.clientX, touch.clientY);
+      if (cons) linkPair(cons, true);
+    }, { passive: true });
+  });
+
+  cards.forEach((card) => {
+    const cons = card.getAttribute("data-cons");
+    card.addEventListener("mouseenter", () => linkPair(cons, true));
+    card.addEventListener("mouseleave", () => linkPair(cons, false));
+    card.addEventListener("click", () => {
+      const target = document.querySelector(
+        '#map-svg-wrap svg [data-cons="' + cons + '"]'
+      );
+      if (target) {
+        document.querySelector('.map-panel').scrollIntoView({ behavior: "smooth", block: "start" });
+        target.classList.add("linked");
+        setTimeout(() => target.classList.remove("linked"), 2500);
+      }
+    });
+  });
+
+  document.querySelectorAll(".referrer-mp[data-cons]").forEach((chip) => {
+    const cons = chip.getAttribute("data-cons");
+    chip.addEventListener("mouseenter", () => linkPair(cons, true));
+    chip.addEventListener("mouseleave", () => linkPair(cons, false));
+    chip.addEventListener("click", () => {
+      const target = document.querySelector(
+        '#map-svg-wrap svg [data-cons="' + cons + '"]'
+      );
+      if (target) {
+        document.querySelector('.map-panel').scrollIntoView({ behavior: "smooth", block: "start" });
+        target.classList.add("linked");
+        setTimeout(() => target.classList.remove("linked"), 2500);
+      }
+    });
+  });
+
+  document.addEventListener("touchstart", (e) => {
+    if (!e.target.closest(".seat")) hideTooltip();
+  }, { passive: true });
+
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) {
+      seats.forEach((s) => {
+        s.classList.remove("dimmed");
+        s.classList.remove("matched");
+      });
+      matchCount.textContent = seats.length;
+      return;
+    }
+    let n = 0;
+    seats.forEach((s) => {
+      const consName = (s.getAttribute("data-name") || "").toLowerCase();
+      const mpName = (s.getAttribute("data-mp") || "").toLowerCase();
+      const stage = s.getAttribute("data-stage") || "";
+      const hit = consName.includes(q) || mpName.includes(q) || stage.includes(q);
+      if (hit) {
+        s.classList.remove("dimmed");
+        s.classList.add("matched");
+        n++;
+      } else {
+        s.classList.add("dimmed");
+        s.classList.remove("matched");
+      }
+    });
+    matchCount.textContent = n;
+  });
+
+  const now = new Date();
+  const fmt = now.toLocaleString("en-GB", {
+    day: "numeric", month: "short", year: "numeric",
+    hour: "2-digit", minute: "2-digit",
+  });
+  document.getElementById("updated").textContent = "Updated · " + fmt;
+})();
+</script>
+
+</body>
+</html>
