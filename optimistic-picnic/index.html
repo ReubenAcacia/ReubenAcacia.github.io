@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Optimistic Picnic</title>
+<meta name="description" content="Pick the events you'll come to and get your own timetable. Hyde Park, 12:00–17:30.">
+<meta name="theme-color" content="#F6EFD9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Archivo:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- ==========================================================
+     Two pages in one file:
+       #/whats-on    the programme, tap to choose
+       #/timetable   only what you chose, in time order
+
+     To change the programme, edit the EVENTS list in the
+     script at the bottom. Order doesn't matter — it sorts by
+     time. Save, push, done. No build step, no backend.
+     ========================================================== -->
+
+<style>
+:root{
+  --parchment:#F6EFD9;
+  --card:#EFE3C4;
+  --edge:#E2D3AE;
+  --navy:#17335A;
+  --navy-soft:#4A5F80;
+  --vermilion:#E11F26;
+  --olive:#6B7A62;
+  --display:"Fraunces",Georgia,serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Space Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--parchment);color:var(--navy);
+  font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-bottom:6.5rem;
+}
+.wrap{max-width:38rem;margin:0 auto;padding:0 1.15rem}
+button{font-family:inherit;color:inherit}
+
+/* masthead */
+header{text-align:center;padding:2rem 0 1.2rem}
+header svg{display:block;margin:0 auto .65rem}
+.eyebrow{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--olive);margin:0 0 .45rem;
+}
+h1{
+  font-family:var(--display);font-weight:900;font-size:clamp(1.9rem,8vw,3rem);
+  line-height:.95;margin:0;letter-spacing:-.015em;
+}
+h1 em{display:block;font-style:italic;font-weight:400;color:var(--vermilion)}
+.standfirst{
+  font-family:var(--mono);font-size:.69rem;letter-spacing:.13em;text-transform:uppercase;
+  margin:.75rem 0 0;color:var(--navy-soft);
+}
+.standfirst b{color:var(--vermilion)}
+
+/* page nav */
+nav{border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--parchment)}
+nav .inner{max-width:38rem;margin:0 auto;padding:0 1.15rem;display:flex}
+.navlink{
+  flex:1;appearance:none;background:none;border:0;cursor:pointer;padding:.85rem .4rem .75rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--navy-soft);border-bottom:3px solid transparent;margin-bottom:-2px;
+  display:flex;align-items:center;justify-content:center;gap:.45rem;
+}
+.navlink[aria-current="page"]{color:var(--vermilion);border-bottom-color:var(--vermilion)}
+.pill{
+  font-size:.66rem;background:var(--vermilion);color:var(--parchment);
+  border-radius:1em;padding:.08em .5em;line-height:1.5;
+}
+.pill:empty{display:none}
+
+/* page headings */
+.pagehead{margin:1.7rem 0 1.2rem}
+.pagehead h2{
+  font-family:var(--display);font-weight:900;font-size:1.75rem;
+  margin:0;letter-spacing:-.015em;
+}
+.pagehead p{margin:.35rem 0 0;font-size:.94rem;color:var(--navy-soft)}
+
+/* event card */
+.card{
+  display:flex;gap:.85rem;align-items:center;width:100%;text-align:left;
+  background:var(--card);border:1px solid var(--edge);border-radius:2px;
+  padding:.8rem .9rem;margin-bottom:.5rem;cursor:pointer;appearance:none;
+  transition:background .12s ease;
+}
+.card:hover{background:#F2E8D1}
+.card:focus-visible{outline:2px solid var(--vermilion);outline-offset:2px}
+.card[aria-pressed="true"]{background:#FBF6E6;box-shadow:inset 0 0 0 1px var(--navy);border-color:var(--navy)}
+.card .time{font-family:var(--mono);font-size:.8rem;font-weight:700;flex:none;width:3.3rem}
+.card .time small{display:block;font-weight:400;font-size:.67rem;color:var(--navy-soft)}
+.card .body{flex:1;min-width:0}
+.card h3{font-family:var(--display);font-size:1.05rem;font-weight:600;margin:0;line-height:1.25}
+.card p{margin:.15rem 0 0;font-size:.79rem;color:var(--navy-soft)}
+.tick{
+  flex:none;width:1.35rem;height:1.35rem;border:1px solid var(--navy-soft);
+  border-radius:2px;display:grid;place-items:center;
+}
+.card[aria-pressed="true"] .tick{background:var(--vermilion);border-color:var(--vermilion)}
+.tick svg{opacity:0}
+.card[aria-pressed="true"] .tick svg{opacity:1}
+
+/* timetable rows */
+.line-item{display:flex;gap:.9rem;padding:.75rem 0;border-bottom:1px solid var(--edge)}
+.line-item:first-child{border-top:1px solid var(--edge)}
+.line-item .time{font-family:var(--mono);font-size:.82rem;font-weight:700;flex:none;width:6.3rem}
+.line-item h3{font-family:var(--display);font-size:1.05rem;font-weight:600;margin:0;line-height:1.25}
+.line-item p{margin:.15rem 0 0;font-size:.79rem;color:var(--navy-soft)}
+.clash{font-size:.76rem;color:#9A1116;margin:.3rem 0 0}
+
+.empty{
+  border:1px dashed var(--edge);border-radius:2px;padding:2rem 1.2rem;text-align:center;color:var(--navy-soft);
+}
+.empty strong{
+  display:block;font-family:var(--display);font-weight:600;font-size:1.15rem;
+  color:var(--navy);margin-bottom:.3rem;
+}
+
+.actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.4rem}
+.btn{
+  appearance:none;cursor:pointer;background:var(--navy);color:var(--parchment);
+  border:1px solid var(--navy);border-radius:2px;padding:.65rem 1rem;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;
+}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn:focus-visible{outline:2px solid var(--vermilion);outline-offset:2px}
+.toast{font-family:var(--mono);font-size:.68rem;color:var(--olive);min-height:1.2em;margin:.6rem 0 0}
+
+/* sticky bar carrying you to the other page */
+.bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:var(--parchment);border-top:2px solid var(--navy);
+  padding:.7rem 1.15rem calc(.7rem + env(safe-area-inset-bottom));
+}
+.bar .inner{max-width:38rem;margin:0 auto;display:flex;align-items:center;gap:.8rem}
+.bar .count{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--olive);flex:1;
+}
+.bar .btn{flex:none}
+
+footer{
+  margin-top:2.6rem;border-top:2px solid var(--navy);padding-top:1rem;
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.05em;color:var(--olive);text-align:center;
+}
+
+/* print — A4 of the timetable only */
+.printhead{display:none}
+@media print{
+  @page{size:A4;margin:18mm 16mm}
+  body{background:#fff;color:#000;padding:0}
+  header,nav,.bar,.actions,.toast,footer,.pagehead{display:none !important}
+  .wrap{max-width:none;padding:0}
+  .printhead{display:block;border-bottom:2px solid #000;padding-bottom:6pt;margin-bottom:14pt}
+  .printhead h2{font-family:var(--display);font-size:20pt;font-weight:900;margin:0}
+  .printhead p{font-family:var(--mono);font-size:8pt;letter-spacing:.12em;text-transform:uppercase;margin:4pt 0 0}
+  .line-item{break-inside:avoid;border-color:#bbb}
+  .clash{color:#000}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <svg width="40" height="40" viewBox="0 0 46 46" aria-hidden="true">
+      <circle cx="23" cy="23" r="7.5" fill="none" stroke="#E11F26" stroke-width="1.6"/>
+      <g stroke="#17335A" stroke-width="1.6" stroke-linecap="round">
+        <path d="M23 3v6M23 37v6M3 23h6M37 23h6M9 9l4.2 4.2M32.8 32.8L37 37M37 9l-4.2 4.2M13.2 32.8L9 37"/>
+      </g>
+    </svg>
+    <p class="eyebrow">The Optimists of Britain</p>
+    <h1>The Optimistic <em>Picnic</em></h1>
+    <p class="standfirst">Hyde Park · <b>12:00–17:30</b> · Everyone welcome</p>
+  </header>
+</div>
+
+<nav>
+  <div class="inner">
+    <a class="navlink" id="nav-whats-on" href="#/whats-on">What's on</a>
+    <a class="navlink" id="nav-timetable" href="#/timetable">Your timetable <span class="pill" id="navcount"></span></a>
+  </div>
+</nav>
+
+<!-- PAGE 1 -->
+<main class="wrap" id="page-whats-on">
+  <div class="pagehead">
+    <h2>What's on</h2>
+    <p>Tap anything you'd like to come to. Everything is free and you can drift in and out.</p>
+  </div>
+  <div id="pick"></div>
+</main>
+
+<!-- PAGE 2 -->
+<main class="wrap" id="page-timetable" hidden>
+  <div class="pagehead">
+    <h2>Your timetable</h2>
+    <p id="tt-lede">Everything you've chosen, in time order.</p>
+  </div>
+  <div class="printhead">
+    <h2>Your afternoon at the Optimistic Picnic</h2>
+    <p>Hyde Park · 12:00–17:30</p>
+  </div>
+  <div id="timetable"></div>
+  <div class="actions" id="actions" hidden>
+    <button class="btn" id="copy">Copy your link</button>
+    <button class="btn ghost" id="print">Print it</button>
+    <button class="btn ghost" id="clear">Start again</button>
+  </div>
+  <p class="toast" id="toast" role="status"></p>
+  <footer>Nothing is stored. Your picks live in the address bar — bookmark it or send it on.</footer>
+</main>
+
+<div class="bar" id="bar">
+  <div class="inner">
+    <span class="count" id="barcount"></span>
+    <a class="btn" id="barbtn" href="#/timetable">See your timetable</a>
+  </div>
+</div>
+
+<script>
+/* ---------- the programme ---------- */
+const EVENTS = [
+  { id:"col1",    start:"12:30", end:"13:30", title:"Collage with Club Banana — session 1", where:"Club Banana tent" },
+  { id:"sack",    start:"13:00", end:"13:30", title:"Sack race",                            where:"Sports field" },
+  { id:"improv",  start:"13:30", end:"14:15", title:"Improv class",                         where:"Creative corner" },
+  { id:"col2",    start:"14:00", end:"15:00", title:"Collage with Club Banana — session 2", where:"Club Banana tent" },
+  { id:"egg",     start:"14:30", end:"15:00", title:"Egg and spoon race",                   where:"Sports field" },
+  { id:"col3",    start:"15:30", end:"16:30", title:"Collage with Club Banana — session 3", where:"Club Banana tent" },
+  { id:"frisbee", start:"16:00", end:"16:45", title:"Ultimate frisbee",                     where:"Sports field" }
+];
+
+/* ---------- engine ---------- */
+const mins = t => { const [h,m] = t.split(":").map(Number); return h*60+m; };
+const list = EVENTS.map(e => ({...e, s:mins(e.start), f:mins(e.end)})).sort((a,b) => a.s-b.s);
+const byId = Object.fromEntries(list.map(e => [e.id, e]));
+const chosen = new Set();
+const $ = id => document.getElementById(id);
+
+/* Picks travel in the address bar, so a refresh keeps them and the link can
+   be shared. Sandboxed previews (about:srcdoc) have no writable URL — the
+   pages work the same there, the link just isn't shareable. */
+let urlWritable = true;
+function saveURL(){
+  if(!urlWritable) return;
+  try{
+    const u = new URL(location.href);
+    chosen.size ? u.searchParams.set("p", [...chosen].join(",")) : u.searchParams.delete("p");
+    history.replaceState(null, "", u);
+  }catch(err){
+    urlWritable = false;
+    $("copy").hidden = true;
+  }
+}
+
+/* ---------- page 1 ---------- */
+function renderWhatsOn(){
+  const host = $("pick");
+  host.innerHTML = "";
+  list.forEach(ev => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "card";
+    b.setAttribute("aria-pressed", chosen.has(ev.id));
+    b.innerHTML =
+      '<div class="time">' + ev.start + '<small>to ' + ev.end + '</small></div>' +
+      '<div class="body"><h3></h3><p></p></div>' +
+      '<div class="tick"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">' +
+      '<path d="M1.5 6.3l3 3 6-7" fill="none" stroke="#F6EFD9" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+    b.querySelector("h3").textContent = ev.title;
+    b.querySelector("p").textContent = ev.where;
+    b.addEventListener("click", () => {
+      chosen.has(ev.id) ? chosen.delete(ev.id) : chosen.add(ev.id);
+      saveURL(); render();
+    });
+    host.appendChild(b);
+  });
+}
+
+/* ---------- page 2 ---------- */
+function renderTimetable(){
+  const host = $("timetable");
+  const picks = list.filter(e => chosen.has(e.id));
+  host.innerHTML = "";
+  $("actions").hidden = picks.length === 0;
+
+  if(!picks.length){
+    $("tt-lede").textContent = "Nothing chosen yet.";
+    host.innerHTML = '<div class="empty"><strong>Your timetable is empty</strong>' +
+                     'Go to What\'s on and tap the events you fancy.</div>';
+    return;
+  }
+  $("tt-lede").textContent = picks.length === 1
+    ? "One event, and the rest of the afternoon to picnic in."
+    : picks.length + " events, in time order.";
+
+  picks.forEach(ev => {
+    const row = document.createElement("div");
+    row.className = "line-item";
+    row.innerHTML = '<div class="time">' + ev.start + '–' + ev.end + '</div>' +
+                    '<div class="body"><h3></h3><p></p></div>';
+    row.querySelector("h3").textContent = ev.title;
+    row.querySelector("p").textContent = ev.where;
+
+    const clash = picks.filter(o => o.id !== ev.id && o.s < ev.f && ev.s < o.f);
+    if(clash.length){
+      const c = document.createElement("p");
+      c.className = "clash";
+      c.textContent = "Overlaps with " + clash.map(o => o.title).join(" and ");
+      row.querySelector(".body").appendChild(c);
+    }
+    host.appendChild(row);
+  });
+}
+
+/* ---------- routing ---------- */
+function currentPage(){
+  return location.hash === "#/timetable" ? "timetable" : "whats-on";
+}
+function renderChrome(){
+  const page = currentPage();
+  $("page-whats-on").hidden  = page !== "whats-on";
+  $("page-timetable").hidden = page !== "timetable";
+  $("nav-whats-on").setAttribute("aria-current", page === "whats-on" ? "page" : "false");
+  $("nav-timetable").setAttribute("aria-current", page === "timetable" ? "page" : "false");
+  document.title = (page === "timetable" ? "Your timetable" : "What's on") + " — The Optimistic Picnic";
+
+  const n = chosen.size;
+  $("navcount").textContent = n || "";
+  $("barcount").textContent = n === 0 ? "Nothing chosen yet"
+                            : n === 1 ? "1 event chosen" : n + " events chosen";
+
+  if(page === "whats-on"){
+    $("barbtn").textContent = "See your timetable";
+    $("barbtn").setAttribute("href", "#/timetable");
+  } else {
+    $("barbtn").textContent = "Back to what's on";
+    $("barbtn").setAttribute("href", "#/whats-on");
+  }
+}
+function render(){ renderWhatsOn(); renderTimetable(); renderChrome(); }
+
+window.addEventListener("hashchange", () => { renderChrome(); window.scrollTo(0,0); });
+
+/* ---------- wiring ---------- */
+$("copy").addEventListener("click", async () => {
+  try{ await navigator.clipboard.writeText(location.href); $("toast").textContent = "Link copied."; }
+  catch{ $("toast").textContent = "Copy the address bar — your picks are in it."; }
+  setTimeout(() => $("toast").textContent = "", 3500);
+});
+$("print").addEventListener("click", () => window.print());
+$("clear").addEventListener("click", () => { chosen.clear(); saveURL(); render(); });
+
+try{
+  (new URLSearchParams(location.search).get("p") || "")
+    .split(",").filter(id => byId[id]).forEach(id => chosen.add(id));
+}catch(err){ /* no readable URL in a sandboxed preview */ }
+render();
+</script>
+</body>
+</html>
